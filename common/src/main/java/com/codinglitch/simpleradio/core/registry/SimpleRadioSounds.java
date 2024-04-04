@@ -6,5 +6,5 @@ import net.minecraft.sounds.SoundEvent;
 
 public class SimpleRadioSounds {
     public static final SoundEvent RADIO_OPEN = SoundEvent.createVariableRangeEvent(new ResourceLocation(CommonSimpleRadio.ID, "radio_open"));
-    public static final SoundEvent RADIO_CLOSE = SoundEvent.createVariableRangeEvent(new ResourceLocation(CommonSimpleRadio.ID, "radio_open"));
+    public static final SoundEvent RADIO_CLOSE = SoundEvent.createVariableRangeEvent(new ResourceLocation(CommonSimpleRadio.ID, "radio_close"));
 }
