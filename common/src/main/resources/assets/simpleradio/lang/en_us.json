@@ -5,6 +5,33 @@
   "item.simpleradio.receiving_module": "Receiving Module",
   "item.simpleradio.speaker_module": "Speaker Module",
 
+  "item.simpleradio.iron_upgrade_module": "Iron Upgrade Module",
+  "item.simpleradio.gold_upgrade_module": "Gold Upgrade Module",
+  "item.simpleradio.diamond_upgrade_module": "Diamond Upgrade Module",
+  "item.simpleradio.netherite_upgrade_module": "Netherite Upgrade Module",
+
+  "upgrade.simpleradio.clarity": "Clarity Upgrade",
+  "upgrade.simpleradio.clarity.effects": "Provides clearer audio",
+
+  "upgrade.simpleradio.range": "Range Upgrade",
+  "upgrade.simpleradio.range.transmitting.effects": "Increases the range",
+  "upgrade.simpleradio.range.receiving.effects": "Increases the range",
+
+  "upgrade.simpleradio.latch": "Latch Upgrade",
+  "upgrade.simpleradio.latch.effects": "Allows for toggling of the listening state",
+
+  "upgrade.simpleradio.battery": "Battery Upgrade",
+  "upgrade.simpleradio.battery.effects": "Stores more power in the battery",
+
+  "upgrade.simpleradio.solar": "Solar Upgrade",
+  "upgrade.simpleradio.solar.effects": "Charges battery in sunlight",
+
+  "item.modifiers.transmitting": "When in Transmitting item:",
+  "item.modifiers.receiving": "When in Receiving item:",
+  "item.modifiers.emitting": "When in Emitting item:",
+  "item.modifiers.listening": "When in Listening item:",
+  "item.modifiers.powering": "When in Powering item:",
+
   "item.simpleradio.transceiver": "Transceiver",
   "block.simpleradio.radio": "Radio",
   "block.simpleradio.radiosmither": "Radiosmithing Station",
