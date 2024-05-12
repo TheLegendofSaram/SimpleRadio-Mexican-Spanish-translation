@@ -20,6 +20,8 @@ public class SimpleRadioItems {
     public static Item RADIOSMITHER = register(id("radiosmither"), new BlockItem(SimpleRadioBlocks.RADIOSMITHER, new Item.Properties()));
     public static Item RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
 
+    public static Item ANTENNA = register(id("antenna"), new BlockItem(SimpleRadioBlocks.ANTENNA, new Item.Properties().stacksTo(16)));
+
 
     // ---- Modules ---- \\
     public static Item TRANSMITTING_MODULE = register(id("transmitting_module"), new Item(new Item.Properties()));
@@ -27,16 +29,10 @@ public class SimpleRadioItems {
     public static Item SPEAKER_MODULE = register(id("speaker_module"), new Item(new Item.Properties()));
 
     // -- Upgrades -- \\
-    public static Item IRON_RANGE_UPGRADE_MODULE = register(id("iron_range_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, UpgradeModuleItem.Type.RANGE, new Item.Properties()));
-    public static Item GOLD_RANGE_UPGRADE_MODULE = register(id("gold_range_upgrade_module"), new UpgradeModuleItem(Tiers.GOLD, UpgradeModuleItem.Type.RANGE, new Item.Properties()));
-    public static Item DIAMOND_RANGE_UPGRADE_MODULE = register(id("diamond_range_upgrade_module"), new UpgradeModuleItem(Tiers.DIAMOND, UpgradeModuleItem.Type.RANGE, new Item.Properties()));
-    public static Item NETHERITE_RANGE_UPGRADE_MODULE = register(id("netherite_range_upgrade_module"), new UpgradeModuleItem(Tiers.NETHERITE, UpgradeModuleItem.Type.RANGE, new Item.Properties()));
-
-    public static Item IRON_BATTERY_UPGRADE_MODULE = register(id("iron_battery_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, UpgradeModuleItem.Type.BATTERY, new Item.Properties()));
-    public static Item GOLD_BATTERY_UPGRADE_MODULE = register(id("gold_battery_upgrade_module"), new UpgradeModuleItem(Tiers.GOLD, UpgradeModuleItem.Type.BATTERY, new Item.Properties()));
-    public static Item DIAMOND_BATTERY_UPGRADE_MODULE = register(id("diamond_battery_upgrade_module"), new UpgradeModuleItem(Tiers.DIAMOND, UpgradeModuleItem.Type.BATTERY, new Item.Properties()));
-    public static Item NETHERITE_BATTERY_UPGRADE_MODULE = register(id("netherite_battery_upgrade_module"), new UpgradeModuleItem(Tiers.NETHERITE, UpgradeModuleItem.Type.BATTERY, new Item.Properties()));
-
+    public static Item IRON_UPGRADE_MODULE = register(id("iron_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, new Item.Properties()));
+    public static Item GOLD_UPGRADE_MODULE = register(id("gold_upgrade_module"), new UpgradeModuleItem(Tiers.GOLD, new Item.Properties()));
+    public static Item DIAMOND_UPGRADE_MODULE = register(id("diamond_upgrade_module"), new UpgradeModuleItem(Tiers.DIAMOND, new Item.Properties()));
+    public static Item NETHERITE_UPGRADE_MODULE = register(id("netherite_upgrade_module"), new UpgradeModuleItem(Tiers.NETHERITE, new Item.Properties()));
 
     private static Item register(ResourceLocation location, Item item) {
         return register(location, item, SimpleRadioMenus.RADIO_TAB_LOCATION);

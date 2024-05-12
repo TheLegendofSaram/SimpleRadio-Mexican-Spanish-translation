@@ -2,7 +2,9 @@ package com.codinglitch.simpleradio.core.registry.items;
 
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.Upgradable;
+import com.codinglitch.simpleradio.core.central.Upgrade;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlocks;
+import com.codinglitch.simpleradio.core.registry.SimpleRadioUpgrades;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -40,7 +42,7 @@ public class RadioItem extends BlockItem implements Receiving, Upgradable {
     }
 
     @Override
-    public boolean canAcceptUpgrade(UpgradeModuleItem.Type type) {
-        return type == UpgradeModuleItem.Type.RANGE;
+    public boolean canAcceptUpgrade(Upgrade upgrade) {
+        return upgrade == SimpleRadioUpgrades.RANGE;
     }
 }
