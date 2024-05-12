@@ -15,11 +15,11 @@ import java.util.Random;
 import java.util.UUID;
 
 public interface Upgradable {
-    boolean canAcceptUpgrade(UpgradeModuleItem.Type type);
+    boolean canAcceptUpgrade(Upgrade upgrade);
     default boolean canAcceptUpgrade(ItemStack stack) {
         if (stack.isEmpty()) return false;
         if (stack.getItem() instanceof UpgradeModuleItem upgradeModuleItem)
-            return canAcceptUpgrade(upgradeModuleItem.getType());
+            return canAcceptUpgrade(upgradeModuleItem.getUpgrade(stack));
         return false;
     };
 }
