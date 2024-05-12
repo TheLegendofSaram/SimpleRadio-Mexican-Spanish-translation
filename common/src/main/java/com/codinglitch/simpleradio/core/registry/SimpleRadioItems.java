@@ -20,6 +20,8 @@ public class SimpleRadioItems {
     public static Item RADIOSMITHER = register(id("radiosmither"), new BlockItem(SimpleRadioBlocks.RADIOSMITHER, new Item.Properties()));
     public static Item RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
 
+    public static Item FREQUENCER = register(id("frequencer"), new BlockItem(SimpleRadioBlocks.FREQUENCER, new Item.Properties().stacksTo(1)));
+
     public static Item ANTENNA = register(id("antenna"), new BlockItem(SimpleRadioBlocks.ANTENNA, new Item.Properties().stacksTo(16)));
 
 

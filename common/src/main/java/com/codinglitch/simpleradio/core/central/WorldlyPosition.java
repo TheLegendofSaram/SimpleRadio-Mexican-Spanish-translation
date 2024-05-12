@@ -25,6 +25,10 @@ public class WorldlyPosition extends Vector3f {
         return this;
     }
 
+    public BlockPos blockPos() {
+        return new BlockPos(Math.round(this.x), Math.round(this.y), Math.round(this.z));
+    }
+
     public Vector3f dimensionScaled() {
         return this.position().mul((float) level.dimensionType().coordinateScale());
     }

@@ -35,6 +35,8 @@
   "item.simpleradio.transceiver": "Transceiver",
   "block.simpleradio.radio": "Radio",
   "block.simpleradio.radiosmither": "Radiosmithing Station",
+  "block.simpleradio.antenna": "Antenna",
+  "block.simpleradio.frequencer": "Frequencer",
 
   "screen.simpleradio.radiosmither": "Radiosmithing Station",
   "screen.simpleradio.radiosmither.am": "AM",

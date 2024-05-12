@@ -2,6 +2,8 @@ package com.codinglitch.simpleradio.radio;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.central.Frequency;
+import com.codinglitch.simpleradio.core.central.Receiving;
+import com.codinglitch.simpleradio.core.central.Transmitting;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.radio.effects.AudioEffect;
 import com.codinglitch.simpleradio.radio.effects.BaseAudioEffect;
@@ -14,7 +16,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.joml.Vector3f;
-import org.lwjgl.openal.EXTEfx;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -26,12 +27,16 @@ public class RadioChannel implements Supplier<short[]> {
     private final Map<UUID, List<short[]>> packetBuffer;
     private final Map<UUID, OpusDecoder> decoders;
     private final AudioEffect effect;
+    private final Frequency frequency;
 
-    public RadioChannel(Player owner) {
-        this(owner.getUUID());
+    public boolean isValid = true;
+
+    public RadioChannel(Player owner, Frequency frequency) {
+        this(owner.getUUID(), frequency);
     }
-    public RadioChannel(UUID owner) {
+    public RadioChannel(UUID owner, Frequency frequency) {
         this.owner = owner;
+        this.frequency = frequency;
 
         packetBuffer = new HashMap<>();
         decoders = new HashMap<>();
@@ -103,7 +108,7 @@ public class RadioChannel implements Supplier<short[]> {
         byte[] data = source.data;
 
         OpusDecoder decoder = getDecoder(source.owner);
-        if (data == null || data.length <= 0) {
+        if (data == null || data.length == 0) {
             decoder.resetState();
             return;
         }
@@ -111,6 +116,29 @@ public class RadioChannel implements Supplier<short[]> {
 
         if (this.audioPlayer == null)
             getAudioPlayer().startPlaying();
+    }
+
+    public boolean validate() {
+        VoicechatConnection connection = CommonRadioPlugin.serverApi.getConnectionOf(owner);
+        if (connection == null) {
+            if (!Receiving.validateReceiver(location, frequency) && !Transmitting.validateTransmitter(location, frequency)) {
+                invalidate();
+                return false;
+            }
+        } else {
+            if (!Receiving.validateReceiver(connection, frequency) && !Transmitting.validateTransmitter(connection, frequency)) {
+                invalidate();
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public void invalidate() {
+        if (this.audioPlayer != null)
+            this.audioPlayer.stopPlaying();
+
+        this.isValid = false;
     }
 
     private OpusDecoder getDecoder(UUID sender) {

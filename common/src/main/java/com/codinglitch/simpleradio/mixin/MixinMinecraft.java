@@ -12,8 +12,5 @@ public class MixinMinecraft {
     
     @Inject(at = @At("TAIL"), method = "<init>")
     private void init(CallbackInfo info) {
-        
-        CommonSimpleRadio.info("This line is printed by an example mod common mixin!");
-        CommonSimpleRadio.info("MC Version: {}", Minecraft.getInstance().getVersionType());
     }
 }

@@ -50,9 +50,9 @@ public class UpgradeModuleItem extends TieredItem {
                 components.add(Component.translatable("item.modifiers." + type.getName()).withStyle(ChatFormatting.GRAY));
 
                 if (I18n.exists(upgradePath + "." + type.getName() + ".effects")) {
-                    components.add(Component.translatable(upgradePath + "." + type.getName() + ".effects").withStyle(ChatFormatting.DARK_GREEN));
+                    components.add(CommonComponents.space().append(Component.translatable(upgradePath + "." + type.getName() + ".effects").withStyle(ChatFormatting.DARK_GREEN)));
                 } else {
-                    components.add(Component.translatable(upgradePath + ".effects").withStyle(ChatFormatting.DARK_GREEN));
+                    components.add(CommonComponents.space().append(Component.translatable(upgradePath + ".effects").withStyle(ChatFormatting.DARK_GREEN)));
                 }
             }
         }

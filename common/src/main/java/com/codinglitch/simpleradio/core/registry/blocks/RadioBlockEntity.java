@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.core.registry.blocks;
 
 import com.codinglitch.simpleradio.core.central.Frequency;
+import com.codinglitch.simpleradio.core.central.FrequencyBlockEntity;
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
@@ -17,9 +18,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.UUID;
 
-public class RadioBlockEntity extends BlockEntity implements Receiving {
+public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving {
     public boolean isListening = false;
-    public Frequency frequency;
     public UUID listenerID;
 
     public RadioBlockEntity(BlockPos pos, BlockState state) {

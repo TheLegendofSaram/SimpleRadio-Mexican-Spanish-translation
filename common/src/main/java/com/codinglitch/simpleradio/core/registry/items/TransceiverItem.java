@@ -2,6 +2,7 @@ package com.codinglitch.simpleradio.core.registry.items;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.central.Receiving;
+import com.codinglitch.simpleradio.core.central.Transmitting;
 import com.codinglitch.simpleradio.core.networking.packets.ClientboundRadioPacket;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
 import com.codinglitch.simpleradio.platform.Services;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class TransceiverItem extends Item implements Receiving {
+public class TransceiverItem extends Item implements Receiving, Transmitting {
     public TransceiverItem(Properties settings) {
         super(settings);
     }
