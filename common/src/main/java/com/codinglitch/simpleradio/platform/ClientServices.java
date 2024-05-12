@@ -8,5 +8,6 @@ import java.util.ServiceLoader;
 public class ClientServices {
     public static final ClientNetworkingHelper NETWORKING = CommonSimpleRadio.loadService(ClientNetworkingHelper.class);
     public static final ClientRegistryHelper REGISTRY = CommonSimpleRadio.loadService(ClientRegistryHelper.class);
+    public static final ClientRenderingHelper RENDERING = CommonSimpleRadio.loadService(ClientRenderingHelper.class);
 
 }

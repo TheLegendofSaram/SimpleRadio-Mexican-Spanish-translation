@@ -1,5 +1,7 @@
 package com.codinglitch.simpleradio.platform.services;
 
+import java.nio.file.Path;
+
 public interface PlatformHelper {
 
     /**
@@ -8,6 +10,8 @@ public interface PlatformHelper {
      * @return The name of the current platform.
      */
     String getPlatformName();
+
+    Path getConfigPath();
 
     /**
      * Checks if a mod with the given id is loaded.
