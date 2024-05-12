@@ -26,10 +26,10 @@ public class SimpleRadioModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
         SimpleRadioItems.ITEMS.forEach((location, item) -> {
             if (item instanceof UpgradeModuleItem upgradeModuleItem) {
-                itemModelGenerator.generateLayeredItem(location.withPrefix("item/"),
+                /*itemModelGenerator.generateLayeredItem(location.withPrefix("item/"),
                         CommonSimpleRadio.id("item/", upgradeModuleItem.getTier().toString().toLowerCase(), "_upgrade_module"),
                         CommonSimpleRadio.id("item/", upgradeModuleItem.getType().toString().toLowerCase(), "_upgrade")
-                );
+                );*/
             }
         });
     }
