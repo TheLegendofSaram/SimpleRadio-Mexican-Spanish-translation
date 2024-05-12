@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Math;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Frequency {
     public enum Modulation {
@@ -45,6 +46,11 @@ public class Frequency {
         frequencies.add(this);
     }
 
+    public static Frequency tryParse(String string) {
+        Modulation modulation = modulationOf(string.substring(string.length() - 2));
+        return getOrCreateFrequency(string.substring(0, string.length() - 2), modulation);
+    }
+
     public static void onLexiconReload() {
         FREQUENCY_DIGITS = CommonSimpleRadio.SERVER_CONFIG.frequency.wholePlaces +CommonSimpleRadio.SERVER_CONFIG.frequency.decimalPlaces;
         MAX_FREQUENCY = (int) java.lang.Math.pow(10, FREQUENCY_DIGITS);
@@ -55,6 +61,15 @@ public class Frequency {
         } else {
             DEFAULT_FREQUENCY = CommonSimpleRadio.SERVER_CONFIG.frequency.defaultFrequency;
         }
+    }
+
+    public static void garbageCollect() {
+        for (Frequency frequency : frequencies)
+            frequency.listeners.removeIf(Predicate.not(RadioChannel::validate));
+
+        frequencies.removeIf(frequency -> {
+            return frequency.listeners.isEmpty();
+        });
     }
 
     @Nullable
@@ -74,7 +89,11 @@ public class Frequency {
         return new StringBuilder(str).insert(str.length() - CommonSimpleRadio.SERVER_CONFIG.frequency.decimalPlaces, ".").toString();
     }
 
-    public static int getFrequency(String string, Modulation modulation) {
+    public static List<Frequency> getFrequencies() {
+        return frequencies;
+    }
+
+    public static int getFrequencyIndex(String string, Modulation modulation) {
         for (int i = 0; i < frequencies.size(); i++) {
             Frequency frequency = frequencies.get(i);
             if (frequency.frequency.equals(string) && frequency.modulation.equals(modulation))
@@ -82,6 +101,16 @@ public class Frequency {
         }
 
         return -1;
+    }
+
+    public static Frequency getFrequency(String string, Modulation modulation) {
+        for (int i = 0; i < frequencies.size(); i++) {
+            Frequency frequency = frequencies.get(i);
+            if (frequency.frequency.equals(string) && frequency.modulation.equals(modulation))
+                return frequency;
+        }
+
+        return null;
     }
 
     public RadioChannel getChannel(Player player) {
@@ -103,7 +132,7 @@ public class Frequency {
         return null;
     }
     public RadioChannel addListener(UUID owner) {
-        RadioChannel channel = new RadioChannel(owner);
+        RadioChannel channel = new RadioChannel(owner, this);
         listeners.add(channel);
 
         CommonSimpleRadio.info("Added listener {} to frequency {}", owner, this.frequency);
@@ -125,7 +154,7 @@ public class Frequency {
         if (frequency.isEmpty()) frequency = DEFAULT_FREQUENCY;
         if (modulation == null) modulation = DEFAULT_MODULATION;
 
-        int index = getFrequency(frequency, modulation);
+        int index = getFrequencyIndex(frequency, modulation);
         if (index != -1) return frequencies.get(index);
 
         return new Frequency(frequency, modulation);
