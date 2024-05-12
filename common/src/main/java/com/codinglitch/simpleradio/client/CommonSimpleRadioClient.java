@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.client;
 
 import com.codinglitch.simpleradio.client.models.RadioModel;
+import com.codinglitch.simpleradio.client.renderers.FrequencerRenderer;
 import com.codinglitch.simpleradio.client.renderers.RadioRenderer;
 import com.codinglitch.simpleradio.client.screens.RadiosmitherScreen;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
@@ -40,6 +41,7 @@ public class CommonSimpleRadioClient {
     // -- Render Types -- \\
     public static void loadRenderTypes(BiConsumer<Block, RenderType> registry) {
         registry.accept(SimpleRadioBlocks.RADIOSMITHER, RenderType.cutout());
+        registry.accept(SimpleRadioBlocks.ANTENNA, RenderType.cutout());
     }
 
     // -- Layer Definitions -- \\
@@ -53,6 +55,7 @@ public class CommonSimpleRadioClient {
     }
     public static void loadBlockEntityRenderers(BlockEntityRendererRegistry registry) {
         registry.register(SimpleRadioBlockEntities.RADIO, RadioRenderer::new);
+        registry.register(SimpleRadioBlockEntities.FREQUENCER, FrequencerRenderer::new);
     }
 
     // -- Screens -- \\

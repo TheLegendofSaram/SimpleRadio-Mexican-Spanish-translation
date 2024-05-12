@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.core.registry;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.core.registry.blocks.FrequencerBlockEntity;
 import com.codinglitch.simpleradio.core.registry.blocks.RadioBlockEntity;
 import com.codinglitch.simpleradio.core.registry.blocks.RadiosmitherBlock;
 import com.codinglitch.simpleradio.core.registry.blocks.RadiosmitherBlockEntity;
@@ -31,6 +32,10 @@ public class SimpleRadioBlockEntities {
 
     public static final BlockEntityType<RadioBlockEntity> RADIO = Services.REGISTRY.registerBlockEntity(
             RadioBlockEntity::new, id("radio"), SimpleRadioBlocks.RADIO
+    );
+
+    public static final BlockEntityType<FrequencerBlockEntity> FREQUENCER = Services.REGISTRY.registerBlockEntity(
+            FrequencerBlockEntity::new, id("frequencer"), SimpleRadioBlocks.FREQUENCER
     );
 
     public static void load() {}
