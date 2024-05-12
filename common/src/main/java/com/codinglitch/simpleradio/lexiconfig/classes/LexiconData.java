@@ -4,6 +4,7 @@ import com.codinglitch.simpleradio.lexiconfig.Lexiconfig;
 import com.codinglitch.simpleradio.lexiconfig.annotations.Lexicon;
 import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconEntry;
 import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconPage;
+import com.codinglitch.simpleradio.platform.Services;
 import com.electronwill.nightconfig.core.ConfigFormat;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.file.FileConfig;
@@ -22,7 +23,7 @@ public abstract class LexiconData {
 
     public Path getPath() {
         Lexicon annotation = this.getClass().getAnnotation(Lexicon.class);
-        return Paths.get(annotation.path() + "/" + annotation.name() + ".toml");
+        return Services.PLATFORM.getConfigPath().resolve(annotation.name() + ".toml");
     }
 
     private void parse(Object object, String path, CommentedFileConfig config, boolean writing) {
