@@ -41,6 +41,7 @@
     },
     "suggests": {
         "another-mod": "*"
-    }
+    },
+    "accessWidener" : "simpleradio.accesswidener"
 }
   
