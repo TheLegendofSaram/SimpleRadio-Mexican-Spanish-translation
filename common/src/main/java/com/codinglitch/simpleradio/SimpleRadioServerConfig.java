@@ -32,6 +32,9 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 1000.")
         public Integer falloffAM = 1000;
+
+        @LexiconEntry(comment = "This is whether or not using the transceiver slows the player. Defaults to true.")
+        public Boolean transceiverSlow = true;
     }
 
     public static class Transmitter extends LexiconPageData {
