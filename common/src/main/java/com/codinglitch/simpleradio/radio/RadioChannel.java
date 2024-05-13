@@ -122,7 +122,7 @@ public class RadioChannel implements Supplier<short[]> {
     public boolean validate() {
         VoicechatConnection connection = CommonRadioPlugin.serverApi.getConnectionOf(owner);
         if (connection == null) {
-            if (!Receiving.validateReceiver(location, frequency)) {
+            if (location == null || !Receiving.validateReceiver(location, frequency)) {
                 invalidate();
                 return false;
             }
