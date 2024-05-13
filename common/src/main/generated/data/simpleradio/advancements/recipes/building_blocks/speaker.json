@@ -1,24 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_copper_ingot": {
+    "has_speaker_module": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:copper_ingot"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_redstone": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:redstone"
+              "simpleradio:speaker_module"
             ]
           }
         ]
@@ -27,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "simpleradio:receiving_module"
+        "recipe": "simpleradio:speaker"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -35,13 +23,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_copper_ingot",
-      "has_redstone"
+      "has_speaker_module"
     ]
   ],
   "rewards": {
     "recipes": [
-      "simpleradio:receiving_module"
+      "simpleradio:speaker"
     ]
   },
   "sends_telemetry_event": false
