@@ -3,9 +3,7 @@ package com.codinglitch.simpleradio.core.registry.blocks;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -35,6 +33,16 @@ public class RadiosmitherBlock extends BaseEntityBlock {
 
     public RadiosmitherBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state1, boolean b) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity != null) {
+            Containers.dropContents(level, pos, (Container)blockEntity);
+        }
+
+        super.onRemove(state, level, pos, state1, b);
     }
 
     @Override
