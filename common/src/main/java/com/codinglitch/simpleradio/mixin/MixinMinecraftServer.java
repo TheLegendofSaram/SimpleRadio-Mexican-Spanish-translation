@@ -22,7 +22,7 @@ public class MixinMinecraftServer {
     @Inject(at = @At("TAIL"), method = "tickServer(Ljava/util/function/BooleanSupplier;)V")
     private void simpleradio$tickServer(CallbackInfo info) {
         if (this.tickCount % 20 == 0) {
-            Frequency.garbageCollect();
+            CommonSimpleRadio.garbageCollect();
         }
     }
 }

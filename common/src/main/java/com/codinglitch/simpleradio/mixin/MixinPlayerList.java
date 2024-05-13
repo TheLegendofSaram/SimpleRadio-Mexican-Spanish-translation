@@ -31,7 +31,6 @@ public class MixinPlayerList {
         String content = message.signedContent();
         if (content.startsWith("frequency")) {
             Frequency frequency = Frequency.tryParse(content.substring(10));
-            CommonSimpleRadio.info(frequency);
             ServerLevel level = player.serverLevel();
             BlockPos playerPosition = player.blockPosition();
 
