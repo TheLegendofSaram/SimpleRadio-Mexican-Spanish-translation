@@ -94,6 +94,7 @@ public class RadioChannel implements Supplier<short[]> {
         if (!CommonSimpleRadio.SERVER_CONFIG.frequency.crossDimensional && level != source.location.level) return;
 
         this.effect.severity = source.computeSeverity(WorldlyPosition.of(position, level), frequency);
+        this.effect.volume = source.volume;
         if (this.effect.severity >= 100) return;
 
         // Packet buffer
@@ -121,12 +122,12 @@ public class RadioChannel implements Supplier<short[]> {
     public boolean validate() {
         VoicechatConnection connection = CommonRadioPlugin.serverApi.getConnectionOf(owner);
         if (connection == null) {
-            if (!Receiving.validateReceiver(location, frequency) && !Transmitting.validateTransmitter(location, frequency)) {
+            if (!Receiving.validateReceiver(location, frequency)) {
                 invalidate();
                 return false;
             }
         } else {
-            if (!Receiving.validateReceiver(connection, frequency) && !Transmitting.validateTransmitter(connection, frequency)) {
+            if (!Receiving.validateReceiver(connection, frequency)) {
                 invalidate();
                 return false;
             }

@@ -18,11 +18,13 @@ public class RadioSource {
     public byte[] data;
     public Type type;
 
-    public RadioSource(Type type, UUID owner, WorldlyPosition location, byte[] data) {
-        this.type = type;
+    public float volume;
+
+    public RadioSource(UUID owner, WorldlyPosition location, byte[] data, float volume) {
         this.owner = owner;
         this.location = location;
         this.data = data;
+        this.volume = volume;
     }
 
     public int getMaxDistance(Frequency.Modulation modulation) {

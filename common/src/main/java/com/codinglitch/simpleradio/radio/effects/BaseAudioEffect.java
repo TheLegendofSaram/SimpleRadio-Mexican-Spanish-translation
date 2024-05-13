@@ -56,7 +56,7 @@ public class BaseAudioEffect extends AudioEffect {
             output[i] = (short) (Math.floor(doubleSamples[i] * factor));
         }
 
-        return output;
+        return super.apply(output);
     }
 
     /**
