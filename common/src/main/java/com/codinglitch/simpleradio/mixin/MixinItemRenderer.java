@@ -20,9 +20,6 @@ public class MixinItemRenderer {
     
     @Inject(at = @At("HEAD"), method = "getModel", cancellable = true)
     private void simpleradio$getRenderType(ItemStack stack, Level level, LivingEntity entity, int i, CallbackInfoReturnable<BakedModel> cir) {
-        if (stack.getItem() instanceof UpgradeModuleItem upgradeModuleItem) {
-            Upgrade upgrade = upgradeModuleItem.getUpgrade(stack);
-            if (upgrade == null) return;
-        }
+
     }
 }
