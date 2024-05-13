@@ -1,10 +1,7 @@
 package com.codinglitch.simpleradio.core.registry;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.core.registry.blocks.FrequencerBlockEntity;
-import com.codinglitch.simpleradio.core.registry.blocks.RadioBlockEntity;
-import com.codinglitch.simpleradio.core.registry.blocks.RadiosmitherBlock;
-import com.codinglitch.simpleradio.core.registry.blocks.RadiosmitherBlockEntity;
+import com.codinglitch.simpleradio.core.registry.blocks.*;
 import com.codinglitch.simpleradio.platform.Services;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
@@ -32,6 +29,12 @@ public class SimpleRadioBlockEntities {
 
     public static final BlockEntityType<RadioBlockEntity> RADIO = Services.REGISTRY.registerBlockEntity(
             RadioBlockEntity::new, id("radio"), SimpleRadioBlocks.RADIO
+    );
+    public static final BlockEntityType<SpeakerBlockEntity> SPEAKER = Services.REGISTRY.registerBlockEntity(
+            SpeakerBlockEntity::new, id("speaker"), SimpleRadioBlocks.SPEAKER
+    );
+    public static final BlockEntityType<MicrophoneBlockEntity> MICROPHONE = Services.REGISTRY.registerBlockEntity(
+            MicrophoneBlockEntity::new, id("microphone"), SimpleRadioBlocks.MICROPHONE
     );
 
     public static final BlockEntityType<FrequencerBlockEntity> FREQUENCER = Services.REGISTRY.registerBlockEntity(
