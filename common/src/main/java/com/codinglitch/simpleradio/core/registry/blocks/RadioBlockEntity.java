@@ -41,7 +41,7 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
 
         if (this.frequency != null)
-            stopListening(frequency.frequency, frequency.modulation, listenerID);
+            stopReceiving(frequency.frequency, frequency.modulation, listenerID);
         super.setRemoved();
     }
 
@@ -72,8 +72,8 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
     }
 
     public void listen() {
-        RadioChannel channel = listen(frequency.frequency, frequency.modulation, listenerID);
-        channel.location = WorldlyPosition.of(this.worldPosition, (ServerLevel) this.level);
+        RadioChannel channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
+        channel.location = WorldlyPosition.of(this.worldPosition, this.level);
 
         level.playSound(
                 null, this.worldPosition,
@@ -91,7 +91,7 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     public void loadTag(CompoundTag tag) {
         if (this.frequency != null) {
-            stopListening(frequency.frequency, frequency.modulation, listenerID);
+            stopReceiving(frequency.frequency, frequency.modulation, listenerID);
             this.isListening = false;
         }
 

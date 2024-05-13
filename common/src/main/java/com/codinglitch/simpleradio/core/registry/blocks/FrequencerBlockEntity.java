@@ -1,37 +1,31 @@
 package com.codinglitch.simpleradio.core.registry.blocks;
 
 import com.codinglitch.simpleradio.core.central.Frequency;
-import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
-import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
-import com.codinglitch.simpleradio.radio.CommonRadioPlugin;
 import com.codinglitch.simpleradio.radio.RadioChannel;
-import com.codinglitch.simpleradio.radio.RadioManager;
-import net.minecraft.client.multiplayer.ClientPacketListener;
+import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class FrequencerBlockEntity extends BlockEntity {
     public Frequency frequency;
     public List<String> listeners = new ArrayList<>();
+    public List<String> receivers = new ArrayList<>();
     public List<String> frequencies = new ArrayList<>();
 
 
@@ -39,10 +33,25 @@ public class FrequencerBlockEntity extends BlockEntity {
         super(SimpleRadioBlockEntities.FREQUENCER, pos, state);
     }
 
+    private static String parse(@Nullable Entity owner, WorldlyPosition location) {
+        if (owner == null) {
+            BlockPos blockPos = location.blockPos();
+            BlockEntity listenerBlock = location.level.getBlockEntity(blockPos);
+            if (listenerBlock != null) {
+                return listenerBlock.getBlockState().getBlock().getName().getString()+" at "+blockPos.toShortString();
+            }
+        } else {
+            return owner.getDisplayName().getString();
+        }
+
+        return null;
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState blockState, FrequencerBlockEntity blockEntity) {
         if (Math.round(level.getGameTime()) % 20 == 0 && !level.isClientSide) {
             blockEntity.frequencies.clear();
             blockEntity.listeners.clear();
+            blockEntity.receivers.clear();
 
             //---- Revalidation ----\\
             if (blockEntity.frequency != null) {
@@ -52,29 +61,28 @@ public class FrequencerBlockEntity extends BlockEntity {
             }
 
             if (blockEntity.frequency != null) {
-                //---- Listener gathering and parsing ----\\
-                for (RadioChannel listener : blockEntity.frequency.listeners) {
-                    Player player = level.getPlayerByUUID(listener.owner);
-                    if (player == null) {
-                        BlockPos blockPos = listener.location.blockPos();
-                        BlockEntity listenerBlock = level.getBlockEntity(blockPos);
-                        if (listenerBlock != null) {
-                            blockEntity.listeners.add(
-                                    listenerBlock.getBlockState().getBlock().getName().getString()+" at "+blockPos.toShortString()
-                            );
-                        }
-                    } else {
-                        String playerName = player.getDisplayName().getString();
-                        blockEntity.listeners.add(playerName);
-                    }
+                //---- Receiver gathering and parsing ----\\
+                for (RadioChannel receiver : blockEntity.frequency.receivers) {
+                    Player player = level.getPlayerByUUID(receiver.owner);
+                    String name = parse(player, receiver.location);
+                    if (name != null) blockEntity.receivers.add(name);
                 }
 
                 level.sendBlockUpdated(pos, blockState, blockState, 2);
             } else {
-                //---- Frequency gathering ----\\
-                List<Frequency> frequencies = Frequency.getFrequencies();
-                for (Frequency frequency : frequencies) {
-                    blockEntity.frequencies.add(frequency.frequency + frequency.modulation.shorthand);
+                if (level.getBlockState(blockEntity.getBlockPos().below()).is(Blocks.DIAMOND_BLOCK)) {
+                    //---- Listener gathering ----\\
+                    List<RadioListener> listeners = RadioListener.getListeners();
+                    for (RadioListener listener : listeners) {
+                        String name = parse(listener.owner, listener.location);
+                        if (name != null) blockEntity.listeners.add(name);
+                    }
+                } else {
+                    //---- Frequency gathering ----\\
+                    List<Frequency> frequencies = Frequency.getFrequencies();
+                    for (Frequency frequency : frequencies) {
+                        blockEntity.frequencies.add(frequency.frequency + frequency.modulation.shorthand);
+                    }
                 }
 
                 level.sendBlockUpdated(pos, blockState, blockState, 2);
@@ -129,6 +137,12 @@ public class FrequencerBlockEntity extends BlockEntity {
             this.frequency = null;
         }
 
+        CompoundTag receivers = tag.getCompound("receivers");
+        this.receivers.clear();
+        for (String key : receivers.getAllKeys()) {
+            this.receivers.add(receivers.getString(key));
+        }
+
         CompoundTag listeners = tag.getCompound("listeners");
         this.listeners.clear();
         for (String key : listeners.getAllKeys()) {
@@ -147,6 +161,12 @@ public class FrequencerBlockEntity extends BlockEntity {
             tag.putString("frequency", this.frequency.frequency);
             tag.putString("modulation", this.frequency.modulation.shorthand);
         }
+
+        CompoundTag receivers = new CompoundTag();
+        for (int i = 0; i < this.receivers.size(); i++) {
+            receivers.putString(String.valueOf(i), this.receivers.get(i));
+        }
+        tag.put("receivers", receivers);
 
         CompoundTag listeners = new CompoundTag();
         for (int i = 0; i < this.listeners.size(); i++) {
