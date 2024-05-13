@@ -4,6 +4,7 @@
   "item.simpleradio.transmitting_module": "Transmitting Module",
   "item.simpleradio.receiving_module": "Receiving Module",
   "item.simpleradio.speaker_module": "Speaker Module",
+  "item.simpleradio.listener_module": "Listener Module",
 
   "item.simpleradio.iron_upgrade_module": "Iron Upgrade Module",
   "item.simpleradio.gold_upgrade_module": "Gold Upgrade Module",
@@ -34,8 +35,10 @@
 
   "item.simpleradio.transceiver": "Transceiver",
   "block.simpleradio.radio": "Radio",
-  "block.simpleradio.radiosmither": "Radiosmithing Station",
   "block.simpleradio.antenna": "Antenna",
+  "block.simpleradio.speaker": "Speaker",
+  "block.simpleradio.microphone": "Microphone",
+  "block.simpleradio.radiosmither": "Radiosmithing Station",
   "block.simpleradio.frequencer": "Frequencer",
 
   "screen.simpleradio.radiosmither": "Radiosmithing Station",
