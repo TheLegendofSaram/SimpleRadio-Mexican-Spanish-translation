@@ -1,9 +1,6 @@
 package com.codinglitch.simpleradio.core.registry;
 
-import com.codinglitch.simpleradio.core.registry.blocks.AntennaBlock;
-import com.codinglitch.simpleradio.core.registry.blocks.FrequencerBlock;
-import com.codinglitch.simpleradio.core.registry.blocks.RadiosmitherBlock;
-import com.codinglitch.simpleradio.core.registry.blocks.RadioBlock;
+import com.codinglitch.simpleradio.core.registry.blocks.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,6 +17,12 @@ public class SimpleRadioBlocks {
             Block.Properties.of().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE)
     ));
     public static Block RADIO = register(id("radio"), new RadioBlock(
+            Block.Properties.of().strength(3.0F, 6.0F).sound(SoundType.METAL)
+    ));
+    public static Block SPEAKER = register(id("speaker"), new SpeakerBlock(
+            Block.Properties.of().strength(3.0F, 6.0F).sound(SoundType.METAL)
+    ));
+    public static Block MICROPHONE = register(id("microphone"), new MicrophoneBlock(
             Block.Properties.of().strength(3.0F, 6.0F).sound(SoundType.METAL)
     ));
 

@@ -1,9 +1,7 @@
 package com.codinglitch.simpleradio.core.registry;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.core.registry.items.RadioItem;
-import com.codinglitch.simpleradio.core.registry.items.TransceiverItem;
-import com.codinglitch.simpleradio.core.registry.items.UpgradeModuleItem;
+import com.codinglitch.simpleradio.core.registry.items.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +17,8 @@ public class SimpleRadioItems {
     public static Item TRANSCEIVER = register(id("transceiver"), new TransceiverItem(new Item.Properties().stacksTo(1)));
     public static Item RADIOSMITHER = register(id("radiosmither"), new BlockItem(SimpleRadioBlocks.RADIOSMITHER, new Item.Properties()));
     public static Item RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
+    public static Item SPEAKER = register(id("speaker"), new SpeakerItem(new Item.Properties().stacksTo(1)));
+    public static Item MICROPHONE = register(id("microphone"), new MicrophoneItem(new Item.Properties().stacksTo(1)));
 
     public static Item FREQUENCER = register(id("frequencer"), new BlockItem(SimpleRadioBlocks.FREQUENCER, new Item.Properties().stacksTo(1)));
 
@@ -29,6 +29,7 @@ public class SimpleRadioItems {
     public static Item TRANSMITTING_MODULE = register(id("transmitting_module"), new Item(new Item.Properties()));
     public static Item RECEIVING_MODULE = register(id("receiving_module"), new Item(new Item.Properties()));
     public static Item SPEAKER_MODULE = register(id("speaker_module"), new Item(new Item.Properties()));
+    public static Item LISTENER_MODULE = register(id("listener_module"), new Item(new Item.Properties()));
 
     // -- Upgrades -- \\
     public static Item IRON_UPGRADE_MODULE = register(id("iron_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, new Item.Properties()));
