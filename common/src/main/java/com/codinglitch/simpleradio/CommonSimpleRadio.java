@@ -4,6 +4,7 @@ import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.registry.menus.RadiosmitherMenu;
 import com.codinglitch.simpleradio.lexiconfig.Lexiconfig;
 import com.codinglitch.simpleradio.platform.Services;
+import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +28,11 @@ public class CommonSimpleRadio {
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
         CommonSimpleRadio.debug("Loaded {} for service {}", loadedService, clazz);
         return loadedService;
+    }
+
+    public static void garbageCollect() {
+        Frequency.garbageCollect();
+        RadioListener.garbageCollect();
     }
 
     // -- Logging -- \\

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 
 public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
@@ -42,6 +43,26 @@ public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
                 .pattern("III")
                 .unlockedBy("has_speaker_module", has(SimpleRadioItems.SPEAKER_MODULE))
                 .unlockedBy("has_receiving_module", has(SimpleRadioItems.RECEIVING_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, SimpleRadioItems.SPEAKER)
+                .define('I', Items.IRON_INGOT)
+                .define('R', Items.REDSTONE)
+                .define('Y', SimpleRadioItems.SPEAKER_MODULE)
+                .pattern("III")
+                .pattern("IRY")
+                .pattern("III")
+                .unlockedBy("has_speaker_module", has(SimpleRadioItems.SPEAKER_MODULE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, SimpleRadioItems.MICROPHONE)
+                .define('I', Items.IRON_INGOT)
+                .define('W', ItemTags.WOOL)
+                .define('L', SimpleRadioItems.LISTENER_MODULE)
+                .pattern(" W ")
+                .pattern(" L ")
+                .pattern("I I")
+                .unlockedBy("has_listener_module", has(SimpleRadioItems.LISTENER_MODULE))
                 .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, SimpleRadioItems.RADIOSMITHER)
@@ -86,7 +107,18 @@ public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
                 .pattern("C")
                 .pattern("A")
                 .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
-                .unlockedBy("has_amethyst_shard", has(Items.AMETHYST_SHARD))
+                .unlockedBy("has_redstone", has(Items.REDSTONE))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SimpleRadioItems.LISTENER_MODULE)
+                .define('R', Items.REDSTONE)
+                .define('C', Items.COPPER_INGOT)
+                .define('W', ItemTags.WOOL)
+                .pattern("R")
+                .pattern("C")
+                .pattern("W")
+                .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
+                .unlockedBy("has_wool", has(ItemTags.WOOL))
                 .save(output);
     }
 }

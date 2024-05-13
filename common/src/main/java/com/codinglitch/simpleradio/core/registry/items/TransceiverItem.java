@@ -7,6 +7,9 @@ import com.codinglitch.simpleradio.core.networking.packets.ClientboundRadioPacke
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
 import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.core.central.Frequency;
+import com.codinglitch.simpleradio.radio.RadioListener;
+import com.codinglitch.simpleradio.radio.RadioManager;
+import com.codinglitch.simpleradio.radio.RadioSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,6 +39,29 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
         Services.NETWORKING.sendToPlayer(player, new ClientboundRadioPacket(started, player.getUUID()));
     }
 
+    private void startTransceiving(Level level, ItemStack stack, String frequencyName, String modulation, UUID owner) {
+        startReceiving(frequencyName, Frequency.modulationOf(modulation), owner);
+
+        Player player = level.getPlayerByUUID(owner);
+        RadioListener listener = startListening(player);
+        listener.range = 4;
+
+        listener.acceptor(source -> {
+            if (!player.getUseItem().equals(stack)) return;
+
+            source.type = RadioSource.Type.TRANSCEIVER;
+
+            Frequency frequency = getFrequency(stack);
+            if (frequency != null) RadioManager.transmit(source, frequency);
+        });
+    }
+    private void stopTransceiving(Level level, String frequencyName, String modulation, UUID owner) {
+        stopReceiving(frequencyName, Frequency.modulationOf(modulation), owner);
+
+        Entity entity = level.getPlayerByUUID(owner);
+        stopListening(entity);
+    }
+
     @Override
     public void verifyTagAfterLoad(CompoundTag tag) {
         super.verifyTagAfterLoad(tag);
@@ -48,8 +74,9 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
     public void onDestroyed(ItemEntity itemEntity) {
         super.onDestroyed(itemEntity);
         CompoundTag tag = itemEntity.getItem().getOrCreateTag();
-        if (tag.contains("frequency") && tag.contains("modulation") && tag.contains("user"))
-            stopListening(tag.getString("frequency"), Frequency.modulationOf(tag.getString("modulation")), tag.getUUID("user"));
+        if (tag.contains("frequency") && tag.contains("modulation") && tag.contains("user")) {
+            stopTransceiving(itemEntity.level(), tag.getString("frequency"), tag.getString("modulation"), tag.getUUID("user"));
+        }
     }
 
     @Override
@@ -63,7 +90,7 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
         tick(stack, level, entity);
         if (frequency.isEmpty() || modulation.isEmpty()) return;
 
-        if (!Frequency.validate(frequency)) {
+        if (!Frequency.check(frequency)) {
             CommonSimpleRadio.info("Invalid frequency {}, replacing with default", frequency);
             frequency = Frequency.DEFAULT_FREQUENCY;
             tag.putString("frequency", Frequency.DEFAULT_FREQUENCY);
@@ -75,15 +102,18 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
             if (currentUUID.equals(uuid)) {
                 if (validate(frequency, Frequency.modulationOf(modulation), currentUUID)) return;
             } else {
-                if (!level.isClientSide)
-                    stopListening(frequency, Frequency.modulationOf(modulation), currentUUID);
+                if (!level.isClientSide) {
+                    stopTransceiving(level, frequency, modulation, currentUUID);
+                }
             }
         }
 
         frequency = tag.getString("frequency");
         modulation = tag.getString("modulation");
-        if (!level.isClientSide)
-            listen(frequency, Frequency.modulationOf(modulation), uuid);
+        if (!level.isClientSide) {
+            startTransceiving(level, stack, frequency, modulation, uuid);
+        }
+
         tag.putUUID("user", uuid);
     }
 

@@ -1,25 +1,15 @@
 package com.codinglitch.simpleradio.client.renderers;
 
-import com.codinglitch.simpleradio.client.models.RadioModel;
 import com.codinglitch.simpleradio.core.registry.blocks.FrequencerBlockEntity;
-import com.codinglitch.simpleradio.core.registry.blocks.RadioBlock;
-import com.codinglitch.simpleradio.core.registry.blocks.RadioBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Matrix4f;
 
 import java.awt.*;
-import java.util.UUID;
 
 public class FrequencerRenderer implements BlockEntityRenderer<FrequencerBlockEntity> {
 
@@ -50,7 +40,14 @@ public class FrequencerRenderer implements BlockEntityRenderer<FrequencerBlockEn
 
         if (blockEntity.frequency == null) {
             if (blockEntity.frequencies.isEmpty()) {
-                draw("NO FREQUENCIES", 0, Color.red.getRGB(), poseStack, bufferSource);
+                if (blockEntity.listeners.isEmpty()) {
+                    draw("NO FREQUENCIES", 0, Color.red.getRGB(), poseStack, bufferSource);
+                } else {
+                    draw("Listeners", 0, Color.cyan.getRGB(), poseStack, bufferSource);
+                    for (int i = 0; i < blockEntity.listeners.size(); i++) {
+                        draw(blockEntity.listeners.get(i), (i+1) * 0.25f, -1, poseStack, bufferSource);
+                    }
+                }
             } else {
                 draw("Frequencies", 0, Color.cyan.getRGB(), poseStack, bufferSource);
                 for (int i = 0; i < blockEntity.frequencies.size(); i++) {
@@ -61,10 +58,10 @@ public class FrequencerRenderer implements BlockEntityRenderer<FrequencerBlockEn
             return;
         }
 
-        int color = blockEntity.listeners.size() == 0 ? Color.red.getRGB() : Color.cyan.getRGB();
+        int color = blockEntity.receivers.size() == 0 ? Color.red.getRGB() : Color.cyan.getRGB();
         draw(blockEntity.frequency.frequency + blockEntity.frequency.modulation.shorthand, 0, color, poseStack, bufferSource);
-        for (int i = 0; i < blockEntity.listeners.size(); i++) {
-            String listener = blockEntity.listeners.get(i);
+        for (int i = 0; i < blockEntity.receivers.size(); i++) {
+            String listener = blockEntity.receivers.get(i);
 
             draw(listener, (i+1) * 0.25f, -1, poseStack, bufferSource);
         }
