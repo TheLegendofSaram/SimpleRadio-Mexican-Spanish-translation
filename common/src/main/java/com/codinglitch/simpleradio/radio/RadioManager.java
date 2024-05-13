@@ -32,7 +32,7 @@ public class RadioManager {
         ServerPlayer sender = (ServerPlayer) senderConnection.getPlayer().getPlayer();
         ServerLevel level = sender.serverLevel();
 
-
+        int listenedTo = 0;
         for (RadioListener listener : RadioListener.getListeners()) {
             Vector3f position;
             if (listener.owner != null) {
@@ -51,6 +51,9 @@ public class RadioManager {
                     event.getPacket().getOpusEncodedData(),
                     scale
             ));
+            listenedTo++;
+
+            if (listenedTo >= CommonSimpleRadio.SERVER_CONFIG.frequency.listenerBuffer) break;
         }
 
         ItemStack transceiver = sender.getUseItem();

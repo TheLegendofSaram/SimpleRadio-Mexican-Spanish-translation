@@ -28,7 +28,7 @@ public record ServerboundRadioUpdatePacket(String frequency, Frequency.Modulatio
 
     public void handle(MinecraftServer server, ServerPlayer player) {
         server.execute(() -> {
-            if (!Frequency.validate(frequency)) return;
+            if (!Frequency.check(frequency)) return;
 
             AbstractContainerMenu menu = player.containerMenu;
             if (menu instanceof RadiosmitherMenu radiosmitherMenu) {
