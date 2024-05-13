@@ -1,8 +1,8 @@
 package com.codinglitch.simpleradio.core.central;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.lexiconfig.annotations.Lexicon;
 import com.codinglitch.simpleradio.radio.RadioChannel;
+import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
@@ -31,17 +31,21 @@ public class Frequency {
     public static int MAX_FREQUENCY;
     public static String FREQUENCY_PATTERN;
 
+    public boolean isValid = true;
+
     public final Modulation modulation;
     public final String frequency;
-    public final List<RadioChannel> listeners;
+    public final List<RadioChannel> receivers;
+    public final List<RadioListener> transmitters; //TODO: create transmitter class and replace this
 
     public Frequency(String frequency, Modulation modulation) {
-        if (!validate(frequency))
+        if (!check(frequency))
             throw new IllegalArgumentException(frequency + " does not follow frequency pattern!");
 
         this.frequency = frequency;
         this.modulation = modulation;
-        this.listeners = new ArrayList<>();
+        this.receivers = new ArrayList<>();
+        this.transmitters = new ArrayList<>();
 
         frequencies.add(this);
     }
@@ -64,12 +68,12 @@ public class Frequency {
     }
 
     public static void garbageCollect() {
-        for (Frequency frequency : frequencies)
-            frequency.listeners.removeIf(Predicate.not(RadioChannel::validate));
+        for (Frequency frequency : frequencies) {
+            frequency.receivers.removeIf(Predicate.not(RadioChannel::validate));
+            frequency.transmitters.removeIf(Predicate.not(RadioListener::validate));
+        }
 
-        frequencies.removeIf(frequency -> {
-            return frequency.listeners.isEmpty();
-        });
+        frequencies.removeIf(Predicate.not(Frequency::validate));
     }
 
     @Nullable
@@ -79,7 +83,7 @@ public class Frequency {
         return null;
     }
 
-    public static boolean validate(String frequency) {
+    public static boolean check(String frequency) {
         return frequency.matches(FREQUENCY_PATTERN);
     }
 
@@ -117,37 +121,75 @@ public class Frequency {
         return getChannel(player.getUUID());
     }
     public RadioChannel getChannel(UUID player) {
-        for (RadioChannel listener : listeners)
+        for (RadioChannel listener : receivers)
             if (listener.owner.equals(player)) return listener;
 
         return null;
     }
 
     @Nullable
-    public RadioChannel tryAddListener(UUID owner) {
+    public RadioChannel tryAddReceiver(UUID owner) {
         if (getChannel(owner) == null)
-            return addListener(owner);
+            return addReceiver(owner);
 
-        CommonSimpleRadio.info("Failed to add listener {} to frequency {} as they already exist", owner, this.frequency);
+        CommonSimpleRadio.info("Failed to add receiver {} to frequency {} as they already exist", owner, this.frequency);
         return null;
     }
-    public RadioChannel addListener(UUID owner) {
+    public RadioChannel addReceiver(UUID owner) {
         RadioChannel channel = new RadioChannel(owner, this);
-        listeners.add(channel);
+        receivers.add(channel);
 
-        CommonSimpleRadio.info("Added listener {} to frequency {}", owner, this.frequency);
+        CommonSimpleRadio.info("Added receiver {} to frequency {}", owner, this.frequency);
 
         return channel;
     }
 
-    public void removeListener(Player player) {
-        removeListener(player.getUUID());
+    public void removeReceiver(Player player) {
+        removeReceiver(player.getUUID());
     }
-    public void removeListener(UUID player) {
-        listeners.removeIf(channel -> channel.owner.equals(player));
+    public void removeReceiver(UUID player) {
+        receivers.removeIf(channel -> channel.owner.equals(player));
 
-        if (listeners.size() == 0)
+        if (!this.validate())
             frequencies.remove(this);
+    }
+
+    @Nullable
+    public RadioListener tryAddTransmitter(RadioListener transmitter) {
+        return addTransmitter(transmitter);
+    }
+    public RadioListener addTransmitter(RadioListener transmitter) {
+        transmitters.add(transmitter);
+
+        return transmitter;
+    }
+
+    public void removeTransmitter(RadioListener transmitter) {
+        transmitters.removeIf(otherTransmitter -> {
+            return otherTransmitter.owner == null ?
+                    otherTransmitter.location.equals(transmitter.location) :
+                    otherTransmitter.owner.equals(transmitter.owner);
+        });
+
+        if (!this.validate())
+            frequencies.remove(this);
+    }
+
+    public boolean validate() {
+        if (this.receivers.isEmpty() && this.transmitters.isEmpty()) {
+            this.invalidate();
+            return false;
+        }
+
+        return true;
+    }
+
+    public void invalidate() {
+        this.isValid = false;
+    }
+
+    public Frequency revalidate() {
+        return Frequency.getFrequency(this.frequency, this.modulation);
     }
 
     public static Frequency getOrCreateFrequency(String frequency, Modulation modulation) {
