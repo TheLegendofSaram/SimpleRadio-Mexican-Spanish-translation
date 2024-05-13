@@ -2,6 +2,7 @@ package com.codinglitch.simpleradio.client.screens;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.client.central.BaseButton;
+import com.codinglitch.simpleradio.core.central.Frequencing;
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.networking.packets.ServerboundRadioUpdatePacket;
 import com.codinglitch.simpleradio.core.registry.menus.RadiosmitherMenu;
@@ -56,7 +57,7 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
         if (!frequency.isEmpty()) return;
 
         ItemStack tinkering = menu.getTinkering();
-        if (tinkering != null && tinkering.getItem() instanceof Receiving) {
+        if (tinkering != null && tinkering.getItem() instanceof Frequencing) {
             CompoundTag tag = tinkering.getOrCreateTag();
             frequency = tag.getString("frequency");
             modulation = Frequency.modulationOf(tag.getString("modulation"));
@@ -108,7 +109,7 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
         super.renderLabels(graphics, mouseX, mouseY);
 
         ItemStack tinkering = this.menu.getTinkering();
-        if (tinkering != null && tinkering.getItem() instanceof Receiving) {
+        if (tinkering != null && tinkering.getItem() instanceof Frequencing) {
             if (!frequency.isEmpty() && modulation != null) {
                 graphics.drawString(this.font,
                         Component.literal(frequency)
