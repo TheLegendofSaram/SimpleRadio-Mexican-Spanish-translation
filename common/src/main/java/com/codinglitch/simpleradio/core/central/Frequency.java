@@ -39,8 +39,10 @@ public class Frequency {
     public final List<RadioListener> transmitters; //TODO: create transmitter class and replace this
 
     public Frequency(String frequency, Modulation modulation) {
-        if (!check(frequency))
-            throw new IllegalArgumentException(frequency + " does not follow frequency pattern!");
+        if (!check(frequency)) {
+            CommonSimpleRadio.warn("{} does not follow frequency pattern! Replacing with default pattern {}", frequency, DEFAULT_FREQUENCY);
+            frequency = DEFAULT_FREQUENCY;
+        }
 
         this.frequency = frequency;
         this.modulation = modulation;
@@ -68,9 +70,13 @@ public class Frequency {
     }
 
     public static void garbageCollect() {
-        for (Frequency frequency : frequencies) {
+        Iterator<Frequency> iterator = frequencies.iterator();
+        while (iterator.hasNext()) {
+            Frequency frequency = iterator.next();
             frequency.receivers.removeIf(Predicate.not(RadioChannel::validate));
             frequency.transmitters.removeIf(Predicate.not(RadioListener::validate));
+
+            if (!frequency.validate()) iterator.remove();
         }
 
         frequencies.removeIf(Predicate.not(Frequency::validate));
