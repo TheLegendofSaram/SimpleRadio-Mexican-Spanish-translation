@@ -13,35 +13,33 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_redstone": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "simpleradio:listener_module"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wool": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:redstone"
-            ]
+            "tag": "minecraft:wool"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
-    },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "simpleradio:receiving_module"
-      },
-      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
       "has_copper_ingot",
-      "has_redstone"
+      "has_wool"
     ]
   ],
   "rewards": {
     "recipes": [
-      "simpleradio:receiving_module"
+      "simpleradio:listener_module"
     ]
   },
   "sends_telemetry_event": false
