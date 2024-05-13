@@ -25,6 +25,10 @@ public class WorldlyPosition extends Vector3f {
         return this;
     }
 
+    public boolean equals(WorldlyPosition location) {
+        return location.level == this.level && location.position() == this.position();
+    }
+
     public BlockPos blockPos() {
         return new BlockPos(Math.round(this.x), Math.round(this.y), Math.round(this.z));
     }

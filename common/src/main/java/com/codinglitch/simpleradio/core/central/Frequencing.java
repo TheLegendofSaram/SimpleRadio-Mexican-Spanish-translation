@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface Frequencing {
+
     /**
      * Sets the frequency for an ItemStack.
      * @param stack the ItemStack to change the frequency of
@@ -87,29 +88,6 @@ public interface Frequencing {
     }
     default boolean validate(Frequency frequency, UUID owner) {
         return frequency.getChannel(owner) != null;
-    }
-
-    /**
-     * Start listening in a certain frequency.
-     * @param frequencyName the frequency to listen to
-     * @param modulation the modulation type of the frequency
-     * @param owner the UUID that will listen
-     * @return The channel created from the listener.
-     */
-    default RadioChannel listen(String frequencyName, Frequency.Modulation modulation, UUID owner) {
-        Frequency frequency = Frequency.getOrCreateFrequency(frequencyName, modulation);
-        return frequency.tryAddListener(owner);
-    }
-
-    /**
-     * Stop listening in a certain frequency
-     * @param frequencyName the frequency to stop listening to
-     * @param modulation the modulation type of the frequency
-     * @param owner the UUID to remove
-     */
-    default void stopListening(String frequencyName, Frequency.Modulation modulation, UUID owner) {
-        Frequency frequency = Frequency.getOrCreateFrequency(frequencyName, modulation);
-        frequency.removeListener(owner);
     }
 
     default void tick(ItemStack stack, Level level, Entity entity) {
