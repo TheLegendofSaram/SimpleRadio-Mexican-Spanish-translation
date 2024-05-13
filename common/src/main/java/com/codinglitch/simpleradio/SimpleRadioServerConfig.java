@@ -74,5 +74,8 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "The packet buffer for packet transmission. You likely won't need to worry about this. Defaults to 2.")
         public Integer packetBuffer = 2;
+
+        @LexiconEntry(comment = "How many listeners should be able to receive a single players audio? Defaults to 2.")
+        public Integer listenerBuffer = 2;
     }
 }
