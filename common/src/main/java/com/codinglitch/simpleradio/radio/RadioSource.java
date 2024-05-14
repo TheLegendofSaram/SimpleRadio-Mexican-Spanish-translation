@@ -30,7 +30,7 @@ public class RadioSource {
     }
 
     public int getMaxDistance(Frequency.Modulation modulation) {
-        String pageName = modulation.toString().toLowerCase();
+        String pageName = this.type.toString().toLowerCase();
         LexiconPageData pageData = CommonSimpleRadio.SERVER_CONFIG.getPage(pageName);
         if (pageData == null) {
             CommonSimpleRadio.warn("Could not find page {}!", pageName);
@@ -43,7 +43,7 @@ public class RadioSource {
     }
 
     public int getFalloff(Frequency.Modulation modulation) {
-        String pageName = modulation.toString().toLowerCase();
+        String pageName = this.type.toString().toLowerCase();
         LexiconPageData pageData = CommonSimpleRadio.SERVER_CONFIG.getPage(pageName);
         if (pageData == null) {
             CommonSimpleRadio.warn("Could not find page {}!", pageName);
