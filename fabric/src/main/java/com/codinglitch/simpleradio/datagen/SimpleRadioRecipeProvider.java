@@ -6,6 +6,7 @@ import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -49,6 +50,30 @@ public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy("has_receiving_module", has(SimpleRadioItems.RECEIVING_MODULE))
                 .save(withItemConditions(output, SimpleRadioItems.TRANSCEIVER));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, SimpleRadioItems.WALKIE_TALKIE)
+                .define('I', Items.IRON_INGOT)
+                .define('B', Items.COPPER_BLOCK)
+                .define('C', Items.COPPER_INGOT)
+                .pattern(" I ")
+                .pattern(" B ")
+                .pattern(" C ")
+                .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+                .unlockedBy("has_copper_block", has(Items.COPPER_BLOCK))
+                .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
+                .save(withItemConditions(output, SimpleRadioItems.WALKIE_TALKIE));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, SimpleRadioItems.SPUDDIE_TALKIE)
+                .define('I', Items.IRON_INGOT)
+                .define('P', Items.POTATO)
+                .define('C', Items.COPPER_INGOT)
+                .pattern(" I ")
+                .pattern(" P ")
+                .pattern(" C ")
+                .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+                .unlockedBy("has_potato", has(Items.POTATO))
+                .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
+                .save(withItemConditions(output, SimpleRadioItems.SPUDDIE_TALKIE));
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, SimpleRadioItems.RADIO)
                 .define('I', Items.IRON_INGOT)
                 .define('R', Items.REDSTONE)
@@ -81,6 +106,15 @@ public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
                 .pattern("I I")
                 .unlockedBy("has_listener_module", has(SimpleRadioItems.LISTENER_MODULE))
                 .save(withItemConditions(output, SimpleRadioItems.MICROPHONE));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, SimpleRadioItems.ANTENNA)
+                .define('I', Items.IRON_INGOT)
+                .define('B', Items.IRON_BARS)
+                .pattern(" B ")
+                .pattern(" I ")
+                .pattern(" B ")
+                .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+                .save(withItemConditions(output, SimpleRadioItems.ANTENNA));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, SimpleRadioItems.RADIOSMITHER)
                 .define('I', Items.IRON_INGOT)
