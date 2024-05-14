@@ -63,6 +63,10 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
         stopListening(entity);
     }
 
+    public int getCooldown() {
+        return 20;
+    }
+
     @Override
     public void verifyTagAfterLoad(CompoundTag tag) {
         super.verifyTagAfterLoad(tag);
@@ -93,8 +97,8 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
 
         if (!Frequency.check(frequency)) {
             CommonSimpleRadio.info("Invalid frequency {}, replacing with default", frequency);
-            frequency = Frequency.DEFAULT_FREQUENCY;
-            tag.putString("frequency", Frequency.DEFAULT_FREQUENCY);
+            frequency = this.getDefaultFrequency();
+            tag.putString("frequency", frequency);
         }
 
         UUID uuid = entity.getUUID();
@@ -168,7 +172,7 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
                 transmit((ServerPlayer) player, false);
             }
 
-            player.getCooldowns().addCooldown(this, 20);
+            player.getCooldowns().addCooldown(this, this.getCooldown());
         }
 
         super.releaseUsing(stack, level, user, remainingUseTicks);

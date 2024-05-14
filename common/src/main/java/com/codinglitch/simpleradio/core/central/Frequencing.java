@@ -74,6 +74,14 @@ public interface Frequencing {
         return null;
     }
 
+    default String getDefaultFrequency() {
+        return Frequency.DEFAULT_FREQUENCY;
+    }
+
+    default Frequency.Modulation getDefaultModulation() {
+        return Frequency.DEFAULT_MODULATION;
+    }
+
     /**
      * Validates whether a UUID is present in the frequency.
      * @param frequency the frequency to check
@@ -94,7 +102,7 @@ public interface Frequencing {
         if (level.isClientSide) return;
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.contains("frequency") || tag.getString("frequency").isEmpty())
-            setFrequency(stack, Frequency.DEFAULT_FREQUENCY, Frequency.DEFAULT_MODULATION);
+            setFrequency(stack, this.getDefaultFrequency(), this.getDefaultModulation());
     }
 
     default void appendTooltip(ItemStack stack, List<Component> components) {
