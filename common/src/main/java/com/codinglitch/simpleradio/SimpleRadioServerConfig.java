@@ -8,19 +8,28 @@ import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconEntry;
 
 @Lexicon(name = CommonSimpleRadio.ID+"-server")
 public class SimpleRadioServerConfig extends LexiconData {
-    @LexiconPage(comment = "This is the configurations for the transceiver item.")
+    @LexiconPage(comment = "These are the configurations for the transceiver item.")
     public Transceiver transceiver = new Transceiver();
 
-    @LexiconPage(comment = "This is the configurations for the walkie talkie item.")
+    @LexiconPage(comment = "These are the configurations for the walkie talkie item.")
     public WalkieTalkie walkie_talkie = new WalkieTalkie();
 
-    @LexiconPage(comment = "This is the configurations for the transmitter block. (IN DEVELOPMENT)")
+    @LexiconPage(comment = "These are the configurations for the transmitter block. (IN DEVELOPMENT)")
     public Transmitter transmitter = new Transmitter();
 
-    @LexiconPage(comment = "This is the configurations for the radio block.")
+    @LexiconPage(comment = "These are the configurations for the radio block.")
     public Radio radio = new Radio();
 
-    @LexiconPage(comment = "This is the general configurations for frequencies.")
+    @LexiconPage(comment = "These are the configurations for the microphone block.")
+    public Microphone microphone = new Microphone();
+
+    @LexiconPage(comment = "These are the configurations for the speaker block.")
+    public Speaker speaker = new Speaker();
+
+    @LexiconPage(comment = "These are the configurations for the antenna block.")
+    public Antenna antenna = new Antenna();
+
+    @LexiconPage(comment = "These are the general configurations for frequencies.")
     public Frequency frequency = new Frequency();
 
     public static class Transceiver extends LexiconPageData {
@@ -38,6 +47,9 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "This is whether or not using the transceiver slows the player. Defaults to true.")
         public Boolean transceiverSlow = true;
+
+        @LexiconEntry(comment = "When false, removes the transceiver recipe. Defaults to true.")
+        public Boolean enabled = true;
     }
 
     public static class WalkieTalkie extends LexiconPageData {
@@ -55,6 +67,12 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "This is whether or not using the walkie talkie slows the player. Defaults to true.")
         public Boolean walkieTalkieSlow = true;
+
+        @LexiconEntry(comment = "When true, replaces the walkie talkie with the spuddie talkie. Defaults to true.")
+        public Boolean spuddieTalkie = true;
+
+        @LexiconEntry(comment = "When false, removes both the spuddie and walkie recipe. Defaults to true.")
+        public Boolean enabled = true;
     }
 
     public static class Transmitter extends LexiconPageData {
@@ -69,11 +87,35 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 4000.")
         public Integer falloffAM = 4000;
+
+        @LexiconEntry(comment = "When false, removes the transmitter (will not disable speaker) recipe. Defaults to true.")
+        public Boolean enabled = true;
     }
 
     public static class Radio extends LexiconPageData {
         @LexiconEntry(comment = "This is the range for the radio in which the audio transmitted from it can be heard. Defaults to 24.")
         public Integer range = 24;
+
+        @LexiconEntry(comment = "When false, removes the radio recipe. Defaults to true.")
+        public Boolean enabled = true;
+    }
+
+    public static class Microphone extends LexiconPageData {
+        @LexiconEntry(comment = "This is the range for the microphone that it can hear from. Defaults to 8.")
+        public Integer range = 8;
+
+        @LexiconEntry(comment = "When false, removes the microphone recipe. Defaults to true.")
+        public Boolean enabled = true;
+    }
+
+    public static class Speaker extends LexiconPageData {
+        @LexiconEntry(comment = "When false, removes the speaker recipe. Defaults to true.")
+        public Boolean enabled = true;
+    }
+
+    public static class Antenna extends LexiconPageData {
+        @LexiconEntry(comment = "When false, removes the antenna recipe. Defaults to true.")
+        public Boolean enabled = true;
     }
 
     public static class Frequency extends LexiconPageData {
