@@ -14,9 +14,11 @@ public class LexiconHolding {
     public Object getEntry(String name) {
         try {
             return this.getClass().getField(name).get(this);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (NoSuchFieldException ignored) {
+        } catch (IllegalAccessException e) {
             CommonSimpleRadio.warn(e);
         }
+
         return null;
     }
 }
