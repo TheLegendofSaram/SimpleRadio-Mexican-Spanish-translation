@@ -1,12 +1,12 @@
 package com.codinglitch.simpleradio;
 
 import com.codinglitch.simpleradio.core.central.Frequency;
-import com.codinglitch.simpleradio.core.registry.menus.RadiosmitherMenu;
+import com.codinglitch.simpleradio.core.central.ItemHolder;
+import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import com.codinglitch.simpleradio.lexiconfig.Lexiconfig;
-import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,18 +45,18 @@ public class CommonSimpleRadio {
     }
     public static void warn(Object object, Object... substitutions) {
             LOGGER.warn(String.valueOf(object), substitutions);
-        }
+    }
+    public static void error(Object object, Object... substitutions) {
+        LOGGER.error(String.valueOf(object), substitutions);
+    }
 
-        public static void error(Object object, Object... substitutions) {
-            LOGGER.error(String.valueOf(object), substitutions);
-        }
-        public static SimpleRadioServerConfig SERVER_CONFIG;
-        public static void initialize() {
-            SERVER_CONFIG = new SimpleRadioServerConfig();
+    public static SimpleRadioServerConfig SERVER_CONFIG;
+    public static void initialize() {
+        SERVER_CONFIG = new SimpleRadioServerConfig();
 
-            Lexiconfig.register(SERVER_CONFIG);
-            Lexiconfig.registerListener(Lexiconfig.Event.RELOAD, Frequency::onLexiconReload);
+        Lexiconfig.register(SERVER_CONFIG);
+        Lexiconfig.registerListener(Lexiconfig.Event.RELOAD, Frequency::onLexiconReload);
 
-            Lexiconfig.reload();
+        Lexiconfig.reload();
     }
 }
