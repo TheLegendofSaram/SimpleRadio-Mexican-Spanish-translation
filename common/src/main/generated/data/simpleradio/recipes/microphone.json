@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "microphone"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "microphone"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
@@ -28,6 +24,12 @@
       "tag": "minecraft:wool"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "microphone"
+    }
+  ],
   "pattern": [
     " W ",
     " L ",

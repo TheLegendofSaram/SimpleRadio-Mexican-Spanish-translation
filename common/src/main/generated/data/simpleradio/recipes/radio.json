@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "radio"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "radio"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
@@ -34,6 +30,12 @@
       "item": "simpleradio:receiving_module"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "radio"
+    }
+  ],
   "pattern": [
     "IIT",
     "ZYR",

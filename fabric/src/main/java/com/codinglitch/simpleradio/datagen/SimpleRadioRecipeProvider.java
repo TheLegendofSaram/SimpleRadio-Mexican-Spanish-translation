@@ -6,6 +6,8 @@ import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -15,10 +17,13 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
+
+    public static final HashMap<FinishedRecipe, ResourceLocation> MAP = new HashMap<>();
 
     public SimpleRadioRecipeProvider(FabricDataOutput output) {
         super(output);
@@ -30,7 +35,20 @@ public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
             return exporter;
 
         ResourceLocation location = optional.get().getKey();
-        return withConditions(exporter, FabricLoader.itemsEnabled(location.getPath()));
+        RecipeOutput output = withConditions(exporter, FabricLoader.itemsEnabled(location.getPath()));
+
+        return new RecipeOutput() {
+            @Override
+            public void accept(FinishedRecipe recipe) {
+                MAP.put(recipe, location);
+                output.accept(recipe);
+            }
+
+            @Override
+            public Advancement.Builder advancement() {
+                return output.advancement();
+            }
+        };
     }
 
     @Override
