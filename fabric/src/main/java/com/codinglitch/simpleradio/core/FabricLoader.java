@@ -32,12 +32,6 @@ import java.util.function.Function;
 public class FabricLoader {
     public static void loadItems() {
         SimpleRadioItems.ITEMS.forEach(((location, item) -> {
-            ResourceLocation conditionLocation = location.withSuffix("_enabled");
-
-            ResourceConditions.register(conditionLocation, object -> {
-                return item.enabled; // i have no idea if this is how youre supposed to do it
-            });
-
             Registry.register(BuiltInRegistries.ITEM, location, item.get());
         }));
     }
