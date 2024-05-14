@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "speaker"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "speaker"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
     "I": {
       "item": "minecraft:iron_ingot"
@@ -28,6 +24,12 @@
       "item": "simpleradio:speaker_module"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "speaker"
+    }
+  ],
   "pattern": [
     "III",
     "IRY",

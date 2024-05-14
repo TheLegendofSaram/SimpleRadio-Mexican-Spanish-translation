@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "antenna"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "antenna"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
     "B": {
       "item": "minecraft:iron_bars"
@@ -25,6 +21,12 @@
       "item": "minecraft:iron_ingot"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "antenna"
+    }
+  ],
   "pattern": [
     " B ",
     " I ",

@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "receiving_module"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "receiving_module"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:amethyst_shard"
@@ -28,6 +24,12 @@
       "item": "minecraft:redstone_torch"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "receiving_module"
+    }
+  ],
   "pattern": [
     "R",
     "C",

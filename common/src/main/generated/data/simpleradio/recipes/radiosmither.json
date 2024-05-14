@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "radiosmither"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "radiosmither"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
     "A": {
       "item": "minecraft:amethyst_shard"
@@ -28,6 +24,12 @@
       "item": "minecraft:iron_ingot"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "radiosmither"
+    }
+  ],
   "pattern": [
     "IAI",
     "DDD"

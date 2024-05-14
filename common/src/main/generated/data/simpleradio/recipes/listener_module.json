@@ -7,16 +7,12 @@
       ]
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "forge:condition": {
     "type": "simpleradio:items_enabled",
     "item": "listener_module"
   },
-  "neoforge:conditions": [{
-    "type": "simpleradio:items_enabled",
-    "item": "listener_module"
-  }],
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "C": {
       "item": "minecraft:copper_ingot"
@@ -28,6 +24,12 @@
       "tag": "minecraft:wool"
     }
   },
+  "neoforge:conditions": [
+    {
+      "type": "simpleradio:items_enabled",
+      "item": "listener_module"
+    }
+  ],
   "pattern": [
     "R",
     "C",
