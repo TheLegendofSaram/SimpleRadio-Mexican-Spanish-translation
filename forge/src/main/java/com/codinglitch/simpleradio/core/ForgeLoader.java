@@ -7,11 +7,13 @@ import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlocks;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioMenus;
+import com.codinglitch.simpleradio.datagen.SimpleRadioRecipeProvider;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -32,12 +34,26 @@ public class ForgeLoader {
             .simpleChannel();
 
     @SubscribeEvent
+    public void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+
+        generator.addProvider(
+                event.includeServer(),
+                new SimpleRadioRecipeProvider(generator.getPackOutput())
+        );
+    }
+
+    @SubscribeEvent
     public static void register(RegisterEvent event) {
         event.register(ForgeRegistries.Keys.ITEMS, helper -> SimpleRadioItems.ITEMS.forEach((location, itemHolder) -> helper.register(location, itemHolder.get())));
         event.register(ForgeRegistries.Keys.BLOCKS, helper -> SimpleRadioBlocks.BLOCKS.forEach((helper::register)));
         event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, helper -> SimpleRadioBlockEntities.BLOCK_ENTITIES.forEach((helper::register)));
         event.register(ForgeRegistries.Keys.MENU_TYPES, helper -> SimpleRadioMenus.MENUS.forEach(helper::register));
         event.register(Registries.CREATIVE_MODE_TAB, helper -> SimpleRadioMenus.CREATIVE_TABS.forEach(helper::register));
+
+        event.register(ForgeRegistries.Keys.CONDITION_SERIALIZERS, helper -> {
+            helper.register(CommonSimpleRadio.id("items_enabled"), ItemsEnabledCondition.CODEC);
+        });
     }
 
     public static void loadPackets() {
