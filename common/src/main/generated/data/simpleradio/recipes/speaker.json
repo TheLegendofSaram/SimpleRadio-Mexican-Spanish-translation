@@ -7,6 +7,14 @@
       ]
     }
   ],
+  "forge:condition": {
+    "type": "simpleradio:items_enabled",
+    "item": "speaker"
+  },
+  "neoforge:conditions": [{
+    "type": "simpleradio:items_enabled",
+    "item": "speaker"
+  }],
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {

@@ -3,38 +3,35 @@
     {
       "condition": "simpleradio:items_enabled",
       "values": [
-        "receiving_module"
+        "antenna"
       ]
     }
   ],
   "forge:condition": {
     "type": "simpleradio:items_enabled",
-    "item": "receiving_module"
+    "item": "antenna"
   },
   "neoforge:conditions": [{
     "type": "simpleradio:items_enabled",
-    "item": "receiving_module"
+    "item": "antenna"
   }],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "building",
   "key": {
-    "A": {
-      "item": "minecraft:amethyst_shard"
+    "B": {
+      "item": "minecraft:iron_bars"
     },
     "I": {
       "item": "minecraft:iron_ingot"
-    },
-    "R": {
-      "item": "minecraft:redstone_torch"
     }
   },
   "pattern": [
-    "R",
-    "I",
-    "A"
+    " B ",
+    " I ",
+    " B "
   ],
   "result": {
-    "item": "simpleradio:receiving_module"
+    "item": "simpleradio:antenna"
   },
   "show_notification": true
 }

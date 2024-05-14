@@ -3,38 +3,38 @@
     {
       "condition": "simpleradio:items_enabled",
       "values": [
-        "receiving_module"
+        "walkie_talkie"
       ]
     }
   ],
   "forge:condition": {
     "type": "simpleradio:items_enabled",
-    "item": "receiving_module"
+    "item": "walkie_talkie"
   },
   "neoforge:conditions": [{
     "type": "simpleradio:items_enabled",
-    "item": "receiving_module"
+    "item": "walkie_talkie"
   }],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
-    "A": {
-      "item": "minecraft:amethyst_shard"
+    "B": {
+      "item": "minecraft:copper_block"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
     },
     "I": {
       "item": "minecraft:iron_ingot"
-    },
-    "R": {
-      "item": "minecraft:redstone_torch"
     }
   },
   "pattern": [
-    "R",
-    "I",
-    "A"
+    " I ",
+    " B ",
+    " C "
   ],
   "result": {
-    "item": "simpleradio:receiving_module"
+    "item": "simpleradio:walkie_talkie"
   },
   "show_notification": true
 }

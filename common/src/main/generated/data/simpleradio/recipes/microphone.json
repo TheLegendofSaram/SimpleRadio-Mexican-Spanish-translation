@@ -7,6 +7,14 @@
       ]
     }
   ],
+  "forge:condition": {
+    "type": "simpleradio:items_enabled",
+    "item": "microphone"
+  },
+  "neoforge:conditions": [{
+    "type": "simpleradio:items_enabled",
+    "item": "microphone"
+  }],
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {

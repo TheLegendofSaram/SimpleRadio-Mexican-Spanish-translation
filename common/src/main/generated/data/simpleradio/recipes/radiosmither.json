@@ -7,6 +7,14 @@
       ]
     }
   ],
+  "forge:condition": {
+    "type": "simpleradio:items_enabled",
+    "item": "radiosmither"
+  },
+  "neoforge:conditions": [{
+    "type": "simpleradio:items_enabled",
+    "item": "radiosmither"
+  }],
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
