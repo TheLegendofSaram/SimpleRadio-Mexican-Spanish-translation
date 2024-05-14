@@ -2,6 +2,7 @@ package com.codinglitch.simpleradio.mixin;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.registry.items.TransceiverItem;
+import com.codinglitch.simpleradio.core.registry.items.WalkieTalkieItem;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -30,8 +31,10 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
     private boolean willSlow() {
         if (this.isUsingItem()) {
             ItemStack stack = this.getItemInHand(this.usingItemHand);
-            if (stack.getItem() instanceof TransceiverItem) {
+            if (stack.getItem().getClass() == TransceiverItem.class) {
                 return CommonSimpleRadio.SERVER_CONFIG.transceiver.transceiverSlow;
+            } else if (stack.getItem().getClass() == WalkieTalkieItem.class) {
+                return CommonSimpleRadio.SERVER_CONFIG.walkie_talkie.walkieTalkieSlow;
             }
         }
         return this.isUsingItem();

@@ -1,5 +1,6 @@
 package com.codinglitch.simpleradio.lexiconfig.classes;
 
+import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.lexiconfig.Lexiconfig;
 import com.codinglitch.simpleradio.lexiconfig.annotations.Lexicon;
 import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconEntry;
@@ -12,12 +13,13 @@ import com.electronwill.nightconfig.toml.TomlWriter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 
+import javax.annotation.Nullable;
 import java.lang.annotation.IncompleteAnnotationException;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public abstract class LexiconData {
+public abstract class LexiconData extends LexiconHolding {
     public LexiconData() {
     }
 

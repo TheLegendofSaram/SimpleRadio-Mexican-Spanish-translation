@@ -15,6 +15,8 @@ public class SimpleRadioItems {
     public static final Map<ResourceLocation, List<Item>> TAB_ITEMS = new HashMap<>();
 
     public static Item TRANSCEIVER = register(id("transceiver"), new TransceiverItem(new Item.Properties().stacksTo(1)));
+    public static Item WALKIE_TALKIE = register(id("walkie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
+    public static Item SPUDDIE_TALKIE = register(id("spuddie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
     public static Item RADIOSMITHER = register(id("radiosmither"), new BlockItem(SimpleRadioBlocks.RADIOSMITHER, new Item.Properties()));
     public static Item RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
     public static Item SPEAKER = register(id("speaker"), new SpeakerItem(new Item.Properties().stacksTo(1)));

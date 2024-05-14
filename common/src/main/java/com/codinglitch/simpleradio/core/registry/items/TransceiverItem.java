@@ -36,7 +36,7 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
     }
 
     private void transmit(ServerPlayer player, boolean started) {
-        Services.NETWORKING.sendToPlayer(player, new ClientboundRadioPacket(started, player.getUUID()));
+        Services.NETWORKING.sendToPlayer(player, new ClientboundRadioPacket(started, player.getUUID(), this.getClass().getName()));
     }
 
     private void startTransceiving(Level level, ItemStack stack, String frequencyName, String modulation, UUID owner) {
@@ -49,7 +49,8 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
         listener.acceptor(source -> {
             if (!player.getUseItem().equals(stack)) return;
 
-            source.type = RadioSource.Type.TRANSCEIVER;
+            if (this.getClass() == TransceiverItem.class) source.type = RadioSource.Type.TRANSCEIVER;
+            else if (this.getClass() == WalkieTalkieItem.class) source.type = RadioSource.Type.WALKIE_TALKIE;
 
             Frequency frequency = getFrequency(stack);
             if (frequency != null) RadioManager.transmit(source, frequency);
