@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.core.registry;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.core.central.ItemHolder;
 import com.codinglitch.simpleradio.core.registry.items.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
@@ -11,16 +12,16 @@ import java.util.*;
 import static com.codinglitch.simpleradio.CommonSimpleRadio.id;
 
 public class SimpleRadioItems {
-    public static final Map<ResourceLocation, Item> ITEMS = new HashMap<>();
+    public static final Map<ResourceLocation, ItemHolder<Item>> ITEMS = new HashMap<>();
     public static final Map<ResourceLocation, List<Item>> TAB_ITEMS = new HashMap<>();
 
-    public static Item TRANSCEIVER = register(id("transceiver"), new TransceiverItem(new Item.Properties().stacksTo(1)));
-    public static Item WALKIE_TALKIE = register(id("walkie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
-    public static Item SPUDDIE_TALKIE = register(id("spuddie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
+    public static TransceiverItem TRANSCEIVER = register(id("transceiver"), new TransceiverItem(new Item.Properties().stacksTo(1)));
+    public static WalkieTalkieItem WALKIE_TALKIE = register(id("walkie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
+    public static WalkieTalkieItem SPUDDIE_TALKIE = register(id("spuddie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
     public static Item RADIOSMITHER = register(id("radiosmither"), new BlockItem(SimpleRadioBlocks.RADIOSMITHER, new Item.Properties()));
-    public static Item RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
-    public static Item SPEAKER = register(id("speaker"), new SpeakerItem(new Item.Properties().stacksTo(1)));
-    public static Item MICROPHONE = register(id("microphone"), new MicrophoneItem(new Item.Properties().stacksTo(1)));
+    public static RadioItem RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
+    public static SpeakerItem SPEAKER = register(id("speaker"), new SpeakerItem(new Item.Properties().stacksTo(1)));
+    public static MicrophoneItem MICROPHONE = register(id("microphone"), new MicrophoneItem(new Item.Properties().stacksTo(1)));
 
     public static Item FREQUENCER = register(id("frequencer"), new BlockItem(SimpleRadioBlocks.FREQUENCER, new Item.Properties().stacksTo(1)));
 
@@ -34,22 +35,28 @@ public class SimpleRadioItems {
     public static Item LISTENER_MODULE = register(id("listener_module"), new Item(new Item.Properties()));
 
     // -- Upgrades -- \\
-    public static Item IRON_UPGRADE_MODULE = register(id("iron_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, new Item.Properties()));
-    public static Item GOLD_UPGRADE_MODULE = register(id("gold_upgrade_module"), new UpgradeModuleItem(Tiers.GOLD, new Item.Properties()));
-    public static Item DIAMOND_UPGRADE_MODULE = register(id("diamond_upgrade_module"), new UpgradeModuleItem(Tiers.DIAMOND, new Item.Properties()));
-    public static Item NETHERITE_UPGRADE_MODULE = register(id("netherite_upgrade_module"), new UpgradeModuleItem(Tiers.NETHERITE, new Item.Properties()));
+    public static UpgradeModuleItem IRON_UPGRADE_MODULE = register(id("iron_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, new Item.Properties()));
+    public static UpgradeModuleItem GOLD_UPGRADE_MODULE = register(id("gold_upgrade_module"), new UpgradeModuleItem(Tiers.GOLD, new Item.Properties()));
+    public static UpgradeModuleItem DIAMOND_UPGRADE_MODULE = register(id("diamond_upgrade_module"), new UpgradeModuleItem(Tiers.DIAMOND, new Item.Properties()));
+    public static UpgradeModuleItem NETHERITE_UPGRADE_MODULE = register(id("netherite_upgrade_module"), new UpgradeModuleItem(Tiers.NETHERITE, new Item.Properties()));
 
-    private static Item register(ResourceLocation location, Item item) {
+    public static ItemHolder<Item> getByName(String name) {
+        Optional<Map.Entry<ResourceLocation, ItemHolder<Item>>> optional = ITEMS.entrySet().stream().filter(entry -> entry.getKey().getPath().equals(name)).findFirst();
+        return optional.map(Map.Entry::getValue).orElse(null);
+    }
+
+    private static <I extends Item> I register(ResourceLocation location, I item) {
         return register(location, item, SimpleRadioMenus.RADIO_TAB_LOCATION);
     }
 
-    private static Item register(ResourceLocation location, Item item, ResourceLocation tab) {
-        if (tab != null) {
+    private static <I extends Item> I register(ResourceLocation location, I item, ResourceLocation tab) {
+        ItemHolder<I> holder = ItemHolder.of(item, location);
+        if (tab != null && holder.enabled) {
             TAB_ITEMS.computeIfAbsent(tab, key -> new ArrayList<>());
             TAB_ITEMS.get(tab).add(item);
         }
 
-        ITEMS.put(location, item);
+        ITEMS.put(location, (ItemHolder<Item>) holder);
         return item;
     }
 }

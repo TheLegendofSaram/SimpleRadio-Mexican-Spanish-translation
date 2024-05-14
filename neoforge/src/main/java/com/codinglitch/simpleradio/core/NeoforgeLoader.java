@@ -38,7 +38,7 @@ public class NeoforgeLoader {
 
     @SubscribeEvent
     public static void register(RegisterEvent event) {
-        event.register(Registries.ITEM, helper -> SimpleRadioItems.ITEMS.forEach((helper::register)));
+        event.register(Registries.ITEM, helper -> SimpleRadioItems.ITEMS.forEach((location, itemHolder) -> helper.register(location, itemHolder.get())));
         event.register(Registries.BLOCK, helper -> SimpleRadioBlocks.BLOCKS.forEach((helper::register)));
         event.register(Registries.BLOCK_ENTITY_TYPE, helper -> SimpleRadioBlockEntities.BLOCK_ENTITIES.forEach(helper::register));
         event.register(Registries.MENU, helper -> SimpleRadioMenus.MENUS.forEach(helper::register));
