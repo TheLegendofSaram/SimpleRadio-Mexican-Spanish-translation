@@ -16,8 +16,8 @@ public class SimpleRadioItems {
     public static final Map<ResourceLocation, List<Item>> TAB_ITEMS = new HashMap<>();
 
     public static TransceiverItem TRANSCEIVER = register(id("transceiver"), new TransceiverItem(new Item.Properties().stacksTo(1)));
-    public static WalkieTalkieItem WALKIE_TALKIE = register(id("walkie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
-    public static WalkieTalkieItem SPUDDIE_TALKIE = register(id("spuddie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
+    public static WalkieTalkieItem WALKIE_TALKIE = register(id("walkie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)), !CommonSimpleRadio.SERVER_CONFIG.walkie_talkie.spuddieTalkie);
+    public static WalkieTalkieItem SPUDDIE_TALKIE = register(id("spuddie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)), CommonSimpleRadio.SERVER_CONFIG.walkie_talkie.spuddieTalkie);
     public static Item RADIOSMITHER = register(id("radiosmither"), new BlockItem(SimpleRadioBlocks.RADIOSMITHER, new Item.Properties()));
     public static RadioItem RADIO = register(id("radio"), new RadioItem(new Item.Properties().stacksTo(1)));
     public static SpeakerItem SPEAKER = register(id("speaker"), new SpeakerItem(new Item.Properties().stacksTo(1)));
@@ -26,7 +26,6 @@ public class SimpleRadioItems {
     public static Item FREQUENCER = register(id("frequencer"), new BlockItem(SimpleRadioBlocks.FREQUENCER, new Item.Properties().stacksTo(1)));
 
     public static Item ANTENNA = register(id("antenna"), new BlockItem(SimpleRadioBlocks.ANTENNA, new Item.Properties().stacksTo(16)));
-
 
     // ---- Modules ---- \\
     public static Item TRANSMITTING_MODULE = register(id("transmitting_module"), new Item(new Item.Properties()));
@@ -46,11 +45,15 @@ public class SimpleRadioItems {
     }
 
     private static <I extends Item> I register(ResourceLocation location, I item) {
-        return register(location, item, SimpleRadioMenus.RADIO_TAB_LOCATION);
+        return register(location, item, SimpleRadioMenus.RADIO_TAB_LOCATION, true);
     }
 
-    private static <I extends Item> I register(ResourceLocation location, I item, ResourceLocation tab) {
-        ItemHolder<I> holder = ItemHolder.of(item, location);
+    private static <I extends Item> I register(ResourceLocation location, I item, boolean state) {
+        return register(location, item, SimpleRadioMenus.RADIO_TAB_LOCATION, state);
+    }
+
+    private static <I extends Item> I register(ResourceLocation location, I item, ResourceLocation tab, boolean state) {
+        ItemHolder<I> holder = ItemHolder.of(item, location, state);
         if (tab != null && holder.enabled) {
             TAB_ITEMS.computeIfAbsent(tab, key -> new ArrayList<>());
             TAB_ITEMS.get(tab).add(item);
