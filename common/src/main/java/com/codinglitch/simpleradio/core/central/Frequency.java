@@ -70,13 +70,10 @@ public class Frequency {
     }
 
     public static void garbageCollect() {
-        Iterator<Frequency> iterator = frequencies.iterator();
-        while (iterator.hasNext()) {
-            Frequency frequency = iterator.next();
+        for (int i = 0; i < frequencies.size(); i++) {
+            Frequency frequency = frequencies.get(i);
             frequency.receivers.removeIf(Predicate.not(RadioChannel::validate));
             frequency.transmitters.removeIf(Predicate.not(RadioListener::validate));
-
-            if (!frequency.validate()) iterator.remove();
         }
 
         frequencies.removeIf(Predicate.not(Frequency::validate));
