@@ -34,6 +34,8 @@
   "item.modifiers.powering": "When in Powering item:",
 
   "item.simpleradio.transceiver": "Transceiver",
+  "item.simpleradio.walkie_talkie": "Walkie Talkie",
+  "item.simpleradio.spuddie_talkie": "Spuddie Talkie",
   "block.simpleradio.radio": "Radio",
   "block.simpleradio.antenna": "Antenna",
   "block.simpleradio.speaker": "Speaker",
