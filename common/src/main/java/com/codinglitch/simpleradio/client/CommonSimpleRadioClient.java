@@ -38,6 +38,11 @@ public class CommonSimpleRadioClient {
 
         registry.accept(SimpleRadioItems.TRANSCEIVER, new ResourceLocation("speaking"),
                 (stack, level, entity, i) -> entity != null && isTransmitting.containsValue(true) ? 1.0f : 0.0f);
+
+        registry.accept(SimpleRadioItems.WALKIE_TALKIE, new ResourceLocation("using"),
+                (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0f : 0.0f);
+        registry.accept(SimpleRadioItems.SPUDDIE_TALKIE, new ResourceLocation("using"),
+                (stack, level, entity, i) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0f : 0.0f);
     }
 
     // -- Render Types -- \\

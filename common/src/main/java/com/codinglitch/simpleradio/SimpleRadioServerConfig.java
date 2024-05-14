@@ -11,6 +11,9 @@ public class SimpleRadioServerConfig extends LexiconData {
     @LexiconPage(comment = "This is the configurations for the transceiver item.")
     public Transceiver transceiver = new Transceiver();
 
+    @LexiconPage(comment = "This is the configurations for the walkie talkie item.")
+    public WalkieTalkie walkie_talkie = new WalkieTalkie();
+
     @LexiconPage(comment = "This is the configurations for the transmitter block. (IN DEVELOPMENT)")
     public Transmitter transmitter = new Transmitter();
 
@@ -21,20 +24,37 @@ public class SimpleRadioServerConfig extends LexiconData {
     public Frequency frequency = new Frequency();
 
     public static class Transceiver extends LexiconPageData {
-        @LexiconEntry(comment = "This is the range after which players can no longer be heard for frequency modulation. Defaults to 700.")
-        public Integer maxFMDistance = 700;
+        @LexiconEntry(comment = "This is the range after which players can no longer be heard for frequency modulation. Defaults to 1000.")
+        public Integer maxFMDistance = 1000;
 
-        @LexiconEntry(comment = "This is the range after which audio begins to decay for frequency modulation. Defaults to 600.")
-        public Integer falloffFM = 600;
+        @LexiconEntry(comment = "This is the range after which audio begins to decay for frequency modulation. Defaults to 900.")
+        public Integer falloffFM = 900;
 
-        @LexiconEntry(comment = "This is the range after which players can no longer be heard for amplitude modulation. Defaults to 1100.")
-        public Integer maxAMDistance = 1100;
+        @LexiconEntry(comment = "This is the range after which players can no longer be heard for amplitude modulation. Defaults to 1800.")
+        public Integer maxAMDistance = 1800;
 
-        @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 1000.")
-        public Integer falloffAM = 1000;
+        @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 1700.")
+        public Integer falloffAM = 1700;
 
         @LexiconEntry(comment = "This is whether or not using the transceiver slows the player. Defaults to true.")
         public Boolean transceiverSlow = true;
+    }
+
+    public static class WalkieTalkie extends LexiconPageData {
+        @LexiconEntry(comment = "This is the range after which players can no longer be heard for frequency modulation. Defaults to 500.")
+        public Integer maxFMDistance = 500;
+
+        @LexiconEntry(comment = "This is the range after which audio begins to decay for frequency modulation. Defaults to 400.")
+        public Integer falloffFM = 400;
+
+        @LexiconEntry(comment = "This is the range after which players can no longer be heard for amplitude modulation. Defaults to 900.")
+        public Integer maxAMDistance = 900;
+
+        @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 800.")
+        public Integer falloffAM = 800;
+
+        @LexiconEntry(comment = "This is whether or not using the walkie talkie slows the player. Defaults to true.")
+        public Boolean walkieTalkieSlow = true;
     }
 
     public static class Transmitter extends LexiconPageData {

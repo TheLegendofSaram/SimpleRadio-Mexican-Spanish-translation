@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.UUID;
 
-public record ClientboundRadioPacket(boolean started, UUID player) implements Packeter {
+public record ClientboundRadioPacket(boolean started, UUID player, String type) implements Packeter {
     public static ResourceLocation ID = new ResourceLocation(CommonSimpleRadio.ID, "radio_packet");
     @Override
     public ResourceLocation resource() {
@@ -19,10 +19,11 @@ public record ClientboundRadioPacket(boolean started, UUID player) implements Pa
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeBoolean(this.started);
         buffer.writeUUID(this.player);
+        buffer.writeUtf(this.type);
     }
 
     public static ClientboundRadioPacket decode(FriendlyByteBuf buffer) {
-        return new ClientboundRadioPacket(buffer.readBoolean(), buffer.readUUID());
+        return new ClientboundRadioPacket(buffer.readBoolean(), buffer.readUUID(), buffer.readUtf());
     }
 
     public static void handle(ClientboundRadioPacket packet) {

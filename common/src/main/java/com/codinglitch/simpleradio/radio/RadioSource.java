@@ -3,6 +3,7 @@ package com.codinglitch.simpleradio.radio;
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
+import com.codinglitch.simpleradio.lexiconfig.classes.LexiconPageData;
 import org.joml.Math;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 public class RadioSource {
     public enum Type {
         TRANSCEIVER,
+        WALKIE_TALKIE,
         TRANSMITTER
     }
 
@@ -28,31 +30,29 @@ public class RadioSource {
     }
 
     public int getMaxDistance(Frequency.Modulation modulation) {
-        CommonSimpleRadio.info(CommonSimpleRadio.SERVER_CONFIG.transceiver.maxFMDistance);
+        String pageName = modulation.toString().toLowerCase();
+        LexiconPageData pageData = CommonSimpleRadio.SERVER_CONFIG.getPage(pageName);
+        if (pageData == null) {
+            CommonSimpleRadio.warn("Could not find page {}!", pageName);
+            return 0;
+        }
 
-        if (type == Type.TRANSCEIVER)
-            return modulation == Frequency.Modulation.FREQUENCY ?
-                    CommonSimpleRadio.SERVER_CONFIG.transceiver.maxFMDistance :
-                    CommonSimpleRadio.SERVER_CONFIG.transceiver.maxAMDistance;
-        else if (type == Type.TRANSMITTER)
-            return modulation == Frequency.Modulation.FREQUENCY ?
-                    CommonSimpleRadio.SERVER_CONFIG.transmitter.maxFMDistance :
-                    CommonSimpleRadio.SERVER_CONFIG.transmitter.maxAMDistance;
-
-        return -1;
+        return modulation == Frequency.Modulation.FREQUENCY ?
+                (int) pageData.getEntry("maxFMDistance") :
+                (int) pageData.getEntry("maxAMDistance");
     }
 
     public int getFalloff(Frequency.Modulation modulation) {
-        if (type == Type.TRANSCEIVER)
-            return modulation == Frequency.Modulation.FREQUENCY ?
-                    CommonSimpleRadio.SERVER_CONFIG.transceiver.falloffFM :
-                    CommonSimpleRadio.SERVER_CONFIG.transceiver.falloffAM;
-        else if (type == Type.TRANSMITTER)
-            return modulation == Frequency.Modulation.FREQUENCY ?
-                    CommonSimpleRadio.SERVER_CONFIG.transmitter.falloffFM :
-                    CommonSimpleRadio.SERVER_CONFIG.transmitter.falloffAM;
+        String pageName = modulation.toString().toLowerCase();
+        LexiconPageData pageData = CommonSimpleRadio.SERVER_CONFIG.getPage(pageName);
+        if (pageData == null) {
+            CommonSimpleRadio.warn("Could not find page {}!", pageName);
+            return 0;
+        }
 
-        return -1;
+        return modulation == Frequency.Modulation.FREQUENCY ?
+                (int) pageData.getEntry("falloffFM") :
+                (int) pageData.getEntry("falloffAM");
     }
 
     public float computeSeverity(WorldlyPosition destination, Frequency destinationFrequency) {

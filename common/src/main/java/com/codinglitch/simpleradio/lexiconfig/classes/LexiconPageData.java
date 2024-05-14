@@ -1,4 +1,9 @@
 package com.codinglitch.simpleradio.lexiconfig.classes;
 
-public abstract class LexiconPageData {
+import com.codinglitch.simpleradio.CommonSimpleRadio;
+
+import javax.annotation.Nullable;
+
+public abstract class LexiconPageData extends LexiconHolding {
+
 }
