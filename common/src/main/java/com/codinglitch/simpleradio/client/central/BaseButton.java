@@ -8,29 +8,40 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class BaseButton extends AbstractButton {
-    public ResourceLocation sprite;
-    public ResourceLocation hoverSprite;
-    public ResourceLocation selectedSprite;
+    public final int iconX;
+    public final int iconY;
+    public int hoverIconX = -1;
+    public int hoverIconY = -1;
+    public int selectedIconX = -1;
+    public int selectedIconY = -1;
 
     public boolean selected;
+
+    private final ResourceLocation texture;
     private final Runnable onPress;
 
     public BaseButton(int x, int y, int width, int height) {
-        this(x, y, width, height, null, CommonComponents.EMPTY, null);
+        this(x, y, width, height, 0, 0, null, CommonComponents.EMPTY, null);
     }
 
-    public BaseButton(int x, int y, int width, int height, ResourceLocation sprite) {
-        this(x, y, width, height, sprite, CommonComponents.EMPTY, null);
+    public BaseButton(int x, int y, int width, int height, int iconX, int iconY) {
+        this(x, y, width, height, iconX, iconY, null, CommonComponents.EMPTY, null);
     }
 
-    public BaseButton(int x, int y, int width, int height, ResourceLocation sprite, Component component) {
-        this(x, y, width, height, sprite, component, null);
+    public BaseButton(int x, int y, int width, int height, int iconX, int iconY, ResourceLocation texture) {
+        this(x, y, width, height, iconX, iconY, texture, CommonComponents.EMPTY, null);
     }
 
-    public BaseButton(int x, int y, int width, int height, ResourceLocation sprite, Component component, Runnable onPress) {
+    public BaseButton(int x, int y, int width, int height, int iconX, int iconY, ResourceLocation texture, Component component) {
+        this(x, y, width, height, iconX, iconY, texture, component, null);
+    }
+
+    public BaseButton(int x, int y, int width, int height, int iconX, int iconY, ResourceLocation texture, Component component, Runnable onPress) {
         super(x, y, width, height, component);
 
-        this.sprite = sprite;
+        this.iconX = iconX;
+        this.iconY = iconY;
+        this.texture = texture;
         this.onPress = onPress;
     }
 
@@ -42,22 +53,26 @@ public class BaseButton extends AbstractButton {
     }
 
     public ResourceLocation getTexture() {
-        ResourceLocation sprite = this.sprite;
-        if (selected && this.selectedSprite != null) {
-            sprite = this.selectedSprite;
-        } else if (this.isHoveredOrFocused() && this.hoverSprite != null) {
-            sprite = this.hoverSprite;
-        }
-        return sprite;
+        return texture;
     }
 
     public void blit(GuiGraphics graphics, int iconX, int iconY) {
-        graphics.blitSprite(this.getTexture(), this.getX(), this.getY(), this.width, this.height);
+        graphics.blit(this.getTexture(), this.getX(), this.getY(), iconX, iconY, this.width, this.height);
     }
 
     @Override
     public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        this.blit(graphics, 0, 0);
+        int x = this.iconX;
+        int y = this.iconY;
+        if (selected && (selectedIconX != -1 && selectedIconY != -1)) {
+            x = selectedIconX;
+            y = selectedIconY;
+        } else if (this.isHoveredOrFocused() && (hoverIconX != -1 && hoverIconY != -1)) {
+            x = hoverIconX;
+            y = hoverIconY;
+        }
+
+        this.blit(graphics, x, y);
     }
 
     @Override
