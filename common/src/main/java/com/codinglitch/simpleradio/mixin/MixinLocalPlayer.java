@@ -34,7 +34,7 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
                 return CommonSimpleRadio.SERVER_CONFIG.transceiver.transceiverSlow;
             }
         }
-        return false;
+        return this.isUsingItem();
     }
 
     @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z"))
