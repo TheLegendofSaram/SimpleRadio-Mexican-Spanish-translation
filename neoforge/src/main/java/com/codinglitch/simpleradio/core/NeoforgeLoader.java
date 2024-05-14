@@ -43,6 +43,10 @@ public class NeoforgeLoader {
         event.register(Registries.BLOCK_ENTITY_TYPE, helper -> SimpleRadioBlockEntities.BLOCK_ENTITIES.forEach(helper::register));
         event.register(Registries.MENU, helper -> SimpleRadioMenus.MENUS.forEach(helper::register));
         event.register(Registries.CREATIVE_MODE_TAB, helper -> SimpleRadioMenus.CREATIVE_TABS.forEach(helper::register));
+
+        event.register(NeoForgeRegistries.Keys.CONDITION_CODECS, helper -> {
+            helper.register(CommonSimpleRadio.id("items_enabled"), ItemsEnabledCondition.CODEC);
+        });
     }
 
     public static void loadItems() {
