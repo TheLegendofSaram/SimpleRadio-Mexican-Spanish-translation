@@ -10,9 +10,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
-import org.joml.Vector3fc;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RadioManager {
     private static RadioManager INSTANCE;
@@ -32,7 +33,10 @@ public class RadioManager {
         ServerPlayer sender = (ServerPlayer) senderConnection.getPlayer().getPlayer();
         ServerLevel level = sender.serverLevel();
 
-        int listenedTo = 0;
+
+
+        //-- Get qualifying listeners
+        TreeMap<Float, RadioListener> qualified = new TreeMap<>();
         for (RadioListener listener : RadioListener.getListeners()) {
             Vector3f position;
             if (listener.owner != null) {
@@ -44,6 +48,13 @@ public class RadioManager {
             float distance = position.distanceSquared((float) sender.getX(), (float) sender.getY(), (float) sender.getZ());
             if (distance > listener.range) continue;
 
+            qualified.put(distance, listener);
+        }
+
+        int listenedTo = 0;
+        for (float distance : qualified.keySet()) {
+            RadioListener listener = qualified.get(distance);
+
             float scale = 1f - (distance / listener.range);
             listener.onData(new RadioSource(
                     sender.getUUID(),
@@ -51,8 +62,8 @@ public class RadioManager {
                     event.getPacket().getOpusEncodedData(),
                     scale
             ));
-            listenedTo++;
 
+            listenedTo++;
             if (listenedTo >= CommonSimpleRadio.SERVER_CONFIG.frequency.listenerBuffer) break;
         }
 
