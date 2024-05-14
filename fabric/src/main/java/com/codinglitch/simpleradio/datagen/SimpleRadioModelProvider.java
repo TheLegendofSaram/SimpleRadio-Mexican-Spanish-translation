@@ -24,8 +24,8 @@ public class SimpleRadioModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
-        SimpleRadioItems.ITEMS.forEach((location, item) -> {
-            if (item instanceof UpgradeModuleItem upgradeModuleItem) {
+        SimpleRadioItems.ITEMS.forEach((location, itemHolder) -> {
+            if (itemHolder.get() instanceof UpgradeModuleItem upgradeModuleItem) {
                 /*itemModelGenerator.generateLayeredItem(location.withPrefix("item/"),
                         CommonSimpleRadio.id("item/", upgradeModuleItem.getTier().toString().toLowerCase(), "_upgrade_module"),
                         CommonSimpleRadio.id("item/", upgradeModuleItem.getType().toString().toLowerCase(), "_upgrade")
