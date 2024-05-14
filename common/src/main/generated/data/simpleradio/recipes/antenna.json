@@ -3,38 +3,35 @@
     {
       "condition": "simpleradio:items_enabled",
       "values": [
-        "transmitting_module"
+        "antenna"
       ]
     }
   ],
   "forge:condition": {
     "type": "simpleradio:items_enabled",
-    "item": "transmitting_module"
+    "item": "antenna"
   },
   "neoforge:conditions": [{
     "type": "simpleradio:items_enabled",
-    "item": "transmitting_module"
+    "item": "antenna"
   }],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "building",
   "key": {
-    "C": {
-      "item": "minecraft:copper_ingot"
+    "B": {
+      "item": "minecraft:iron_bars"
     },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "R": {
-      "item": "minecraft:redstone_torch"
+    "I": {
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
-    "R",
-    "C",
-    "L"
+    " B ",
+    " I ",
+    " B "
   ],
   "result": {
-    "item": "simpleradio:transmitting_module"
+    "item": "simpleradio:antenna"
   },
   "show_notification": true
 }

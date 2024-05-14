@@ -3,38 +3,38 @@
     {
       "condition": "simpleradio:items_enabled",
       "values": [
-        "transmitting_module"
+        "walkie_talkie"
       ]
     }
   ],
   "forge:condition": {
     "type": "simpleradio:items_enabled",
-    "item": "transmitting_module"
+    "item": "walkie_talkie"
   },
   "neoforge:conditions": [{
     "type": "simpleradio:items_enabled",
-    "item": "transmitting_module"
+    "item": "walkie_talkie"
   }],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
+    "B": {
+      "item": "minecraft:copper_block"
+    },
     "C": {
       "item": "minecraft:copper_ingot"
     },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "R": {
-      "item": "minecraft:redstone_torch"
+    "I": {
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
-    "R",
-    "C",
-    "L"
+    " I ",
+    " B ",
+    " C "
   ],
   "result": {
-    "item": "simpleradio:transmitting_module"
+    "item": "simpleradio:walkie_talkie"
   },
   "show_notification": true
 }

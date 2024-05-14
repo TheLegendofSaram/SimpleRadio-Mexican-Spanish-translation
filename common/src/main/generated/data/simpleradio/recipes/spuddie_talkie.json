@@ -3,38 +3,38 @@
     {
       "condition": "simpleradio:items_enabled",
       "values": [
-        "transmitting_module"
+        "spuddie_talkie"
       ]
     }
   ],
   "forge:condition": {
     "type": "simpleradio:items_enabled",
-    "item": "transmitting_module"
+    "item": "spuddie_talkie"
   },
   "neoforge:conditions": [{
     "type": "simpleradio:items_enabled",
-    "item": "transmitting_module"
+    "item": "spuddie_talkie"
   }],
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
   "key": {
     "C": {
       "item": "minecraft:copper_ingot"
     },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
+    "I": {
+      "item": "minecraft:iron_ingot"
     },
-    "R": {
-      "item": "minecraft:redstone_torch"
+    "P": {
+      "item": "minecraft:potato"
     }
   },
   "pattern": [
-    "R",
-    "C",
-    "L"
+    " I ",
+    " P ",
+    " C "
   ],
   "result": {
-    "item": "simpleradio:transmitting_module"
+    "item": "simpleradio:spuddie_talkie"
   },
   "show_notification": true
 }

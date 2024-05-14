@@ -7,6 +7,14 @@
       ]
     }
   ],
+  "forge:condition": {
+    "type": "simpleradio:items_enabled",
+    "item": "transceiver"
+  },
+  "neoforge:conditions": [{
+    "type": "simpleradio:items_enabled",
+    "item": "transceiver"
+  }],
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
