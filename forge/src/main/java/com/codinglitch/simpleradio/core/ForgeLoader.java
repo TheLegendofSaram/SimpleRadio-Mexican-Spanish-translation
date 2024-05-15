@@ -8,6 +8,7 @@ import com.codinglitch.simpleradio.core.registry.SimpleRadioBlocks;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioMenus;
 import com.codinglitch.simpleradio.datagen.SimpleRadioRecipeProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
