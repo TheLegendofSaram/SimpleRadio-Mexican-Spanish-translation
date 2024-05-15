@@ -10,7 +10,6 @@ import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -20,6 +19,7 @@ import net.minecraft.world.item.Items;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
 
@@ -29,30 +29,22 @@ public class SimpleRadioRecipeProvider extends FabricRecipeProvider {
         super(output);
     }
 
-    protected RecipeOutput withItemConditions(RecipeOutput exporter, Item item, ConditionJsonProvider... conditions) {
+    protected Consumer<FinishedRecipe> withItemConditions(Consumer<FinishedRecipe> exporter, Item item, ConditionJsonProvider... conditions) {
         Optional<Map.Entry<ResourceLocation, ItemHolder<Item>>> optional = SimpleRadioItems.ITEMS.entrySet().stream().filter(entry -> entry.getValue().get() == item).findFirst();
         if (optional.isEmpty())
             return exporter;
 
         ResourceLocation location = optional.get().getKey();
-        RecipeOutput output = withConditions(exporter, FabricLoader.itemsEnabled(location.getPath()));
+        Consumer<FinishedRecipe> output = withConditions(exporter, FabricLoader.itemsEnabled(location.getPath()));
 
-        return new RecipeOutput() {
-            @Override
-            public void accept(FinishedRecipe recipe) {
-                MAP.put(recipe, location);
-                output.accept(recipe);
-            }
-
-            @Override
-            public Advancement.Builder advancement() {
-                return output.advancement();
-            }
+        return recipe -> {
+            MAP.put(recipe, location);
+            output.accept(recipe);
         };
     }
 
     @Override
-    public void buildRecipes(RecipeOutput output) {
+    public void buildRecipes(Consumer<FinishedRecipe> output) {
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, SimpleRadioItems.TRANSCEIVER)
                 .define('I', Items.IRON_INGOT)
                 .define('R', Items.REDSTONE)
