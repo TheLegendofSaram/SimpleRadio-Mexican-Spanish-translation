@@ -32,7 +32,7 @@ public class SpeakerItem extends BlockItem implements Receiving, Upgradable {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean b) {
         super.inventoryTick(stack, level, entity, slot, b);
 
-        tick(stack, level, entity);
+        tick(stack, level);
     }
 
     @Override

@@ -60,8 +60,10 @@ public class WalkieTalkieItem extends TransceiverItem {
     }
 
     public void worldTick(ItemEntity item, Level level) {
+        ItemStack myStack = item.getItem();
+        this.tick(myStack, level);
+
         if (item.tickCount > 60 && item.tickCount % 10 == 0) {
-            ItemStack myStack = item.getItem();
             CompoundTag myTag = myStack.getOrCreateTag();
 
             for (Entity entity : level.getEntities(item, item.getBoundingBox().inflate(1.0d))) {

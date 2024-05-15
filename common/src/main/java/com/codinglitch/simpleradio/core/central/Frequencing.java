@@ -98,7 +98,7 @@ public interface Frequencing {
         return frequency.getChannel(owner) != null;
     }
 
-    default void tick(ItemStack stack, Level level, Entity entity) {
+    default void tick(ItemStack stack, Level level) {
         if (level.isClientSide) return;
         CompoundTag tag = stack.getOrCreateTag();
         if (!tag.contains("frequency") || tag.getString("frequency").isEmpty())

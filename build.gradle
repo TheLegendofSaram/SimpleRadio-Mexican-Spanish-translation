@@ -56,6 +56,8 @@ subprojects {
                 includeGroup "maven.modrinth"
             }
         }
+
+        maven { url 'https://maven.nucleoid.xyz' }
     }
 
     tasks.withType(JavaCompile).configureEach {
@@ -85,7 +87,10 @@ subprojects {
                 "neoforge_loader_version_range": neoforge_loader_version_range,
                 "voicechat_api_version": voicechat_api_version,
                 "voicechat_version": voicechat_version,
+                "voicechat_interaction_version": voicechat_interaction_version,
+                "polymer_version": polymer_version,
                 "night_config_version": night_config_version,
+                "lexiconfig_version": lexiconfig_version,
                 "credits": credits
         ]
 

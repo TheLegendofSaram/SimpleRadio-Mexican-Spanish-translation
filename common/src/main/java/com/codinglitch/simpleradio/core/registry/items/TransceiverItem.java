@@ -47,7 +47,11 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
         listener.range = 4;
 
         listener.acceptor(source -> {
-            if (!player.getUseItem().equals(stack)) return;
+            ItemStack using = player.getUseItem();
+            CompoundTag usingTag = using.getOrCreateTag();
+
+            if (!usingTag.contains("frequency") || !usingTag.contains("modulation")) return;
+            if (!usingTag.getString("frequency").equals(frequencyName) || !usingTag.getString("modulation").equals(modulation)) return;
 
             if (this.getClass() == TransceiverItem.class) source.type = RadioSource.Type.TRANSCEIVER;
             else if (this.getClass() == WalkieTalkieItem.class) source.type = RadioSource.Type.WALKIE_TALKIE;
@@ -92,7 +96,7 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
 
         String frequency = tag.getString("frequency");
         String modulation = tag.getString("modulation");
-        tick(stack, level, entity);
+        tick(stack, level);
         if (frequency.isEmpty() || modulation.isEmpty()) return;
 
         if (!Frequency.check(frequency)) {
