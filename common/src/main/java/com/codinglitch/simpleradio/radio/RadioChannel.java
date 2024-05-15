@@ -5,6 +5,7 @@ import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.Transmitting;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
+import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.effects.AudioEffect;
 import com.codinglitch.simpleradio.radio.effects.BaseAudioEffect;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
@@ -113,7 +114,10 @@ public class RadioChannel implements Supplier<short[]> {
             decoder.resetState();
             return;
         }
-        microphonePackets.add(decoder.decode(data));
+        short[] decoded = decoder.decode(data);
+        microphonePackets.add(decoded);
+
+        Services.COMPAT_PLATFORM.onData(this, source, decoded);
 
         if (this.audioPlayer == null)
             getAudioPlayer().startPlaying();
@@ -142,7 +146,7 @@ public class RadioChannel implements Supplier<short[]> {
         this.isValid = false;
     }
 
-    private OpusDecoder getDecoder(UUID sender) {
+    public OpusDecoder getDecoder(UUID sender) {
         return decoders.computeIfAbsent(sender, uuid -> CommonRadioPlugin.serverApi.createDecoder());
     }
 

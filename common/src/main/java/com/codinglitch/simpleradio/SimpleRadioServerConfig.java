@@ -32,6 +32,9 @@ public class SimpleRadioServerConfig extends LexiconData {
     @LexiconPage(comment = "These are the general configurations for frequencies.")
     public Frequency frequency = new Frequency();
 
+    @LexiconPage(comment = "These are the general configurations for compatibilities.")
+    public Compatibilities compatibilities = new Compatibilities();
+
     public static class Transceiver extends LexiconPageData {
         @LexiconEntry(comment = "This is the range after which players can no longer be heard for frequency modulation. Defaults to 1000.")
         public Integer maxFMDistance = 1000;
@@ -139,5 +142,16 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "How many listeners should be able to receive a single players audio? Defaults to 2.")
         public Integer listenerBuffer = 2;
+    }
+
+    public static class Compatibilities extends LexiconPageData {
+        @LexiconPage(comment = "These are the configurations for the optional dependency Voice Chat Interaction.")
+        public VoiceChatInteraction voice_chat_interaction = new VoiceChatInteraction();
+
+        public static class VoiceChatInteraction extends LexiconPageData {
+
+            @LexiconEntry(comment = "When false, removes compatibility for Voice Chat Interaction. Defaults to true.")
+            public Boolean enabled = true;
+        }
     }
 }

@@ -33,8 +33,6 @@ public class RadioManager {
         ServerPlayer sender = (ServerPlayer) senderConnection.getPlayer().getPlayer();
         ServerLevel level = sender.serverLevel();
 
-
-
         //-- Get qualifying listeners
         TreeMap<Float, RadioListener> qualified = new TreeMap<>();
         for (RadioListener listener : RadioListener.getListeners()) {

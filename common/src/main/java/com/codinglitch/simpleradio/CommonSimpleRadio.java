@@ -4,6 +4,7 @@ import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.ItemHolder;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import com.codinglitch.simpleradio.lexiconfig.Lexiconfig;
+import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -58,5 +59,15 @@ public class CommonSimpleRadio {
         Lexiconfig.registerListener(Lexiconfig.Event.RELOAD, Frequency::onLexiconReload);
 
         Lexiconfig.reload();
+
+        // ---- Compatibilities ---- \\
+        if (Services.PLATFORM.isModLoaded("vcinteraction")) {
+            CommonSimpleRadio.info("Voice Chat Interaction is present!");
+            if (SERVER_CONFIG.compatibilities.voice_chat_interaction.enabled) {
+                CommonSimpleRadio.info("..and compat is enabled!");
+            } else {
+                CommonSimpleRadio.info("..but compat is disabled");
+            }
+        }
     }
 }
