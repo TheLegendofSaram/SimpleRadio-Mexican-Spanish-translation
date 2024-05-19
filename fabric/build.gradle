@@ -15,18 +15,17 @@ dependencies {
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":common")
 
-    implementation "com.electronwill.night-config:core:${night_config_version}"
-    implementation "com.electronwill.night-config:toml:${night_config_version}"
-    include "com.electronwill.night-config:core:${night_config_version}"
-    include "com.electronwill.night-config:toml:${night_config_version}"
+    implementation "com.codinglitch.lexiconfig:lexiconfig-api:${lexiconfig_version}"
+
+    implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${minecraft_version}-${voicechat_version}"
+
+    // Compatibilities
 
     modCompileOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
     modRuntimeOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
     modCompileOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
     modRuntimeOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
-
-    implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
-    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${minecraft_version}-${voicechat_version}"
 }
 
 loom {

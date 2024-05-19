@@ -1,9 +1,9 @@
 package com.codinglitch.simpleradio.radio;
 
+import com.codinglitch.lexiconfig.classes.LexiconPageData;
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
-import com.codinglitch.simpleradio.lexiconfig.classes.LexiconPageData;
 import org.joml.Math;
 
 import java.util.UUID;

@@ -1,10 +1,10 @@
 package com.codinglitch.simpleradio;
 
-import com.codinglitch.simpleradio.lexiconfig.annotations.Lexicon;
-import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconPage;
-import com.codinglitch.simpleradio.lexiconfig.classes.LexiconData;
-import com.codinglitch.simpleradio.lexiconfig.classes.LexiconPageData;
-import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconEntry;
+import com.codinglitch.lexiconfig.annotations.Lexicon;
+import com.codinglitch.lexiconfig.annotations.LexiconEntry;
+import com.codinglitch.lexiconfig.annotations.LexiconPage;
+import com.codinglitch.lexiconfig.classes.LexiconData;
+import com.codinglitch.lexiconfig.classes.LexiconPageData;
 
 @Lexicon(name = CommonSimpleRadio.ID+"-server")
 public class SimpleRadioServerConfig extends LexiconData {

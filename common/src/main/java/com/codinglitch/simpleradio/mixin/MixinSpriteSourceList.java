@@ -31,7 +31,6 @@ public abstract class MixinSpriteSourceList {
     ) {
         if (atlasLocation.equals(new ResourceLocation("minecraft:blocks"))) {
             DirectoryLister source = new DirectoryLister("upgrade", "upgrade/");
-            CommonSimpleRadio.info(source.toString());
             spriteSources.add(source);
         }
     }
