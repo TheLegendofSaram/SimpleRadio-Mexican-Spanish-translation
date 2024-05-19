@@ -16,6 +16,7 @@ public class RadioSource {
     }
 
     public UUID owner;
+    public UUID originalOwner;
     public WorldlyPosition location;
     public byte[] data;
     public Type type;
@@ -27,6 +28,15 @@ public class RadioSource {
         this.location = location;
         this.data = data;
         this.volume = volume;
+    }
+
+    public UUID getRealOwner() {
+        return originalOwner == null ? owner : originalOwner;
+    }
+
+    public void delegate(UUID owner) {
+        this.originalOwner = this.owner;
+        this.owner = owner;
     }
 
     public int getMaxDistance(Frequency.Modulation modulation) {
