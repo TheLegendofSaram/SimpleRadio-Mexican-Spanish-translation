@@ -1,5 +1,6 @@
 package com.codinglitch.simpleradio.core;
 
+import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
@@ -11,7 +12,7 @@ import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 import net.minecraftforge.common.crafting.conditions.ItemExistsCondition;
 
 public class ItemsEnabledCondition implements ICondition {
-    private static final ResourceLocation NAME = new ResourceLocation("forge", "item_exists");
+    private static final ResourceLocation NAME = CommonSimpleRadio.id("items_enabled");
     private final String item;
 
     public ItemsEnabledCondition(String item) {
