@@ -29,10 +29,14 @@ dependencies {
     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 
-    implementation "com.electronwill.night-config:core:${night_config_version}"
-    implementation "com.electronwill.night-config:toml:${night_config_version}"
-
     implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+
+    compileOnly "com.codinglitch.lexiconfig:lexiconfig-api:${lexiconfig_version}"
+
+    // Compatibilities
+
+    //compileOnly "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_api_version}"
+    //runtimeOnly "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_api_version}"
 }
 
 publishing {

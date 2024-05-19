@@ -48,6 +48,8 @@ subprojects {
         }
 
         maven { url 'https://maven.maxhenkel.de/repository/public' }
+        maven { url 'https://maven.nucleoid.xyz' }
+        maven { url 'https://maven.codinglitch.com/repository/releases' }
 
         maven {
             name = "Modrinth"
@@ -57,7 +59,16 @@ subprojects {
             }
         }
 
-        maven { url 'https://maven.nucleoid.xyz' }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url "https://cursemaven.com"
+                }
+            }
+            filter {
+                includeGroup "curse.maven"
+            }
+        }
     }
 
     tasks.withType(JavaCompile).configureEach {

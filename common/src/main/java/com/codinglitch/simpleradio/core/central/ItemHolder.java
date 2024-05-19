@@ -1,8 +1,7 @@
 package com.codinglitch.simpleradio.core.central;
 
+import com.codinglitch.lexiconfig.classes.LexiconPageData;
 import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.lexiconfig.annotations.LexiconPage;
-import com.codinglitch.simpleradio.lexiconfig.classes.LexiconPageData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 

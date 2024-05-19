@@ -1,13 +1,10 @@
 package com.codinglitch.simpleradio;
 
+import com.codinglitch.lexiconfig.LexiconfigApi;
 import com.codinglitch.simpleradio.core.central.Frequency;
-import com.codinglitch.simpleradio.core.central.ItemHolder;
-import com.codinglitch.simpleradio.core.registry.SimpleRadioItems;
-import com.codinglitch.simpleradio.lexiconfig.Lexiconfig;
 import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,11 +51,10 @@ public class CommonSimpleRadio {
     public static SimpleRadioServerConfig SERVER_CONFIG;
     public static void initialize() {
         SERVER_CONFIG = new SimpleRadioServerConfig();
+        LexiconfigApi.register(SERVER_CONFIG);
 
-        Lexiconfig.register(SERVER_CONFIG);
-        Lexiconfig.registerListener(Lexiconfig.Event.RELOAD, Frequency::onLexiconReload);
-
-        Lexiconfig.reload();
+        LexiconfigApi.registerListener(LexiconfigApi.Event.RELOAD, Frequency::onLexiconReload);
+        Frequency.onLexiconReload();
 
         // ---- Compatibilities ---- \\
         if (Services.PLATFORM.isModLoaded("vcinteraction")) {
