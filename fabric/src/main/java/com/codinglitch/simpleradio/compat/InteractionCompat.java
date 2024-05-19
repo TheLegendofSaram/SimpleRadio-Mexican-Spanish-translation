@@ -22,7 +22,8 @@ public class InteractionCompat {
     private static ConcurrentHashMap<UUID, Long> cooldowns = new ConcurrentHashMap<>();;
 
     public static void onData(RadioChannel channel, RadioSource source, short[] decodedData) {
-        VoicechatConnection connection = CommonRadioPlugin.serverApi.getConnectionOf(channel.owner);
+        UUID sourceOwner = source.getRealOwner();
+        VoicechatConnection connection = CommonRadioPlugin.serverApi.getConnectionOf(sourceOwner);
 
         if (AudioUtils.calculateAudioLevel(decodedData) < VoicechatInteraction.SERVER_CONFIG.minActivationThreshold.get().doubleValue()) {
             return;
@@ -45,11 +46,9 @@ public class InteractionCompat {
                 return;
             }
 
-            player.level().getServer().execute(() -> {
-                if (setCooldown(player.getUUID(), player.level())) {
-                    player.gameEvent(VoicechatInteraction.VOICE_GAME_EVENT);
-                }
-            });
+            if (setCooldown(player.getUUID(), player.level())) {
+                player.gameEvent(VoicechatInteraction.VOICE_GAME_EVENT);
+            }
         }
     }
 

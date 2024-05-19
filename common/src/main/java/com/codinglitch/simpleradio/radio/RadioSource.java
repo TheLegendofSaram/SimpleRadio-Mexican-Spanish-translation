@@ -1,9 +1,9 @@
 package com.codinglitch.simpleradio.radio;
 
+import com.codinglitch.lexiconfig.classes.LexiconPageData;
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
-import com.codinglitch.simpleradio.lexiconfig.classes.LexiconPageData;
 import org.joml.Math;
 
 import java.util.UUID;
@@ -16,6 +16,7 @@ public class RadioSource {
     }
 
     public UUID owner;
+    public UUID originalOwner;
     public WorldlyPosition location;
     public byte[] data;
     public Type type;
@@ -27,6 +28,15 @@ public class RadioSource {
         this.location = location;
         this.data = data;
         this.volume = volume;
+    }
+
+    public UUID getRealOwner() {
+        return originalOwner == null ? owner : originalOwner;
+    }
+
+    public void delegate(UUID owner) {
+        this.originalOwner = this.owner;
+        this.owner = owner;
     }
 
     public int getMaxDistance(Frequency.Modulation modulation) {

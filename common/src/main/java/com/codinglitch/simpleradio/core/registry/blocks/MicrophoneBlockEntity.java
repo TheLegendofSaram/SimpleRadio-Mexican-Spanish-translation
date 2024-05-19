@@ -75,7 +75,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
         listener.range = 12;
         listener.acceptor(source -> {
             source.type = RadioSource.Type.TRANSMITTER;
-            source.owner = listenerID;
+            source.delegate(listenerID);
 
             Frequency frequency = getFrequency(this);
             if (frequency != null) RadioManager.transmit(source, frequency);
