@@ -149,8 +149,17 @@ public class SimpleRadioServerConfig extends LexiconData {
         public VoiceChatInteraction voice_chat_interaction = new VoiceChatInteraction();
 
         public static class VoiceChatInteraction extends LexiconPageData {
-
             @LexiconEntry(comment = "When false, removes compatibility for Voice Chat Interaction. Defaults to true.")
+            public Boolean enabled = true;
+        }
+
+        //----
+
+        @LexiconPage(comment = "These are the configurations for the optional dependency Vibrative Voice.")
+        public VibrativeVoice vibrative_voice = new VibrativeVoice();
+
+        public static class VibrativeVoice extends LexiconPageData {
+            @LexiconEntry(comment = "When false, removes compatibility for Vibrative Voice. Defaults to true.")
             public Boolean enabled = true;
         }
     }
