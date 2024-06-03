@@ -83,6 +83,10 @@ dependencies {
 
     implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
     runtimeOnly fg.deobf("maven.modrinth:simple-voice-chat:forge-${minecraft_version}-${voicechat_version}")
+
+    // Compatibilities
+
+    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_api_version}"
 }
 
 tasks.withType(JavaCompile).configureEach {

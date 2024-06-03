@@ -23,9 +23,9 @@ dependencies {
     // Compatibilities
 
     modCompileOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
-    modRuntimeOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
     modCompileOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
-    modRuntimeOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
+    //modRuntimeOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
+    //modRuntimeOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
 }
 
 loom {
