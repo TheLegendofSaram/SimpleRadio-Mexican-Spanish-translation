@@ -57,13 +57,6 @@ public class CommonSimpleRadio {
         Frequency.onLexiconReload();
 
         // ---- Compatibilities ---- \\
-        if (Services.PLATFORM.isModLoaded("vcinteraction")) {
-            CommonSimpleRadio.info("Voice Chat Interaction is present!");
-            if (SERVER_CONFIG.compatibilities.voice_chat_interaction.enabled) {
-                CommonSimpleRadio.info("..and compat is enabled!");
-            } else {
-                CommonSimpleRadio.info("..but compat is disabled");
-            }
-        }
+        CompatCore.spoutCompatibilities();
     }
 }
