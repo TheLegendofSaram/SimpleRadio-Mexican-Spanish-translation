@@ -3,6 +3,8 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'fabric-loom' version '1.2-SNAPSHOT'
+    id "com.modrinth.minotaur" version "2.+"
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 base {
     archivesName = "${mod_name}-fabric-${minecraft_version}"
@@ -21,6 +23,8 @@ dependencies {
     modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${minecraft_version}-${voicechat_version}"
 
     // Compatibilities
+
+    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
 
     modCompileOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
     modCompileOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
@@ -72,6 +76,62 @@ tasks.named("sourcesJar", Jar) {
 
 processResources {
     from project(":common").sourceSets.main.resources
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+modrinth {
+    token = modrinth_token
+    projectId = modrinth_id
+    versionNumber = "${version}"
+    versionName = "[FABRIC] ${full_mod_name} ${version}"
+    uploadFile = remapJar
+    additionalFiles = [sourcesJar, javadocJar]
+    gameVersions = supported_versions.split(",").toList()
+    loaders = ['fabric']
+    changelog = file("${project.rootDir}/.changelog").text
+    dependencies {
+        required.project "fabric-api"
+        required.project "lexiconfig"
+        optional.project "voice-chat-interaction"
+        //optional.project "vibrativevoice" not approve yet..
+    }
+
+    debugMode = debug_mode.toBoolean()
+}
+
+curseforge {
+    apiKey = curseforge_token
+    project {
+        id = curseforge_id
+        changelogType = "markdown"
+        changelog = file("${project.rootDir}/.changelog")
+        releaseType = 'release'
+        relations {
+            requiredDependency 'fabric-api'
+            requiredDependency 'lexiconfig'
+            requiredDependency 'voice-chat-interaction'
+            //requiredDependency 'vibrativevoice' not approve yet..
+        }
+
+        addGameVersion "Fabric"
+        for (final def ver in supported_versions.split(",") ) {
+            addGameVersion ver
+        }
+
+        mainArtifact(remapJar) {
+            displayName = "[FABRIC] ${full_mod_name} ${version}"
+        }
+        addArtifact sourcesJar
+        addArtifact javadocJar
+    }
+
+    options {
+        debug = debug_mode.toBoolean()
+    }
 }
 
 publishing {
