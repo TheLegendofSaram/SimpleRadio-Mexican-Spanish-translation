@@ -35,7 +35,7 @@ dependencies {
 
     // Compatibilities
 
-    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_api_version}"
+    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
 }
 
 publishing {

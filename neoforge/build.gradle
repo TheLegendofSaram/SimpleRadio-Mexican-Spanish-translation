@@ -3,6 +3,8 @@ plugins {
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.41'
     id 'java-library'
+    id "com.modrinth.minotaur" version "2.+"
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 base {
     archivesName = "${mod_name}-neoforge-${minecraft_version}"
@@ -45,6 +47,10 @@ dependencies {
 
     implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
     runtimeOnly "maven.modrinth:simple-voice-chat:neoforge-${minecraft_version}-${voicechat_version}"
+
+    // Dependencies
+
+    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
 }
 
 // NeoGradle compiles the game, but we don't want to add our common code to the game's code
@@ -64,6 +70,62 @@ tasks.named("sourcesJar", Jar) {
 
 tasks.withType(ProcessResources).matching(notNeoTask).configureEach {
     from project(":common").sourceSets.main.resources
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+modrinth {
+    token = "$modrinth_token"
+    projectId = "${modrinth_id}"
+    versionNumber = "${version}"
+    versionName = "[NEOFORGE] ${full_mod_name} ${version}"
+    uploadFile = jar
+    additionalFiles = [sourcesJar, javadocJar]
+    gameVersions = supported_versions.split(",").toList()
+    loaders = ['neoforge']
+    changelog = new File("${project.rootDir}/.changelog").text
+    dependencies {
+        required.project "fabric-api"
+        required.project "lexiconfig"
+        optional.project "voice-chat-interaction"
+        //optional.project "vibrativevoice" not approve yet..
+    }
+
+    debugMode = debug_mode.toBoolean()
+}
+
+curseforge {
+    apiKey = curseforge_token
+    project {
+        id = curseforge_id
+        changelogType = "markdown"
+        changelog = file("${project.rootDir}/.changelog")
+        releaseType = 'release'
+        relations {
+            requiredDependency 'fabric-api'
+            requiredDependency 'lexiconfig'
+            requiredDependency 'voice-chat-interaction'
+            //requiredDependency 'vibrativevoice' not approve yet..
+        }
+
+        addGameVersion "NeoForge"
+        for (final def ver in supported_versions.split(",") ) {
+            addGameVersion ver
+        }
+
+        mainArtifact(jar) {
+            displayName = "[NEOFORGE] ${full_mod_name} ${version}"
+        }
+        addArtifact sourcesJar
+        addArtifact javadocJar
+    }
+
+    options {
+        debug = debug_mode.toBoolean()
+    }
 }
 
 publishing {

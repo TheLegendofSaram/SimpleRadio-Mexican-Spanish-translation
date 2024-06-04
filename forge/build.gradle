@@ -3,6 +3,8 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+    id "com.modrinth.minotaur" version "2.+"
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 base {
     archivesName = "${mod_name}-forge-${minecraft_version}"
@@ -86,7 +88,7 @@ dependencies {
 
     // Compatibilities
 
-    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_api_version}"
+    implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -104,6 +106,60 @@ processResources {
 }
 
 jar.finalizedBy('reobfJar')
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+modrinth {
+    token = "$modrinth_token"
+    projectId = "${modrinth_id}"
+    versionNumber = "${version}"
+    versionName = "[FORGE] ${full_mod_name} ${version}"
+    uploadFile = jar
+    additionalFiles = [sourcesJar, javadocJar]
+    gameVersions = supported_versions.split(",").toList()
+    loaders = ['forge']
+    changelog = new File("${project.rootDir}/.changelog").text
+    dependencies {
+        required.project "lexiconfig"
+        optional.project "voice-chat-interaction"
+        //optional.project "vibrativevoice" not approve yet..
+    }
+
+    debugMode = debug_mode.toBoolean()
+}
+
+curseforge {
+    apiKey = curseforge_token
+    project {
+        id = curseforge_id
+        changelogType = "markdown"
+        changelog = file("${project.rootDir}/.changelog")
+        releaseType = 'release'
+        relations {
+            requiredDependency 'lexiconfig'
+            requiredDependency 'voice-chat-interaction'
+            //requiredDependency 'vibrativevoice' not approve yet..
+        }
+
+        addGameVersion "Forge"
+        for (final def ver in supported_versions.split(",") ) {
+            addGameVersion ver
+        }
+
+        mainArtifact(jar) {
+            displayName = "[FORGE] ${full_mod_name} ${version}"
+        }
+        addArtifact sourcesJar
+        addArtifact javadocJar
+    }
+
+    options {
+        debug = debug_mode.toBoolean()
+    }
+}
 
 publishing {
     publications {
