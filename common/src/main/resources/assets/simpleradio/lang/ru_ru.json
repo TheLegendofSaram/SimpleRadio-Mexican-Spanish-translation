@@ -4,10 +4,44 @@
   "item.simpleradio.transmitting_module": "Модуль передачи радиосигнала",
   "item.simpleradio.receiving_module": "Модуль приёма радиосигнала",
   "item.simpleradio.speaker_module": "Модуль динамика",
+  "item.simpleradio.listener_module": "Модуль микрофона",
+
+  "item.simpleradio.iron_upgrade_module": "Модуль Железного Улучшения",
+  "item.simpleradio.gold_upgrade_module": "Модуль Золотого Улучшения",
+  "item.simpleradio.diamond_upgrade_module": "Модуль Алмазного Улучшения",
+  "item.simpleradio.netherite_upgrade_module": "Модуль Незеритового Улучшения",
+
+  "upgrade.simpleradio.clarity": "Улучшение чистоты сигнала",
+  "upgrade.simpleradio.clarity.effects": "Обеспечивает более четкий звук",
+
+  "upgrade.simpleradio.range": "Улучшение дальности",
+  "upgrade.simpleradio.range.transmitting.effects": "Увеличивает дальность передачи сигнала",
+  "upgrade.simpleradio.range.receiving.effects": "Увеличивает дальность получения сигнала",
+
+  "upgrade.simpleradio.latch": "Улучшение переключателя",
+  "upgrade.simpleradio.latch.effects": "Позволяет переключать состояние прослушивания",
+
+  "upgrade.simpleradio.battery": "Улучшение батарейки",
+  "upgrade.simpleradio.battery.effects": "Хранит больше энергии в аккумуляторе",
+
+  "upgrade.simpleradio.solar": "Улучшение солнечной панели",
+  "upgrade.simpleradio.solar.effects": "Заряжает аккумулятор при солнечном свете",
+
+  "item.modifiers.transmitting": "Во время передачи:",
+  "item.modifiers.receiving": "Во время получения:",
+  "item.modifiers.emitting": "Во время распространения:",
+  "item.modifiers.listening": "Во время прослушивания:",
+  "item.modifiers.powering": "Во время питания:",
 
   "item.simpleradio.transceiver": "Рация",
+  "item.simpleradio.walkie_talkie": "Портативная рация",
+  "item.simpleradio.spuddie_talkie": "Портативная рация",
   "block.simpleradio.radio": "Радио",
+  "block.simpleradio.antenna": "Антенна",
+  "block.simpleradio.speaker": "Динамик",
+  "block.simpleradio.microphone": "Микрофон",
   "block.simpleradio.radiosmither": "Радиотехнический стол",
+  "block.simpleradio.frequencer": "Преобразователь частоты",
 
   "screen.simpleradio.radiosmither": "Радиотехнический стол",
   "screen.simpleradio.radiosmither.am": "AM",
@@ -19,11 +53,13 @@
   "subtitles.simpleradio.radio_close": "Радио прекращает вещание",
 
   "tooltip.simpleradio.transceiver_frequency": "Частота: %s",
-  "tooltip.simpleradio.receiver_user": "User: %s",
+  "tooltip.simpleradio.receiver_user": "Пользователь: %s",
 
   "lexiconfig.simpleradio.title": "Конфигурация Simple Radio",
 
   "lexiconfig.simpleradio.maxRadioDistance": "Максимальная дистанция радиосигнала",
   "lexiconfig.simpleradio.maxRadioDistance_description": "Максимальное расстояние, на которое может вещать радио."
 }
+
+
 
