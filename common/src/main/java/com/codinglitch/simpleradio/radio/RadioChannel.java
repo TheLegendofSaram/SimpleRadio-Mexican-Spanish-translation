@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.radio;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.CompatCore;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.Transmitting;
@@ -117,7 +118,11 @@ public class RadioChannel implements Supplier<short[]> {
         short[] decoded = decoder.decode(data);
         microphonePackets.add(decoded);
 
+        // Loader-specific compat
         Services.COMPAT_PLATFORM.onData(this, source, decoded);
+
+        // Common compat
+        CompatCore.onData(this, source, decoded);
 
         if (this.audioPlayer == null)
             getAudioPlayer().startPlaying();
