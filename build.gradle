@@ -107,6 +107,9 @@ subprojects {
                 "modrinth_id": modrinth_id,
                 "curseforge_id": curseforge_id,
                 "supported_versions": supported_versions,
+                "requiredDependencies": requiredDependencies,
+                "optionalDependencies": optionalDependencies,
+                "release_type": release_type,
                 "credits": credits
         ]
 
