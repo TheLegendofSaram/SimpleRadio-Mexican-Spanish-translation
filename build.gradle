@@ -102,6 +102,11 @@ subprojects {
                 "polymer_version": polymer_version,
                 "night_config_version": night_config_version,
                 "lexiconfig_version": lexiconfig_version,
+                "vibrative_voice_version": vibrative_voice_version,
+                "name_template": name_template,
+                "modrinth_id": modrinth_id,
+                "curseforge_id": curseforge_id,
+                "supported_versions": supported_versions,
                 "credits": credits
         ]
 
