@@ -37,7 +37,8 @@
         "fabric-api": "*",
         "minecraft": "${fabric_minecraft_version_range}",
         "java": ">=17",
-        "voicechat": ">=${minecraft_version}-${voicechat_version}"
+        "voicechat": ">=${minecraft_version}-${voicechat_version}",
+        "lexiconfig": ">=${lexiconfig_version}"
     },
     "suggests": {
         "another-mod": "*"
