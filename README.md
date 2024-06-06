@@ -11,10 +11,10 @@ This mod is a plugin of Simple Voice Chat which adds radio communication over fr
 |    Status     |    Feature    |
 | ------------- | ------------- |
 | ✅ | Radio item that transmits voice packets |
-| ❌ | Compile audio from nearby players as well |
+| ✅ | Compile audio from nearby players as well |
 | ❌ | Additive transceiving |
 | ✅ | Radio block that can listen to frequencies and output audio from it |
-| ❌ | Microphone block that transmits audio of every player nearby |
+| ✅ | Microphone block that transmits audio of every player nearby |
 | ✅ | Packet transmission over frequencies instead of groups |
 | ✅ | Radiosmithing Station where the player can customize a radio |
 | ✅ | FM and AM transmission with benefits to each one |
@@ -24,8 +24,8 @@ This mod is a plugin of Simple Voice Chat which adds radio communication over fr
 | ❓ | Radio upgrades that can increase range, improve audio quality, etc. |
 | ❌ | Transmitter block that transmits audio in conjunction with an antenna |
 | ❌ | Receiver block that can receive audio transmitted by transmitters, requires a speaker |
-| ❌ | Speaker block that can receive and play audio in conjunction with an receiver |
-| ❌ | Antennae that can increase transmitting/receiving range of a block |
+| ❓ | Speaker block that can receive and play audio in conjunction with an receiver |
+| ❓ | Antennae that can increase transmitting/receiving range of a block |
 | ❌ | Weather and environmental interference |
 | ❌ | Altitude influences interference amount |
 | ❌ | Relay towers |
@@ -56,3 +56,8 @@ Check the [wiki](https://github.com/CodinGlitch/SimpleRadio/wiki) for more infor
 ![Simple Create Radios](https://github.com/CodinGlitch/SimpleRadio/assets/22829873/a602e295-2de6-42e5-b182-71404b7625de)
 
 This amazing resource pack aims to make the blocks and items fit aesthetically with the Create mod!
+
+## [Simple Radio Redone](https://modrinth.com/resourcepack/simple-radio-redone)
+![Simple Radio Redone](https://cdn.modrinth.com/data/cached_images/7c816071a7f11f8a20e17724f8b0b72f3d1ff63d.png)
+
+Another resource pack which remakes the textures of the mod to give it a fresh look while maintaining the original style!
