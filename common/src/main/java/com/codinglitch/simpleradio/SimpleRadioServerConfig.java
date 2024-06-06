@@ -149,8 +149,8 @@ public class SimpleRadioServerConfig extends LexiconData {
         public VoiceChatInteraction voice_chat_interaction = new VoiceChatInteraction();
 
         public static class VoiceChatInteraction extends LexiconPageData {
-            @LexiconEntry(comment = "When false, removes compatibility for Voice Chat Interaction. Defaults to true.")
-            public Boolean enabled = true;
+            @LexiconEntry(comment = "When false, removes compatibility for Voice Chat Interaction. Defaults to false. (NON-FUNCTIONAL)")
+            public Boolean enabled = false;
         }
 
         //----
