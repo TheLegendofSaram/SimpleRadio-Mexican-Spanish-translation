@@ -6,6 +6,10 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
+
+apply from: 'https://raw.githubusercontent.com/CodinGlitch/gradle-templates/main/site-publishers/curseforge.gradle'
+apply from: 'https://raw.githubusercontent.com/CodinGlitch/gradle-templates/main/site-publishers/modrinth.gradle'
+
 base {
     archivesName = "${mod_name}-forge-${minecraft_version}"
 }
@@ -110,55 +114,6 @@ jar.finalizedBy('reobfJar')
 java {
     withSourcesJar()
     withJavadocJar()
-}
-
-modrinth {
-    token = "$modrinth_token"
-    projectId = "${modrinth_id}"
-    versionNumber = "${version}"
-    versionName = "[FORGE] ${full_mod_name} ${version}"
-    uploadFile = jar
-    additionalFiles = [sourcesJar, javadocJar]
-    gameVersions = supported_versions.split(",").toList()
-    loaders = ['forge']
-    changelog = new File("${project.rootDir}/.changelog").text
-    dependencies {
-        required.project "lexiconfig"
-        optional.project "voice-chat-interaction"
-        //optional.project "vibrativevoice" not approve yet..
-    }
-
-    debugMode = debug_mode.toBoolean()
-}
-
-curseforge {
-    apiKey = curseforge_token
-    project {
-        id = curseforge_id
-        changelogType = "markdown"
-        changelog = file("${project.rootDir}/.changelog")
-        releaseType = 'release'
-        relations {
-            requiredDependency 'lexiconfig'
-            requiredDependency 'voice-chat-interaction'
-            //requiredDependency 'vibrativevoice' not approve yet..
-        }
-
-        addGameVersion "Forge"
-        for (final def ver in supported_versions.split(",") ) {
-            addGameVersion ver
-        }
-
-        mainArtifact(jar) {
-            displayName = "[FORGE] ${full_mod_name} ${version}"
-        }
-        addArtifact sourcesJar
-        addArtifact javadocJar
-    }
-
-    options {
-        debug = debug_mode.toBoolean()
-    }
 }
 
 publishing {
