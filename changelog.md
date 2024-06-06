@@ -1,0 +1,6 @@
+- Added Speaker block
+- Added Microphone block
+- Added Frequencer block for debugging
+- Added Walkie/Spuddie Talkie
+- Added Antenna block (as decoration)
+- Truly fixed config
