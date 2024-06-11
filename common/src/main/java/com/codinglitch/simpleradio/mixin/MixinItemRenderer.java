@@ -1,10 +1,5 @@
 package com.codinglitch.simpleradio.mixin;
 
-import com.codinglitch.simpleradio.client.CommonSimpleRadioClient;
-import com.codinglitch.simpleradio.core.central.Upgrade;
-import com.codinglitch.simpleradio.core.registry.items.UpgradeModuleItem;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.entity.LivingEntity;

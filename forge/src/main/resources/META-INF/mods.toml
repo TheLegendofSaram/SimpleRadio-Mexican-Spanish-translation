@@ -34,5 +34,5 @@ side="BOTH"
 modId="lexiconfig"
 mandatory=true
 versionRange="[${lexiconfig_version},)"
-ordering="AFTER"
+ordering="BEFORE"
 side="BOTH"
