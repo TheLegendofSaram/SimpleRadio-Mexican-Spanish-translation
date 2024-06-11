@@ -29,6 +29,8 @@ dependencies {
     // Compatibilities
 
     implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
+    modCompileOnly "maven.modrinth:vibrative-voice:${vibrative_voice_version}"
+    modRuntimeOnly "maven.modrinth:vibrative-voice:${vibrative_voice_version}"
 
     modCompileOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
     modCompileOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
