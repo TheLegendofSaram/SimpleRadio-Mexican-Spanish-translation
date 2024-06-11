@@ -1,14 +1,12 @@
 package com.codinglitch.simpleradio.client.models;
 
-import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.client.central.UpgradeModuleOverrides;
+import com.codinglitch.simpleradio.client.central.ModuleOverrides;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioModels;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,13 +14,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class UpgradeModuleModel extends SimpleRadioModels.LocationHolder implements BakedModel {
+public class ModuleModel extends SimpleRadioModels.LocationHolder implements BakedModel {
     private final BakedModel baseModel;
-    private final UpgradeModuleOverrides overrides;
+    private final ModuleOverrides overrides;
 
-    public UpgradeModuleModel(BakedModel baseModel) {
+    public ModuleModel(BakedModel baseModel) {
         this.baseModel = baseModel;
-        this.overrides = new UpgradeModuleOverrides();
+        this.overrides = new ModuleOverrides();
     }
 
     @Override

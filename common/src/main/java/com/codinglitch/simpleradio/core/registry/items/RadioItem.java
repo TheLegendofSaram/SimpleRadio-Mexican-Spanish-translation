@@ -1,10 +1,10 @@
 package com.codinglitch.simpleradio.core.registry.items;
 
 import com.codinglitch.simpleradio.core.central.Receiving;
-import com.codinglitch.simpleradio.core.central.Upgradable;
-import com.codinglitch.simpleradio.core.central.Upgrade;
+import com.codinglitch.simpleradio.core.central.Alterable;
+import com.codinglitch.simpleradio.core.central.Module;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlocks;
-import com.codinglitch.simpleradio.core.registry.SimpleRadioUpgrades;
+import com.codinglitch.simpleradio.core.registry.SimpleRadioModules;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -13,12 +13,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class RadioItem extends BlockItem implements Receiving, Upgradable {
+public class RadioItem extends BlockItem implements Receiving, Alterable {
     public RadioItem(Properties settings) {
         super(SimpleRadioBlocks.RADIO, settings);
     }
@@ -42,7 +41,7 @@ public class RadioItem extends BlockItem implements Receiving, Upgradable {
     }
 
     @Override
-    public boolean canAcceptUpgrade(Upgrade upgrade) {
-        return upgrade == SimpleRadioUpgrades.RANGE;
+    public boolean canAcceptUpgrade(Module upgrade) {
+        return upgrade == SimpleRadioModules.RANGE;
     }
 }

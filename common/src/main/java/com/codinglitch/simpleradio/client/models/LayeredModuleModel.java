@@ -1,6 +1,6 @@
 package com.codinglitch.simpleradio.client.models;
 
-import com.codinglitch.simpleradio.core.central.Upgrade;
+import com.codinglitch.simpleradio.core.central.Module;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.*;
@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -16,11 +15,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LayeredUpgradeModuleModel implements BakedModel {
-    private final UpgradeModuleModel baseModel;
-    private final Upgrade upgrade;
+public class LayeredModuleModel implements BakedModel {
+    private final ModuleModel baseModel;
+    private final Module upgrade;
 
-    public LayeredUpgradeModuleModel(UpgradeModuleModel baseModel, Upgrade upgrade) {
+    public LayeredModuleModel(ModuleModel baseModel, Module upgrade) {
         this.baseModel = baseModel;
         this.upgrade = upgrade;
     }

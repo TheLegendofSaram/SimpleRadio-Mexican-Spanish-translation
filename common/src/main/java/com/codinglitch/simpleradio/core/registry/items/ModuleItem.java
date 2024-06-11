@@ -1,13 +1,10 @@
 package com.codinglitch.simpleradio.core.registry.items;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.core.central.Receiving;
-import com.codinglitch.simpleradio.core.central.Upgrade;
-import com.codinglitch.simpleradio.core.registry.SimpleRadioBlocks;
-import com.codinglitch.simpleradio.core.registry.SimpleRadioUpgrades;
+import com.codinglitch.simpleradio.core.central.Module;
+import com.codinglitch.simpleradio.core.registry.SimpleRadioModules;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
@@ -20,17 +17,29 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class UpgradeModuleItem extends TieredItem {
+public class ModuleItem extends TieredItem {
 
-    public UpgradeModuleItem(Tier tier, Properties properties) {
+    public ModuleItem(Tier tier, Properties properties) {
         super(tier, properties);
     }
 
-    public static Upgrade getUpgrade(ItemStack stack) {
+    public static Module getModule(ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
 
         ResourceLocation type = tag.contains("type") ? ResourceLocation.tryParse(tag.getString("type")) : CommonSimpleRadio.id("range");
-        return SimpleRadioUpgrades.get(type);
+        return SimpleRadioModules.get(type);
+    }
+
+    @Override
+    public Component getName(ItemStack stack) {
+        if (stack.getOrCreateTag().contains("type")) {
+            Module module = getModule(stack);
+            String modulePath = "module."+module.identifier.getNamespace()+"."+module.identifier.getPath();
+
+            return Component.translatable(this.getDescriptionId(stack), Component.translatable(modulePath));
+        }
+
+        return Component.translatable(this.getDescriptionId(stack), Component.translatable("module.simpleradio.empty"));
     }
 
     @Override
@@ -38,15 +47,13 @@ public class UpgradeModuleItem extends TieredItem {
         CompoundTag tag = stack.getOrCreateTag();
 
         if (tag.contains("type")) {
-            Upgrade upgrade = getUpgrade(stack);
+            Module upgrade = getModule(stack);
             String namespace = upgrade.identifier.getNamespace();
             String upgradeName = upgrade.identifier.getPath();
             String upgradePath = "upgrade."+namespace+"."+upgradeName;
 
-            components.add(Component.translatable(upgradePath).withStyle(ChatFormatting.AQUA));
-
             components.add(CommonComponents.EMPTY);
-            for (Upgrade.Type type : upgrade.types) {
+            for (Module.Type type : upgrade.types) {
                 components.add(Component.translatable("item.modifiers." + type.getName()).withStyle(ChatFormatting.GRAY));
 
                 if (I18n.exists(upgradePath + "." + type.getName() + ".effects")) {

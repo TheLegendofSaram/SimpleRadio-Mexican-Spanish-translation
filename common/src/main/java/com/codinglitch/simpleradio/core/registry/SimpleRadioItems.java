@@ -5,7 +5,6 @@ import com.codinglitch.simpleradio.core.central.ItemHolder;
 import com.codinglitch.simpleradio.core.registry.items.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
 
 import java.util.*;
 
@@ -34,10 +33,10 @@ public class SimpleRadioItems {
     public static Item LISTENER_MODULE = register(id("listener_module"), new Item(new Item.Properties()));
 
     // -- Upgrades -- \\
-    public static UpgradeModuleItem IRON_UPGRADE_MODULE = register(id("iron_upgrade_module"), new UpgradeModuleItem(Tiers.IRON, new Item.Properties()));
-    public static UpgradeModuleItem GOLD_UPGRADE_MODULE = register(id("gold_upgrade_module"), new UpgradeModuleItem(Tiers.GOLD, new Item.Properties()));
-    public static UpgradeModuleItem DIAMOND_UPGRADE_MODULE = register(id("diamond_upgrade_module"), new UpgradeModuleItem(Tiers.DIAMOND, new Item.Properties()));
-    public static UpgradeModuleItem NETHERITE_UPGRADE_MODULE = register(id("netherite_upgrade_module"), new UpgradeModuleItem(Tiers.NETHERITE, new Item.Properties()));
+    public static ModuleItem IRON_MODULE = register(id("iron_module"), new ModuleItem(Tiers.IRON, new Item.Properties()));
+    public static ModuleItem GOLD_MODULE = register(id("gold_module"), new ModuleItem(Tiers.GOLD, new Item.Properties()));
+    public static ModuleItem DIAMOND_MODULE = register(id("diamond_module"), new ModuleItem(Tiers.DIAMOND, new Item.Properties()));
+    public static ModuleItem NETHERITE_MODULE = register(id("netherite_module"), new ModuleItem(Tiers.NETHERITE, new Item.Properties()));
 
     public static ItemHolder<Item> getByName(String name) {
         Optional<Map.Entry<ResourceLocation, ItemHolder<Item>>> optional = ITEMS.entrySet().stream().filter(entry -> entry.getKey().getPath().equals(name)).findFirst();
