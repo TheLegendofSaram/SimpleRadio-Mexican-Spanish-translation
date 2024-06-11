@@ -71,7 +71,12 @@ public class CommonSimpleRadioClient {
     public static void loadScreens() {
         ClientServices.REGISTRY.registerScreen(SimpleRadioMenus.RADIOSMITHER_MENU, RadiosmitherScreen::new);
     }
-    
+
+    // -- Atlases -- \\
+    public static void loadAtlases(BiConsumer<ResourceLocation, Supplier<LayerDefinition>> registry) {
+
+    }
+
     public static void initialize() {
 
     }

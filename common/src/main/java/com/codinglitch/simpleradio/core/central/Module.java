@@ -5,21 +5,21 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.Arrays;
 import java.util.List;
 
-public class Upgrade {
+public class Module {
     public ResourceLocation identifier;
     public ResourceLocation texture;
     public List<Type> types;
 
-    public Upgrade(ResourceLocation identifier) {
-        this(identifier, new ResourceLocation(identifier.getNamespace(), "upgrade/"+identifier.getPath()));
+    public Module(ResourceLocation identifier) {
+        this(identifier, new ResourceLocation(identifier.getNamespace(), "module/"+identifier.getPath()));
     }
-    public Upgrade(ResourceLocation identifier, Type... types) {
-        this(identifier, new ResourceLocation(identifier.getNamespace(), "upgrade/"+identifier.getPath()), types);
+    public Module(ResourceLocation identifier, Type... types) {
+        this(identifier, new ResourceLocation(identifier.getNamespace(), "module/"+identifier.getPath()), types);
     }
-    public Upgrade(ResourceLocation identifier, ResourceLocation texture) {
+    public Module(ResourceLocation identifier, ResourceLocation texture) {
         this(identifier, texture, Type.TRANSMITTING);
     }
-    public Upgrade(ResourceLocation identifier, ResourceLocation texture, Type... types) {
+    public Module(ResourceLocation identifier, ResourceLocation texture, Type... types) {
         this.identifier = identifier;
         this.texture = texture;
         this.types = Arrays.stream(types).toList();

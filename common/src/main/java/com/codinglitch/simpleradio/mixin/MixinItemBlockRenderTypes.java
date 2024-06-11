@@ -1,7 +1,7 @@
 package com.codinglitch.simpleradio.mixin;
 
-import com.codinglitch.simpleradio.core.central.Upgrade;
-import com.codinglitch.simpleradio.core.registry.items.UpgradeModuleItem;
+import com.codinglitch.simpleradio.core.central.Module;
+import com.codinglitch.simpleradio.core.registry.items.ModuleItem;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemStack;
@@ -15,9 +15,9 @@ public class MixinItemBlockRenderTypes {
     
     @Inject(at = @At("HEAD"), method = "getRenderType(Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/client/renderer/RenderType;", cancellable = true)
     private static void simpleradio$getRenderType(ItemStack stack, boolean direct, CallbackInfoReturnable<RenderType> cir) {
-        if (stack.getItem() instanceof UpgradeModuleItem upgradeModuleItem) {
-            Upgrade upgrade = upgradeModuleItem.getUpgrade(stack);
-            if (upgrade == null) return;
+        if (stack.getItem() instanceof ModuleItem) {
+            Module module = ModuleItem.getModule(stack);
+            if (module == null) return;
 
             //cir.setReturnValue(RenderType.entityTranslucentCull(upgrade.getTexture()));
         }

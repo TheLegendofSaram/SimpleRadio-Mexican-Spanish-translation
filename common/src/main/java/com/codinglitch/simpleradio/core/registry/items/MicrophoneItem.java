@@ -1,11 +1,10 @@
 package com.codinglitch.simpleradio.core.registry.items;
 
-import com.codinglitch.simpleradio.core.central.Receiving;
+import com.codinglitch.simpleradio.core.central.Module;
 import com.codinglitch.simpleradio.core.central.Transmitting;
-import com.codinglitch.simpleradio.core.central.Upgradable;
-import com.codinglitch.simpleradio.core.central.Upgrade;
+import com.codinglitch.simpleradio.core.central.Alterable;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlocks;
-import com.codinglitch.simpleradio.core.registry.SimpleRadioUpgrades;
+import com.codinglitch.simpleradio.core.registry.SimpleRadioModules;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MicrophoneItem extends BlockItem implements Transmitting, Upgradable {
+public class MicrophoneItem extends BlockItem implements Transmitting, Alterable {
     public MicrophoneItem(Properties settings) {
         super(SimpleRadioBlocks.MICROPHONE, settings);
     }
@@ -42,7 +41,7 @@ public class MicrophoneItem extends BlockItem implements Transmitting, Upgradabl
     }
 
     @Override
-    public boolean canAcceptUpgrade(Upgrade upgrade) {
-        return upgrade == SimpleRadioUpgrades.RANGE;
+    public boolean canAcceptUpgrade(Module upgrade) {
+        return upgrade == SimpleRadioModules.RANGE;
     }
 }

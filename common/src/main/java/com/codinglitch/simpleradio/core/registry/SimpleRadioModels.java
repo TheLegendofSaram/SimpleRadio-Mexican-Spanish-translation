@@ -1,7 +1,7 @@
 package com.codinglitch.simpleradio.core.registry;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
-import com.codinglitch.simpleradio.client.models.UpgradeModuleModel;
+import com.codinglitch.simpleradio.client.models.ModuleModel;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class SimpleRadioModels {
     public static final ArrayList<ModelHolder<BakedModel>> MODELS = new ArrayList<>();
 
-    public static ModelHolder<UpgradeModuleModel> UPGRADE_MODULE = register(new ModelHolder<>(UpgradeModuleModel.class,
+    public static ModelHolder<ModuleModel> UPGRADE_MODULE = register(new ModelHolder<>(ModuleModel.class,
             new ModelResourceLocation(CommonSimpleRadio.ID, "iron_upgrade_module", "inventory"),
             new ModelResourceLocation(CommonSimpleRadio.ID, "gold_upgrade_module", "inventory"),
             new ModelResourceLocation(CommonSimpleRadio.ID, "diamond_upgrade_module", "inventory"),

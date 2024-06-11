@@ -6,26 +6,28 @@
   "item.simpleradio.speaker_module": "Speaker Module",
   "item.simpleradio.listener_module": "Listener Module",
 
-  "item.simpleradio.iron_upgrade_module": "Iron Upgrade Module",
-  "item.simpleradio.gold_upgrade_module": "Gold Upgrade Module",
-  "item.simpleradio.diamond_upgrade_module": "Diamond Upgrade Module",
-  "item.simpleradio.netherite_upgrade_module": "Netherite Upgrade Module",
+  "item.simpleradio.iron_module": "Iron 1$s Module",
+  "item.simpleradio.gold_module": "Gold 1$s Module",
+  "item.simpleradio.diamond_module": "Diamond 1$s Module",
+  "item.simpleradio.netherite_module": "Netherite 1$s Module",
 
-  "upgrade.simpleradio.clarity": "Clarity Upgrade",
-  "upgrade.simpleradio.clarity.effects": "Provides clearer audio",
+  "module.simpleradio.empty": "Empty",
 
-  "upgrade.simpleradio.range": "Range Upgrade",
-  "upgrade.simpleradio.range.transmitting.effects": "Increases the range",
-  "upgrade.simpleradio.range.receiving.effects": "Increases the range",
+  "module.simpleradio.clarity": "Clarity",
+  "module.simpleradio.clarity.effects": "Provides clearer audio",
 
-  "upgrade.simpleradio.latch": "Latch Upgrade",
-  "upgrade.simpleradio.latch.effects": "Allows for toggling of the listening state",
+  "module.simpleradio.range": "Range",
+  "module.simpleradio.range.transmitting.effects": "Increases the range",
+  "module.simpleradio.range.receiving.effects": "Increases the range",
 
-  "upgrade.simpleradio.battery": "Battery Upgrade",
-  "upgrade.simpleradio.battery.effects": "Stores more power in the battery",
+  "module.simpleradio.latch": "Latch",
+  "module.simpleradio.latch.effects": "Allows for toggling of the listening state",
 
-  "upgrade.simpleradio.solar": "Solar Upgrade",
-  "upgrade.simpleradio.solar.effects": "Charges battery in sunlight",
+  "module.simpleradio.battery": "Battery",
+  "module.simpleradio.battery.effects": "Stores more power in the battery",
+
+  "module.simpleradio.solar": "Solar",
+  "module.simpleradio.solar.effects": "Charges battery in sunlight",
 
   "item.modifiers.transmitting": "When in Transmitting item:",
   "item.modifiers.receiving": "When in Receiving item:",
@@ -53,11 +55,6 @@
   "subtitles.simpleradio.radio_close": "Radio stops broadcasting",
 
   "tooltip.simpleradio.transceiver_frequency": "Frequency: %s",
-  "tooltip.simpleradio.receiver_user": "User: %s",
-
-  "lexiconfig.simpleradio.title": "Simple Radio Settings",
-
-  "lexiconfig.simpleradio.maxRadioDistance": "Maximum Radio Distance",
-  "lexiconfig.simpleradio.maxRadioDistance_description": "The maximum distance a radio can transmit."
+  "tooltip.simpleradio.receiver_user": "User: %s"
 }
 
