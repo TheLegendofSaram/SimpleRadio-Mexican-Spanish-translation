@@ -55,6 +55,16 @@ dependencies {
     // Dependencies
 
     implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
+
+    if (recipe_viewer == "jei") {
+        // compile against the JEI API but do not include it at runtime
+        compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+        compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+        // at runtime, use the full JEI jar for NeoForge
+        runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    } else if (recipe_viewer == "rei") {
+        // TODO: add rei to devenv
+    }
 }
 
 // NeoGradle compiles the game, but we don't want to add our common code to the game's code
