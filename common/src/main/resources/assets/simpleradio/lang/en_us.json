@@ -6,10 +6,10 @@
   "item.simpleradio.speaker_module": "Speaker Module",
   "item.simpleradio.listener_module": "Listener Module",
 
-  "item.simpleradio.iron_module": "Iron 1$s Module",
-  "item.simpleradio.gold_module": "Gold 1$s Module",
-  "item.simpleradio.diamond_module": "Diamond 1$s Module",
-  "item.simpleradio.netherite_module": "Netherite 1$s Module",
+  "item.simpleradio.iron_module": "Iron %1$s Module",
+  "item.simpleradio.gold_module": "Gold %1$s Module",
+  "item.simpleradio.diamond_module": "Diamond %1$s Module",
+  "item.simpleradio.netherite_module": "Netherite %1$s Module",
 
   "module.simpleradio.empty": "Empty",
 
