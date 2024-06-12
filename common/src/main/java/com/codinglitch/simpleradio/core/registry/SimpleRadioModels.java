@@ -15,11 +15,11 @@ import java.util.Map;
 public class SimpleRadioModels {
     public static final ArrayList<ModelHolder<BakedModel>> MODELS = new ArrayList<>();
 
-    public static ModelHolder<ModuleModel> UPGRADE_MODULE = register(new ModelHolder<>(ModuleModel.class,
-            new ModelResourceLocation(CommonSimpleRadio.ID, "iron_upgrade_module", "inventory"),
-            new ModelResourceLocation(CommonSimpleRadio.ID, "gold_upgrade_module", "inventory"),
-            new ModelResourceLocation(CommonSimpleRadio.ID, "diamond_upgrade_module", "inventory"),
-            new ModelResourceLocation(CommonSimpleRadio.ID, "netherite_upgrade_module", "inventory")
+    public static ModelHolder<ModuleModel> MODULE = register(new ModelHolder<>(ModuleModel.class,
+            new ModelResourceLocation(CommonSimpleRadio.ID, "iron_module", "inventory"),
+            new ModelResourceLocation(CommonSimpleRadio.ID, "gold_module", "inventory"),
+            new ModelResourceLocation(CommonSimpleRadio.ID, "diamond_module", "inventory"),
+            new ModelResourceLocation(CommonSimpleRadio.ID, "netherite_module", "inventory")
     ));
 
     public static <M extends BakedModel> ModelHolder<M> register(ModelHolder<M> model) {

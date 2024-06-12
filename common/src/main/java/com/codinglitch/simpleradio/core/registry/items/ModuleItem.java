@@ -50,7 +50,7 @@ public class ModuleItem extends TieredItem {
             Module upgrade = getModule(stack);
             String namespace = upgrade.identifier.getNamespace();
             String upgradeName = upgrade.identifier.getPath();
-            String upgradePath = "upgrade."+namespace+"."+upgradeName;
+            String upgradePath = "module."+namespace+"."+upgradeName;
 
             components.add(CommonComponents.EMPTY);
             for (Module.Type type : upgrade.types) {
