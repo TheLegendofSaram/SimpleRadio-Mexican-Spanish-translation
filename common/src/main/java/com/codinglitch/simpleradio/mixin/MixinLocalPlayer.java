@@ -14,9 +14,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(LocalPlayer.class)
+@Mixin(value = LocalPlayer.class)
 public abstract class MixinLocalPlayer extends AbstractClientPlayer {
 
     public MixinLocalPlayer(ClientLevel level, GameProfile profile) {
@@ -40,13 +42,6 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
         return this.isUsingItem();
     }
 
-    @Redirect(method = "aiStep()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z"))
-    private boolean simpleradio$aiStep(LocalPlayer instance) {
-        return willSlow();
-    }
-
-    @Redirect(method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z"))
-    private boolean simpleradio$canStartSprinting(LocalPlayer instance) {
-        return willSlow();
-    }
+    // temporarily removed redirects due to Iron's Spellbooks conflict
+    // TODO: find an alternative for the slowdown config
 }
