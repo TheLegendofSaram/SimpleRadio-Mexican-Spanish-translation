@@ -16,6 +16,8 @@ import java.util.UUID;
 public interface Transmitting extends Frequencing {
 
     static boolean validateTransmitter(WorldlyPosition position, @Nullable Frequency frequency) {
+        if (position.level.isLoaded(position.blockPos())) return false;
+
         BlockState state = position.level.getBlockState(position.blockPos());
         if (state.isAir()) return false;
 
