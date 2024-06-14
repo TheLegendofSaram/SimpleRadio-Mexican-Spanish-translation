@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface Receiving extends Frequencing {
 
     static boolean validateReceiver(WorldlyPosition position, @Nullable Frequency frequency) {
-        if (position.level.isLoaded(position.blockPos())) return false;
+        if (!position.level.isLoaded(position.blockPos())) return false;
 
         BlockState state = position.level.getBlockState(position.blockPos());
         if (state.isAir()) return false;
