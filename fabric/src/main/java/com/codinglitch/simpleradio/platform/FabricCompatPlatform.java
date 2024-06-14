@@ -25,19 +25,13 @@ public class FabricCompatPlatform implements CompatPlatform {
     public WorldlyPosition modifyPosition(BlockPos originalBlockPos, Level level) {
 
         // ---- Valkyrien Skies ---- \\
-        if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.voice_chat_interaction.enabled) {
-            return ValkyrienCompat.modifyPosition(originalBlockPos, level);
-        }
-        return null;
+        return ValkyrienCompat.modifyPosition(originalBlockPos, level);
     }
 
     @Override
     public Vector3f modifyPosition(Level level, BlockPos originalBlockPos) {
 
         // ---- Valkyrien Skies ---- \\
-        if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.voice_chat_interaction.enabled) {
-            return ValkyrienCompat.modifyPosition(level, originalBlockPos);
-        }
-        return null;
+        return ValkyrienCompat.modifyPosition(level, originalBlockPos);
     }
 }

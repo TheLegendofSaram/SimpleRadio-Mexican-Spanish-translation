@@ -31,7 +31,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
     @Override
     public void setRemoved() {
-        if (level != null) {
+        if (level != null && !level.isClientSide) {
             Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
             level.playSound(
                     null, locationVec.x, locationVec.y, locationVec.z,
@@ -67,7 +67,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, MicrophoneBlockEntity blockEntity) {
         if (!level.isClientSide) {
-            if (CompatCore.VALKYRIEN_SKIES) { blockEntity.listener.location = CompatCore.modifyPosition(pos, level); }
+            if (CompatCore.VALKYRIEN_SKIES && blockEntity.listener != null) { blockEntity.listener.location = CompatCore.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
