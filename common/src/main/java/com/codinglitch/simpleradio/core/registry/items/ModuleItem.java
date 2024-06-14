@@ -47,19 +47,19 @@ public class ModuleItem extends TieredItem {
         CompoundTag tag = stack.getOrCreateTag();
 
         if (tag.contains("type")) {
-            Module upgrade = getModule(stack);
-            String namespace = upgrade.identifier.getNamespace();
-            String upgradeName = upgrade.identifier.getPath();
-            String upgradePath = "module."+namespace+"."+upgradeName;
+            Module module = getModule(stack);
+            String namespace = module.identifier.getNamespace();
+            String moduleName = module.identifier.getPath();
+            String modulePath = "module."+namespace+"."+moduleName;
 
             components.add(CommonComponents.EMPTY);
-            for (Module.Type type : upgrade.types) {
+            for (Module.Type type : module.types) {
                 components.add(Component.translatable("item.modifiers." + type.getName()).withStyle(ChatFormatting.GRAY));
 
-                if (I18n.exists(upgradePath + "." + type.getName() + ".effects")) {
-                    components.add(CommonComponents.space().append(Component.translatable(upgradePath + "." + type.getName() + ".effects").withStyle(ChatFormatting.DARK_GREEN)));
+                if (I18n.exists(modulePath + "." + type.getName() + ".effects")) {
+                    components.add(CommonComponents.space().append(Component.translatable(modulePath + "." + type.getName() + ".effects").withStyle(ChatFormatting.DARK_GREEN)));
                 } else {
-                    components.add(CommonComponents.space().append(Component.translatable(upgradePath + ".effects").withStyle(ChatFormatting.DARK_GREEN)));
+                    components.add(CommonComponents.space().append(Component.translatable(modulePath + ".effects").withStyle(ChatFormatting.DARK_GREEN)));
                 }
             }
         }
