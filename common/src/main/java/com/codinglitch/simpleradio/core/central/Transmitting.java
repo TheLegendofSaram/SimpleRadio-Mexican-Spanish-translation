@@ -4,6 +4,7 @@ import com.codinglitch.simpleradio.radio.CommonRadioPlugin;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,6 +16,14 @@ import java.util.UUID;
 
 public interface Transmitting extends Frequencing {
 
+    static boolean validateTransmitter(BlockEntity block, @Nullable Frequency frequency) {
+        BlockState state = block.getBlockState();
+        if (state.isAir()) return false;
+
+        if (state.getBlock().asItem() instanceof Transmitting transmitting)
+            return frequency == null || transmitting.getFrequency(block) == frequency;
+        return false;
+    }
     static boolean validateTransmitter(WorldlyPosition position, @Nullable Frequency frequency) {
         BlockState state = position.level.getBlockState(position.blockPos());
         if (state.isAir()) return false;

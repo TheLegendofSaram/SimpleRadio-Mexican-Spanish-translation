@@ -59,6 +59,11 @@ subprojects {
             }
         }
 
+        maven {
+            name = "Valkyrien Skies Internal"
+            url = 'https://maven.valkyrienskies.org'
+        }
+
         exclusiveContent {
             forRepository {
                 maven {
@@ -127,7 +132,7 @@ subprojects {
         enabled = false
     }
 }
-
+/*
 tasks.register('publishModrinth') {
     dependsOn("fabric:modrinth", "forge:modrinth")
 }
@@ -138,4 +143,4 @@ tasks.register('publishCurseForge') {
 
 tasks.register('publishSites') {
     dependsOn publishModrinth, publishCurseForge
-}
+}*/
