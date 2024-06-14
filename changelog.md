@@ -1,6 +1,1 @@
-- Fixed an issue with module rendering
-- Updated module textures
-- Renamed Upgrade Modules to just Modules
-- Hopefully fixed issue with lag from unloaded chunks
-- Fixed a conflict with Iron's Spellbooks 
-  - Removed slowdown functionality from config
+- Fixed the mod literally not working
