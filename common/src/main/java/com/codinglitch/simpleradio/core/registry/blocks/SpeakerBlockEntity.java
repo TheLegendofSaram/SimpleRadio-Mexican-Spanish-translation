@@ -32,22 +32,13 @@ public class SpeakerBlockEntity extends FrequencyBlockEntity implements Receivin
     @Override
     public void setRemoved() {
         if (level != null) {
-            if (!CompatCore.VALKYRIEN_SKIES) {
-                level.playSound(
-                        null, this.worldPosition,
-                        SimpleRadioSounds.RADIO_CLOSE,
-                        SoundSource.PLAYERS,
-                        1f, 1f
-                );
-            } else {
-                Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
-                level.playSound(
-                        null, locationVec.x, locationVec.y, locationVec.z,
-                        SimpleRadioSounds.RADIO_CLOSE,
-                        SoundSource.PLAYERS,
-                        1f, 1f
-                );
-            }
+            Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+            level.playSound(
+                    null, locationVec.x, locationVec.y, locationVec.z,
+                    SimpleRadioSounds.RADIO_CLOSE,
+                    SoundSource.PLAYERS,
+                    1f, 1f
+            );
         }
 
 
@@ -87,22 +78,13 @@ public class SpeakerBlockEntity extends FrequencyBlockEntity implements Receivin
         channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
         channel.location = CompatCore.modifyPosition(this.worldPosition, this.level);
 
-        if (!CompatCore.VALKYRIEN_SKIES) {
-            level.playSound(
-                    null, this.worldPosition,
-                    SimpleRadioSounds.RADIO_OPEN,
-                    SoundSource.PLAYERS,
-                    1f, 1f
-            );
-        } else {
-            Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
-            level.playSound(
-                    null, locationVec.x, locationVec.y, locationVec.z,
-                    SimpleRadioSounds.RADIO_OPEN,
-                    SoundSource.PLAYERS,
-                    1f, 1f
-            );
-        }
+        Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+        level.playSound(
+                null, locationVec.x, locationVec.y, locationVec.z,
+                SimpleRadioSounds.RADIO_OPEN,
+                SoundSource.PLAYERS,
+                1f, 1f
+        );
 
         this.isListening = true;
     }

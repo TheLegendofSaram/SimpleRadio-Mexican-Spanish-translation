@@ -1,5 +1,6 @@
 package com.codinglitch.simpleradio.core.registry.blocks;
 
+import com.codinglitch.simpleradio.CompatCore;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.FrequencyBlockEntity;
 import com.codinglitch.simpleradio.core.central.Receiving;
@@ -15,12 +16,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3f;
 
 import java.util.UUID;
 
 public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving {
     public boolean isListening = false;
     public UUID listenerID;
+
+    private RadioChannel channel;
 
     public RadioBlockEntity(BlockPos pos, BlockState state) {
         super(SimpleRadioBlockEntities.RADIO, pos, state);
@@ -31,11 +35,12 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
     @Override
     public void setRemoved() {
         if (level != null) {
+            Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
             level.playSound(
-                    null, this.worldPosition,
+                    null, locationVec.x, locationVec.y, locationVec.z,
                     SimpleRadioSounds.RADIO_CLOSE,
                     SoundSource.PLAYERS,
-                    1f,1f
+                    1f, 1f
             );
         }
 
@@ -65,6 +70,7 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, RadioBlockEntity blockEntity) {
         if (!level.isClientSide) {
+            if (CompatCore.VALKYRIEN_SKIES) { blockEntity.channel.location = CompatCore.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
@@ -72,14 +78,15 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
     }
 
     public void listen() {
-        RadioChannel channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
-        channel.location = WorldlyPosition.of(this.worldPosition, this.level);
+        channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
+        channel.location = CompatCore.modifyPosition(this.worldPosition, this.level);
 
+        Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
         level.playSound(
-                null, this.worldPosition,
+                null, locationVec.x, locationVec.y, locationVec.z,
                 SimpleRadioSounds.RADIO_OPEN,
                 SoundSource.PLAYERS,
-                1f,1f
+                1f, 1f
         );
 
         this.isListening = true;

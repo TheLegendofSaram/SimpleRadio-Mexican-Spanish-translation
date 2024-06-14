@@ -69,7 +69,7 @@ public class CompatCore {
         if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
             return COMPAT_PLATFORM.modifyPosition(originalBlockPos, level);
         }
-        return null;
+        return WorldlyPosition.of(originalBlockPos, level);
     }
 
     public static Vector3f modifyPosition(Level level, BlockPos originalBlockPos) {
@@ -77,6 +77,6 @@ public class CompatCore {
         if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
             return COMPAT_PLATFORM.modifyPosition(level, originalBlockPos);
         }
-        return null;
+        return new Vector3f(originalBlockPos.getX() + 0.5F, originalBlockPos.getY() + 0.5F, originalBlockPos.getZ() + 0.5F);
     }
 }
