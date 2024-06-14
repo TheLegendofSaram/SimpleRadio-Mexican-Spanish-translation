@@ -58,10 +58,10 @@ dependencies {
 
     if (recipe_viewer == "jei") {
         // compile against the JEI API but do not include it at runtime
-        compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-        compileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+        //compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+        //compileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
         // at runtime, use the full JEI jar for NeoForge
-        runtimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+        //runtimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     } else if (recipe_viewer == "rei") {
         // TODO: add rei to devenv
     }
