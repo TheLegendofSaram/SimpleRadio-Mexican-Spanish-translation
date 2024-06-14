@@ -1,25 +1,27 @@
 package com.codinglitch.simpleradio.core.registry.blocks;
 
+import com.codinglitch.simpleradio.CompatCore;
 import com.codinglitch.simpleradio.core.central.*;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
-import com.codinglitch.simpleradio.radio.RadioChannel;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import com.codinglitch.simpleradio.radio.RadioManager;
 import com.codinglitch.simpleradio.radio.RadioSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3f;
 
 import java.util.UUID;
 
 public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Transmitting {
     public boolean isListening = false;
     public UUID listenerID;
+
+    private RadioListener listener;
 
     public MicrophoneBlockEntity(BlockPos pos, BlockState state) {
         super(SimpleRadioBlockEntities.MICROPHONE, pos, state);
@@ -30,12 +32,22 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
     @Override
     public void setRemoved() {
         if (level != null) {
-            level.playSound(
-                    null, this.worldPosition,
-                    SimpleRadioSounds.RADIO_CLOSE,
-                    SoundSource.PLAYERS,
-                    1f,1f
-            );
+            if (!CompatCore.VALKYRIEN_SKIES) {
+                level.playSound(
+                        null, this.worldPosition,
+                        SimpleRadioSounds.RADIO_CLOSE,
+                        SoundSource.PLAYERS,
+                        1f, 1f
+                );
+            } else {
+                Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+                level.playSound(
+                        null, locationVec.x, locationVec.y, locationVec.z,
+                        SimpleRadioSounds.RADIO_CLOSE,
+                        SoundSource.PLAYERS,
+                        1f, 1f
+                );
+            }
         }
 
 
@@ -64,6 +76,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, MicrophoneBlockEntity blockEntity) {
         if (!level.isClientSide) {
+            if (CompatCore.VALKYRIEN_SKIES) { blockEntity.listener.location = CompatCore.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
@@ -71,7 +84,11 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
     }
 
     public void listen() {
-        RadioListener listener = startListening(WorldlyPosition.of(getBlockPos(), level));
+        if (!CompatCore.VALKYRIEN_SKIES) {
+            listener = startListening(WorldlyPosition.of(getBlockPos(), level));
+        } else {
+            listener = startListening(CompatCore.modifyPosition(getBlockPos(), level));
+        }
         listener.range = 12;
         listener.acceptor(source -> {
             source.type = RadioSource.Type.TRANSMITTER;
@@ -83,12 +100,22 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
         this.frequency.tryAddTransmitter(listener);
 
-        level.playSound(
-                null, this.worldPosition,
-                SimpleRadioSounds.RADIO_OPEN,
-                SoundSource.PLAYERS,
-                1f,1f
-        );
+        if (!CompatCore.VALKYRIEN_SKIES) {
+            level.playSound(
+                    null, this.worldPosition,
+                    SimpleRadioSounds.RADIO_OPEN,
+                    SoundSource.PLAYERS,
+                    1f, 1f
+            );
+        } else {
+            Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+            level.playSound(
+                    null, locationVec.x, locationVec.y, locationVec.z,
+                    SimpleRadioSounds.RADIO_OPEN,
+                    SoundSource.PLAYERS,
+                    1f, 1f
+            );
+        }
 
         this.isListening = true;
     }
