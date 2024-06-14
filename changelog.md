@@ -1,6 +1,6 @@
-- Added Speaker block
-- Added Microphone block
-- Added Frequencer block for debugging
-- Added Walkie/Spuddie Talkie
-- Added Antenna block (as decoration)
-- Truly fixed config
+- Fixed an issue with module rendering
+- Updated module textures
+- Renamed Upgrade Modules to just Modules
+- Hopefully fixed issue with lag from unloaded chunks
+- Fixed a conflict with Iron's Spellbooks 
+  - Removed slowdown functionality from config
