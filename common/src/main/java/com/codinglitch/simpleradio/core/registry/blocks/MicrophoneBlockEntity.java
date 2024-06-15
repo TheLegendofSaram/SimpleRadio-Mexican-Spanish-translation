@@ -4,6 +4,7 @@ import com.codinglitch.simpleradio.CompatCore;
 import com.codinglitch.simpleradio.core.central.*;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
+import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import com.codinglitch.simpleradio.radio.RadioManager;
 import com.codinglitch.simpleradio.radio.RadioSource;
@@ -32,7 +33,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
     @Override
     public void setRemoved() {
         if (level != null && !level.isClientSide) {
-            Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+            Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
             level.playSound(
                     null, locationVec.x, locationVec.y, locationVec.z,
                     SimpleRadioSounds.RADIO_CLOSE,
@@ -67,7 +68,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, MicrophoneBlockEntity blockEntity) {
         if (!level.isClientSide) {
-            if (CompatCore.VALKYRIEN_SKIES && blockEntity.listener != null) { blockEntity.listener.location = CompatCore.modifyPosition(pos, level); }
+            if (blockEntity.listener != null) { blockEntity.listener.location = Services.COMPAT.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
@@ -75,7 +76,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
     }
 
     public void listen() {
-        listener = startListening(CompatCore.modifyPosition(getBlockPos(), level));
+        listener = startListening(Services.COMPAT.modifyPosition(getBlockPos(), level));
 
         listener.range = 12;
         listener.acceptor(source -> {
@@ -88,7 +89,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
         this.frequency.tryAddTransmitter(listener);
 
-        Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+        Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
         level.playSound(
                 null, locationVec.x, locationVec.y, locationVec.z,
                 SimpleRadioSounds.RADIO_OPEN,

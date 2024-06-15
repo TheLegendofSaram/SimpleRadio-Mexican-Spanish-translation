@@ -7,6 +7,7 @@ import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
+import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +36,7 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
     @Override
     public void setRemoved() {
         if (level != null && !level.isClientSide) {
-            Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+            Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
             level.playSound(
                     null, locationVec.x, locationVec.y, locationVec.z,
                     SimpleRadioSounds.RADIO_CLOSE,
@@ -69,7 +70,7 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, RadioBlockEntity blockEntity) {
         if (!level.isClientSide) {
-            if (CompatCore.VALKYRIEN_SKIES && blockEntity.channel != null) { blockEntity.channel.location = CompatCore.modifyPosition(pos, level); }
+            if (blockEntity.channel != null) { blockEntity.channel.location = Services.COMPAT.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
@@ -78,9 +79,9 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     public void listen() {
         channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
-        channel.location = CompatCore.modifyPosition(this.worldPosition, this.level);
+        channel.location = Services.COMPAT.modifyPosition(this.worldPosition, this.level);
 
-        Vector3f locationVec = CompatCore.modifyPosition(level, this.worldPosition);
+        Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
         level.playSound(
                 null, locationVec.x, locationVec.y, locationVec.z,
                 SimpleRadioSounds.RADIO_OPEN,

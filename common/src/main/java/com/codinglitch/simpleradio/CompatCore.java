@@ -9,7 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
-import static com.codinglitch.simpleradio.platform.Services.COMPAT_PLATFORM;
+import static com.codinglitch.simpleradio.platform.Services.COMPAT;
 
 public class CompatCore {
     public static boolean VC_INTERACTION = false;
@@ -62,21 +62,5 @@ public class CompatCore {
         if (Services.PLATFORM.isModLoaded("vibrativevoice") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.voice_chat_interaction.enabled) {
             VibrativeCompat.onData(channel, source, decoded);
         }
-    }
-
-    public static WorldlyPosition modifyPosition(BlockPos originalBlockPos, Level level) {
-        // ---- Valkyrien Skies ---- \\
-        if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
-            return COMPAT_PLATFORM.modifyPosition(originalBlockPos, level);
-        }
-        return WorldlyPosition.of(originalBlockPos, level);
-    }
-
-    public static Vector3f modifyPosition(Level level, BlockPos originalBlockPos) {
-        // ---- Valkyrien Skies ---- \\
-        if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
-            return COMPAT_PLATFORM.modifyPosition(level, originalBlockPos);
-        }
-        return new Vector3f(originalBlockPos.getX() + 0.5F, originalBlockPos.getY() + 0.5F, originalBlockPos.getZ() + 0.5F);
     }
 }
