@@ -1,5 +1,6 @@
 package com.codinglitch.simpleradio.core.central;
 
+import com.codinglitch.simpleradio.CompatCore;
 import com.codinglitch.simpleradio.radio.CommonRadioPlugin;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import com.codinglitch.simpleradio.radio.RadioListener;
@@ -17,10 +18,14 @@ import java.util.UUID;
 public interface Transmitting extends Frequencing {
 
     static boolean validateTransmitter(WorldlyPosition position, @Nullable Frequency frequency) {
-        BlockState state = position.level.getBlockState(position.blockPos());
+        BlockPos pos = position.realLocation();
+
+        if (!position.level.isLoaded(pos)) return false;
+
+        BlockState state = position.level.getBlockState(pos);
         if (state.isAir()) return false;
 
-        BlockEntity blockEntity = position.level.getBlockEntity(position.blockPos());
+        BlockEntity blockEntity = position.level.getBlockEntity(pos);
 
         if (state.getBlock().asItem() instanceof Transmitting transmitting)
             return frequency == null || transmitting.getFrequency(blockEntity) == frequency;
