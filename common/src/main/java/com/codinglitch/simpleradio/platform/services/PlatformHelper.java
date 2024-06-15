@@ -1,5 +1,8 @@
 package com.codinglitch.simpleradio.platform.services;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.LevelAccessor;
+
 import java.nio.file.Path;
 
 public interface PlatformHelper {

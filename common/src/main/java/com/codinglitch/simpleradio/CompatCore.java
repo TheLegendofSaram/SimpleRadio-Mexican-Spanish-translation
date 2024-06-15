@@ -1,13 +1,20 @@
 package com.codinglitch.simpleradio;
 
 import com.codinglitch.simpleradio.compat.VibrativeCompat;
+import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import com.codinglitch.simpleradio.radio.RadioSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import org.joml.Vector3f;
+
+import static com.codinglitch.simpleradio.platform.Services.COMPAT_PLATFORM;
 
 public class CompatCore {
     public static boolean VC_INTERACTION = false;
     public static boolean VIBRATIVE_VOICE = false;
+    public static boolean VALKYRIEN_SKIES = false;
 
     public static void spoutCompatibilities() {
         //TODO: add a reload method from lexiconfig so we can actually use the fields above
@@ -37,6 +44,17 @@ public class CompatCore {
                 }
             }
         }
+
+        //---- Valkyrien Skies ----\\
+        if (Services.PLATFORM.isModLoaded("valkyrienskies")) {
+            CommonSimpleRadio.info("Valkyrien Skies is present!");
+            if (CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
+                VALKYRIEN_SKIES = true;
+                CommonSimpleRadio.info("..and compat is enabled!");
+            } else {
+                CommonSimpleRadio.info("..but compat is disabled");
+            }
+        }
     }
 
     public static void onData(RadioChannel channel, RadioSource source, short[] decoded) {
@@ -44,5 +62,21 @@ public class CompatCore {
         if (Services.PLATFORM.isModLoaded("vibrativevoice") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.voice_chat_interaction.enabled) {
             VibrativeCompat.onData(channel, source, decoded);
         }
+    }
+
+    public static WorldlyPosition modifyPosition(BlockPos originalBlockPos, Level level) {
+        // ---- Valkyrien Skies ---- \\
+        if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
+            return COMPAT_PLATFORM.modifyPosition(originalBlockPos, level);
+        }
+        return WorldlyPosition.of(originalBlockPos, level);
+    }
+
+    public static Vector3f modifyPosition(Level level, BlockPos originalBlockPos) {
+        // ---- Valkyrien Skies ---- \\
+        if (Services.PLATFORM.isModLoaded("valkyrienskies") && CommonSimpleRadio.SERVER_CONFIG.compatibilities.valkyrien_skies.enabled) {
+            return COMPAT_PLATFORM.modifyPosition(level, originalBlockPos);
+        }
+        return new Vector3f(originalBlockPos.getX() + 0.5F, originalBlockPos.getY() + 0.5F, originalBlockPos.getZ() + 0.5F);
     }
 }

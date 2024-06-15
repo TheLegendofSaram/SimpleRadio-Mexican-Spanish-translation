@@ -162,5 +162,15 @@ public class SimpleRadioServerConfig extends LexiconData {
             @LexiconEntry(comment = "When false, removes compatibility for Vibrative Voice. Defaults to true.")
             public Boolean enabled = true;
         }
+
+        //----
+
+        @LexiconPage(comment = "These are the configurations for the optional dependency Valkyrien Skies.")
+        public ValkyrienSkies valkyrien_skies = new ValkyrienSkies();
+
+        public static class ValkyrienSkies extends LexiconPageData {
+            @LexiconEntry(comment = "When false, removes compatibility for Valkyrien Skies. Defaults to true.")
+            public Boolean enabled = true;
+        }
     }
 }

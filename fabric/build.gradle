@@ -6,9 +6,9 @@ plugins {
     id "com.modrinth.minotaur" version "2.+"
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
-
+/*
 apply from: 'https://raw.githubusercontent.com/CodinGlitch/gradle-templates/main/site-publishers/curseforge.gradle'
-apply from: 'https://raw.githubusercontent.com/CodinGlitch/gradle-templates/main/site-publishers/modrinth.gradle'
+apply from: 'https://raw.githubusercontent.com/CodinGlitch/gradle-templates/main/site-publishers/modrinth.gradle'*/
 
 base {
     archivesName = "${mod_name}-fabric-${minecraft_version}"
@@ -36,6 +36,9 @@ dependencies {
     modCompileOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
     //modRuntimeOnly "maven.modrinth:voice-chat-interaction:fabric-${minecraft_version}-${voicechat_interaction_version}"
     //modRuntimeOnly include("eu.pb4:polymer-reg-sync-manipulator:${polymer_version}+${minecraft_version}")
+
+    modCompileOnly("org.valkyrienskies:valkyrienskies-1201-fabric:2.3.0-beta.5+2e2d63a807")
+    compileOnly("org.valkyrienskies.core:api:1.1.0+e26d9059c0")
 
     if (recipe_viewer == "jei") {
         // compile against the JEI API but do not include it at runtime

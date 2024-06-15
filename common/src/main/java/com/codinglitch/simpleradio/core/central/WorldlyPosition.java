@@ -23,11 +23,11 @@ public class WorldlyPosition extends Vector3f {
     }
     public WorldlyPosition() {}
 
-    public static WorldlyPosition of(BlockPos pos, Level level, BlockPos realLocation) { // use this upon creation to save the 'real' location
-        return new WorldlyPosition(pos.getX(), pos.getY(), pos.getZ(), level, realLocation);
-    }
     public static WorldlyPosition of(BlockPos pos, Level level) {
         return new WorldlyPosition(pos.getX(), pos.getY(), pos.getZ(), level);
+    }
+    public static WorldlyPosition of(Vector3f pos, Level level, BlockPos realLocation) { // use this upon creation to save the 'real' location
+        return new WorldlyPosition(pos.x, pos.y, pos.z, level, realLocation);
     }
     public static WorldlyPosition of(Vector3f pos, Level level) {
         return new WorldlyPosition(pos.x, pos.y, pos.z, level);
