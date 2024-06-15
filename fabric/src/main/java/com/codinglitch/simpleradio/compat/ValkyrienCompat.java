@@ -20,7 +20,7 @@ public class ValkyrienCompat {
             Vector3d blockPosVec = new Vector3d(originalBlockPos.getX() + 0.5D, originalBlockPos.getY() + 0.5D, originalBlockPos.getZ() + 0.5D);
             Vector3d blockOnShip = shipToWorld.transformPosition(blockPosVec);
 
-            pos = WorldlyPosition.of(new Vector3f((float) blockOnShip.x, (float) blockOnShip.y, (float) blockOnShip.z), level);
+            pos = WorldlyPosition.of(new Vector3f((float) blockOnShip.x, (float) blockOnShip.y, (float) blockOnShip.z), level, originalBlockPos);
 
             return pos;
         } else {

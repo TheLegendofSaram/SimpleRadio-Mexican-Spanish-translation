@@ -87,7 +87,6 @@ public class RadioListener {
 
     public boolean validate() {
         if (owner == null) {
-            if (Transmitting.)
             if (location == null || !Transmitting.validateTransmitter(location, null)) {
                 invalidate();
                 return false;
