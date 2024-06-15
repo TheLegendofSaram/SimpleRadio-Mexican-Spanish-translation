@@ -3,6 +3,7 @@ package com.codinglitch.simpleradio.core.central;
 import com.codinglitch.simpleradio.radio.CommonRadioPlugin;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,10 +14,13 @@ import java.util.UUID;
 public interface Receiving extends Frequencing {
 
     static boolean validateReceiver(WorldlyPosition position, @Nullable Frequency frequency) {
-        BlockState state = position.level.getBlockState(position.blockPos());
+        BlockPos pos = position.realLocation();
+        if (!position.level.isLoaded(pos)) return false;
+
+        BlockState state = position.level.getBlockState(pos);
         if (state.isAir()) return false;
 
-        BlockEntity blockEntity = position.level.getBlockEntity(position.blockPos());
+        BlockEntity blockEntity = position.level.getBlockEntity(pos);
 
         if (state.getBlock().asItem() instanceof Receiving receiving)
             return frequency == null || receiving.getFrequency(blockEntity) == frequency;

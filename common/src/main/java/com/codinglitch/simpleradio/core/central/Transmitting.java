@@ -16,14 +16,6 @@ import java.util.UUID;
 
 public interface Transmitting extends Frequencing {
 
-    static boolean validateTransmitter(BlockEntity block, @Nullable Frequency frequency) {
-        BlockState state = block.getBlockState();
-        if (state.isAir()) return false;
-
-        if (state.getBlock().asItem() instanceof Transmitting transmitting)
-            return frequency == null || transmitting.getFrequency(block) == frequency;
-        return false;
-    }
     static boolean validateTransmitter(WorldlyPosition position, @Nullable Frequency frequency) {
         BlockState state = position.level.getBlockState(position.blockPos());
         if (state.isAir()) return false;
