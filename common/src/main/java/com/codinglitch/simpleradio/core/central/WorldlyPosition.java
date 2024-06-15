@@ -5,15 +5,27 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
+import javax.annotation.Nullable;
+
 public class WorldlyPosition extends Vector3f {
     public Level level;
 
+    @Nullable
+    private BlockPos realLocation;
+
+    public WorldlyPosition(float x, float y, float z, Level level, @Nullable BlockPos realLocation) {
+        this(x, y, z, level);
+        this.realLocation = realLocation;
+    }
     public WorldlyPosition(float x, float y, float z, Level level) {
         super(x, y, z);
         this.level = level;
     }
     public WorldlyPosition() {}
 
+    public static WorldlyPosition of(BlockPos pos, Level level, BlockPos realLocation) { // use this upon creation to save the 'real' location
+        return new WorldlyPosition(pos.getX(), pos.getY(), pos.getZ(), level, realLocation);
+    }
     public static WorldlyPosition of(BlockPos pos, Level level) {
         return new WorldlyPosition(pos.getX(), pos.getY(), pos.getZ(), level);
     }
@@ -31,6 +43,9 @@ public class WorldlyPosition extends Vector3f {
 
     public BlockPos blockPos() {
         return new BlockPos(Math.round(this.x), Math.round(this.y), Math.round(this.z));
+    }
+    public BlockPos realLocation() { // used in garbage collection pretty much exclusively for VS and maybe Create: Aeronautics when released
+        return this.realLocation == null ? this.blockPos() : this.realLocation;
     }
 
     public Vector3f dimensionScaled() {
