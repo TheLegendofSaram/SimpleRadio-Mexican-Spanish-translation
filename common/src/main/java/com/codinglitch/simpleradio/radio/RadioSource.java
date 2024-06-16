@@ -2,6 +2,7 @@ package com.codinglitch.simpleradio.radio;
 
 import com.codinglitch.lexiconfig.classes.LexiconPageData;
 import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import org.joml.Math;
@@ -41,7 +42,7 @@ public class RadioSource {
 
     public int getMaxDistance(Frequency.Modulation modulation) {
         String pageName = this.type.toString().toLowerCase();
-        LexiconPageData pageData = CommonSimpleRadio.SERVER_CONFIG.getPage(pageName);
+        LexiconPageData pageData = SimpleRadioLibrary.SERVER_CONFIG.getPage(pageName);
         if (pageData == null) {
             CommonSimpleRadio.warn("Could not find page {}!", pageName);
             return 0;
@@ -54,7 +55,7 @@ public class RadioSource {
 
     public int getFalloff(Frequency.Modulation modulation) {
         String pageName = this.type.toString().toLowerCase();
-        LexiconPageData pageData = CommonSimpleRadio.SERVER_CONFIG.getPage(pageName);
+        LexiconPageData pageData = SimpleRadioLibrary.SERVER_CONFIG.getPage(pageName);
         if (pageData == null) {
             CommonSimpleRadio.warn("Could not find page {}!", pageName);
             return 0;
@@ -72,8 +73,8 @@ public class RadioSource {
         float base = destinationFrequency.modulation == Frequency.Modulation.FREQUENCY ? 2 : 15;
 
         if (location.level.dimensionType() != destination.level.dimensionType()) {
-            if (CommonSimpleRadio.SERVER_CONFIG.frequency.crossDimensional)
-                base += destinationFrequency.modulation == Frequency.Modulation.FREQUENCY ? CommonSimpleRadio.SERVER_CONFIG.frequency.dimensionalInterference : 0;
+            if (SimpleRadioLibrary.SERVER_CONFIG.frequency.crossDimensional)
+                base += destinationFrequency.modulation == Frequency.Modulation.FREQUENCY ? SimpleRadioLibrary.SERVER_CONFIG.frequency.dimensionalInterference : 0;
             else return 100;
         }
 

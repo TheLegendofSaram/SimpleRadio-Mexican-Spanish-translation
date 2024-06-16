@@ -32,10 +32,9 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
     @Override
     public void setRemoved() {
-        if (level != null && !level.isClientSide) {
-            Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
+        if (level != null && !level.isClientSide && this.listener != null) {
             level.playSound(
-                    null, locationVec.x, locationVec.y, locationVec.z,
+                    null, listener.location.x, listener.location.y, listener.location.z,
                     SimpleRadioSounds.RADIO_CLOSE,
                     SoundSource.PLAYERS,
                     1f, 1f
@@ -68,7 +67,6 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, MicrophoneBlockEntity blockEntity) {
         if (!level.isClientSide) {
-            if (blockEntity.listener != null) { blockEntity.listener.location = Services.COMPAT.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
@@ -76,7 +74,7 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
     }
 
     public void listen() {
-        listener = startListening(Services.COMPAT.modifyPosition(getBlockPos(), level));
+        listener = startListening(Services.COMPAT.modifyPosition(WorldlyPosition.of(worldPosition, level, worldPosition)));
 
         listener.range = 12;
         listener.acceptor(source -> {
@@ -89,9 +87,8 @@ public class MicrophoneBlockEntity extends FrequencyBlockEntity implements Trans
 
         this.frequency.tryAddTransmitter(listener);
 
-        Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
         level.playSound(
-                null, locationVec.x, locationVec.y, locationVec.z,
+                null, listener.location.x, listener.location.y, listener.location.z,
                 SimpleRadioSounds.RADIO_OPEN,
                 SoundSource.PLAYERS,
                 1f, 1f

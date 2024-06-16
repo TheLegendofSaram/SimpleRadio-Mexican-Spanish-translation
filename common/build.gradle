@@ -35,7 +35,11 @@ dependencies {
 
     // Compatibilities
 
+    // Vibrative Voice
     implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
+
+    // Valkyrien Skies
+    compileOnly("org.valkyrienskies.core:api:${valkyrien_skies_api_version}")
 }
 
 publishing {

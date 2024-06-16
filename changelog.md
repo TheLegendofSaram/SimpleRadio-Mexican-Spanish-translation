@@ -1,1 +1,2 @@
-- Fixed the mod literally not working
+- Added Valkyrien Skies compatibility
+- 

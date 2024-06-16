@@ -9,6 +9,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -22,12 +23,23 @@ public class RadiosmitherMenu extends AbstractContainerMenu {
     public RadiosmitherMenu(int id, Inventory inventory, Container container) {
         super(SimpleRadioMenus.RADIOSMITHER_MENU, id);
         checkContainerSize(container, 2);
-        this.container = container;
+        this.container = new SimpleContainer(2) {
+            public void setChanged() {
+                super.setChanged();
+                RadiosmitherMenu.this.slotsChanged(this);
+            }
+        };
 
-        container.startOpen(inventory.player);
+        this.container.startOpen(inventory.player);
 
-        this.addSlot(new Slot(container, 0, 61, 46));
-        this.addSlot(new Slot(container, 1, 61, 24));
+        this.addSlot(new Slot(this.container, 0, 61, 46) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getItem() instanceof Frequencing;
+            }
+        });
+
+        this.addSlot(new Slot(this.container, 1, 61, 24));
 
         int m, l;
         for (m = 0; m < 3; ++m) {

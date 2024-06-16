@@ -3,26 +3,26 @@ package com.codinglitch.simpleradio.client.screens;
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.client.central.BaseButton;
 import com.codinglitch.simpleradio.core.central.Frequencing;
-import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.networking.packets.ServerboundRadioUpdatePacket;
 import com.codinglitch.simpleradio.core.registry.menus.RadiosmitherMenu;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.platform.ClientServices;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
 
 import java.awt.*;
 
-public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu> {
+public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu> implements ContainerListener {
 
     // -- Resources -- \\
     public static final ResourceLocation FM_NORMAL_SPRITE = CommonSimpleRadio.id("container/radiosmither/fm/normal");
@@ -62,7 +62,9 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
     public BaseButton APPLY_BUTTON;
 
-    public String frequency = "";
+    public EditBox FREQUENCY;
+
+    protected String lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
     public Frequency.Modulation modulation;
 
     protected int holdingFor = 0;
@@ -72,7 +74,18 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
         super(menu, inventory, title);
     }
 
+    private void updateFrequency(String input) {
+        if (!Frequency.check(input)) {
+            if (!Frequency.check(lastValidFrequency)) lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
+
+            FREQUENCY.setValue(lastValidFrequency);
+        } else {
+            this.lastValidFrequency = input;
+        }
+    }
+
     private void reloadFrequency() {
+        String frequency = this.FREQUENCY.getValue();
         if (!frequency.isEmpty()) return;
 
         ItemStack tinkering = menu.getTinkering();
@@ -93,8 +106,9 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
     protected void incrementFrequency() { incrementFrequency(1); }
     protected void incrementFrequency(int increment) {
-        if (!frequency.isEmpty()) {
-            frequency = Frequency.incrementFrequency(frequency, increment);
+        String freq = this.FREQUENCY.getValue();
+        if (!freq.isEmpty()) {
+            this.FREQUENCY.setValue(Frequency.incrementFrequency(freq, increment));
         }
     }
 
@@ -121,6 +135,8 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         super.render(graphics, mouseX, mouseY, delta);
         renderTooltip(graphics, mouseX, mouseY);
+
+        this.FREQUENCY.render(graphics, mouseX, mouseY, delta);
     }
 
     @Override
@@ -129,11 +145,11 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
         ItemStack tinkering = this.menu.getTinkering();
         if (tinkering != null && tinkering.getItem() instanceof Frequencing) {
-            if (!frequency.isEmpty() && modulation != null) {
-                graphics.drawString(this.font,
-                        Component.literal(frequency)
-                                .append(modulation == Frequency.Modulation.FREQUENCY ? FM : AM), 94, 50, Color.DARK_GRAY.getRGB(), false
-                );
+            if (!FREQUENCY.getValue().isEmpty() && modulation != null) {
+                //graphics.drawString(this.font,
+                //        Component.literal(FREQUENCY.getValue())
+                //                .append(modulation == Frequency.Modulation.FREQUENCY ? FM : AM), 94, 50, Color.DARK_GRAY.getRGB(), false
+                //);
             }
         }
     }
@@ -151,6 +167,17 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     @Override
     protected void init() {
         super.init();
+
+        this.FREQUENCY = new EditBox(this.font, this.leftPos + 92, this.topPos + 50, 50, 12, Component.translatable("container.repair"));
+        this.FREQUENCY.setTextColor(-1);
+        this.FREQUENCY.setTextColorUneditable(-1);
+        this.FREQUENCY.setBordered(false);
+        this.FREQUENCY.setMaxLength(Frequency.FREQUENCY_DIGITS + 1);
+        this.FREQUENCY.setResponder(this::updateFrequency);
+        this.FREQUENCY.setValue(Frequency.DEFAULT_FREQUENCY);
+        this.lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
+        this.addWidget(FREQUENCY);
+        this.FREQUENCY.setEditable(this.menu.getSlot(0).hasItem());
 
         this.AM_BUTTON = new ModulationButton(this.leftPos + 89, this.topPos + 23, false, () -> {
             AM_BUTTON.selected(true);
@@ -173,8 +200,8 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
                 this.leftPos + 15, this.topPos + 25,
                 34, 34,
                 APPLY_NORMAL_SPRITE, CommonComponents.EMPTY, () -> {
-                    if (this.frequency == null || this.modulation == null) return;
-                    ClientServices.NETWORKING.sendToServer(new ServerboundRadioUpdatePacket(this.frequency, this.modulation));
+                    if (this.FREQUENCY.getValue().isEmpty() || this.modulation == null) return;
+                    ClientServices.NETWORKING.sendToServer(new ServerboundRadioUpdatePacket(this.FREQUENCY.getValue(), this.modulation));
         });
         this.APPLY_BUTTON.hoverSprite = APPLY_HIGHLIGHTED_SPRITE;
 
@@ -185,6 +212,36 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
         this.addRenderableWidget(DECREASE_BUTTON);
 
         this.addRenderableWidget(APPLY_BUTTON);
+
+        this.menu.addSlotListener(this);
+    }
+
+    @Override
+    public void removed() {
+        super.removed();
+        this.menu.removeSlotListener(this);
+    }
+
+    @Override
+    public void slotChanged(AbstractContainerMenu abstractContainerMenu, int slot, ItemStack stack) {
+        if (slot == 0) {
+            if (!stack.isEmpty() && stack.getItem() instanceof Frequencing frequencing) {
+                String frequency = frequencing.getFrequency(stack).toString();
+                this.lastValidFrequency = frequency;
+
+                this.FREQUENCY.setValue(frequency);
+                this.FREQUENCY.setEditable(true);
+                this.setFocused(this.FREQUENCY);
+            } else {
+                this.FREQUENCY.setValue("");
+                this.FREQUENCY.setEditable(false);
+            }
+        }
+    }
+
+    @Override
+    public void dataChanged(AbstractContainerMenu abstractContainerMenu, int i, int i1) {
+
     }
 
     public static class FrequencyButton extends BaseButton {

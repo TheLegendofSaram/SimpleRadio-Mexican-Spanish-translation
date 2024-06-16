@@ -10,18 +10,20 @@ import javax.annotation.Nullable;
 public class WorldlyPosition extends Vector3f {
     public Level level;
 
-    @Nullable
-    private BlockPos realLocation;
+    // immutable, set on creation
+    private final BlockPos realLocation;
 
-    public WorldlyPosition(float x, float y, float z, Level level, @Nullable BlockPos realLocation) {
-        this(x, y, z, level);
+    public WorldlyPosition(float x, float y, float z, Level level, BlockPos realLocation) {
+        super(x, y, z);
+        this.level = level;
         this.realLocation = realLocation;
     }
     public WorldlyPosition(float x, float y, float z, Level level) {
-        super(x, y, z);
-        this.level = level;
+        this(x, y, z, level, null);
     }
-    public WorldlyPosition() {}
+    public WorldlyPosition() {
+        this(0, 0, 0, null, null);
+    }
 
     public static WorldlyPosition of(BlockPos pos, Level level) {
         return new WorldlyPosition(pos.getX(), pos.getY(), pos.getZ(), level);

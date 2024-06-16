@@ -1,6 +1,6 @@
 package com.codinglitch.simpleradio.radio;
 
-import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.core.registry.items.TransceiverItem;
@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class RadioManager {
     private static RadioManager INSTANCE;
@@ -22,9 +21,36 @@ public class RadioManager {
         if (INSTANCE == null) INSTANCE = new RadioManager();
         return INSTANCE;
     }
-    public RadioManager() {
+
+    public RadioManager() {}
+
+    public static void serverTick(int tickCount) {
+        if (tickCount % 20 == 0) {
+            garbageCollect();
+        }
+
+        // -- Receiver, Transmitter and Listener ticking -- \\
+        List<Frequency> frequencies = Frequency.getFrequencies();
+        for (Frequency frequency : frequencies) {
+            frequency.serverTick(tickCount);
+            for (RadioListener transmitter : frequency.transmitters) {
+                //transmitter.serverTick(tickCount); transmitter class not implemented yet
+            }
+            for (RadioChannel receiver : frequency.receivers) {
+                receiver.serverTick(tickCount);
+            }
+        }
+
+        List<RadioListener> listeners = RadioListener.getListeners();
+        for (RadioListener listener : listeners) {
+            listener.serverTick(tickCount);
+        }
     }
 
+    public static void garbageCollect() {
+        Frequency.garbageCollect();
+        RadioListener.garbageCollect();
+    }
 
     public void onMicPacket(MicrophonePacketEvent event) {
         VoicechatConnection senderConnection = event.getSenderConnection();
@@ -62,7 +88,7 @@ public class RadioManager {
             ));
 
             listenedTo++;
-            if (listenedTo >= CommonSimpleRadio.SERVER_CONFIG.frequency.listenerBuffer) break;
+            if (listenedTo >= SimpleRadioLibrary.SERVER_CONFIG.frequency.listenerBuffer) break;
         }
 
         ItemStack transceiver = sender.getUseItem();

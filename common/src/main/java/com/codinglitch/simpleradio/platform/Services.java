@@ -10,5 +10,5 @@ public class Services {
     public static final PlatformHelper PLATFORM = CommonSimpleRadio.loadService(PlatformHelper.class);
     public static final NetworkingHelper NETWORKING = CommonSimpleRadio.loadService(NetworkingHelper.class);
     public static final RegistryHelper REGISTRY = CommonSimpleRadio.loadService(RegistryHelper.class);
-    public static final CompatPlatform COMPAT_PLATFORM = CommonSimpleRadio.loadService(CompatPlatform.class);
+    public static final CompatPlatform COMPAT = CommonSimpleRadio.loadService(CompatPlatform.class);
 }

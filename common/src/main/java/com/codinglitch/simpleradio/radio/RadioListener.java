@@ -5,6 +5,9 @@ import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.Transmitting;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
+import com.codinglitch.simpleradio.platform.Services;
+import de.maxhenkel.voicechat.api.audiochannel.LocationalAudioChannel;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import org.joml.Math;
@@ -83,6 +86,16 @@ public class RadioListener {
 
     public void onData(RadioSource source) {
         dataAcceptor.accept(source);
+    }
+
+    public void updateLocation(WorldlyPosition location) {
+    }
+
+    public void serverTick(int tickCount) {
+        if (location != null) {
+            Services.COMPAT.modifyPosition(location);
+            this.updateLocation(location);
+        }
     }
 
     public boolean validate() {

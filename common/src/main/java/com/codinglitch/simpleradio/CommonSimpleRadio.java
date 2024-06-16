@@ -2,8 +2,6 @@ package com.codinglitch.simpleradio;
 
 import com.codinglitch.lexiconfig.LexiconfigApi;
 import com.codinglitch.simpleradio.core.central.Frequency;
-import com.codinglitch.simpleradio.platform.Services;
-import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,11 +26,6 @@ public class CommonSimpleRadio {
         return loadedService;
     }
 
-    public static void garbageCollect() {
-        Frequency.garbageCollect();
-        RadioListener.garbageCollect();
-    }
-
     // -- Logging -- \\
     private static Logger LOGGER = LogManager.getLogger(ID);
     public static void info(Object object, Object... substitutions) {
@@ -48,15 +41,6 @@ public class CommonSimpleRadio {
         LOGGER.error(String.valueOf(object), substitutions);
     }
 
-    public static SimpleRadioServerConfig SERVER_CONFIG;
     public static void initialize() {
-        SERVER_CONFIG = new SimpleRadioServerConfig();
-        LexiconfigApi.register(SERVER_CONFIG);
-
-        LexiconfigApi.registerListener(LexiconfigApi.Event.RELOAD, Frequency::onLexiconReload);
-        Frequency.onLexiconReload();
-
-        // ---- Compatibilities ---- \\
-        CompatCore.spoutCompatibilities();
     }
 }

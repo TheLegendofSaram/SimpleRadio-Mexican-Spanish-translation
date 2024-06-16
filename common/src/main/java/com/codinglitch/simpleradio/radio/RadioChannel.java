@@ -1,10 +1,9 @@
 package com.codinglitch.simpleradio.radio;
 
-import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.CompatCore;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.Receiving;
-import com.codinglitch.simpleradio.core.central.Transmitting;
 import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.effects.AudioEffect;
@@ -25,6 +24,7 @@ import java.util.function.Supplier;
 public class RadioChannel implements Supplier<short[]> {
     public UUID owner;
     public WorldlyPosition location;
+    public AudioChannel audioChannel;
     public AudioPlayer audioPlayer;
     private final Map<UUID, List<short[]>> packetBuffer;
     private final Map<UUID, OpusDecoder> decoders;
@@ -74,6 +74,19 @@ public class RadioChannel implements Supplier<short[]> {
         return effect.apply(combinedAudio);
     }
 
+    public void updateLocation(WorldlyPosition location) {
+        if (this.audioChannel instanceof LocationalAudioChannel locationalAudioChannel) {
+            locationalAudioChannel.updateLocation(CommonRadioPlugin.serverApi.createPosition(location.x, location.y, location.z));
+        }
+    }
+
+    public void serverTick(int tickCount) {
+        if (location != null) {
+            Services.COMPAT.modifyPosition(location);
+            this.updateLocation(location);
+        }
+    }
+
     public void transmit(RadioSource source, Frequency frequency) {
         // Severity calculation
         ServerLevel level = null;
@@ -93,7 +106,7 @@ public class RadioChannel implements Supplier<short[]> {
         }
         if (level == null || position == null) return;
 
-        if (!CommonSimpleRadio.SERVER_CONFIG.frequency.crossDimensional && level != source.location.level) return;
+        if (!SimpleRadioLibrary.SERVER_CONFIG.frequency.crossDimensional && level != source.location.level) return;
 
         this.effect.severity = source.computeSeverity(WorldlyPosition.of(position, level), frequency);
         this.effect.volume = source.volume;
@@ -102,7 +115,7 @@ public class RadioChannel implements Supplier<short[]> {
         // Packet buffer
         List<short[]> microphonePackets = packetBuffer.computeIfAbsent(source.owner, k -> new ArrayList<>());
         if (microphonePackets.isEmpty()) {
-            for (int i = 0; i < CommonSimpleRadio.SERVER_CONFIG.frequency.packetBuffer; i++) {
+            for (int i = 0; i < SimpleRadioLibrary.SERVER_CONFIG.frequency.packetBuffer; i++) {
                 microphonePackets.add(null);
             }
         }
@@ -119,7 +132,7 @@ public class RadioChannel implements Supplier<short[]> {
         microphonePackets.add(decoded);
 
         // Loader-specific compat
-        Services.COMPAT_PLATFORM.onData(this, source, decoded);
+        Services.COMPAT.onData(this, source, decoded);
 
         // Common compat
         CompatCore.onData(this, source, decoded);
@@ -158,22 +171,21 @@ public class RadioChannel implements Supplier<short[]> {
     private AudioPlayer getAudioPlayer() {
         if (this.audioPlayer == null) {
             VoicechatConnection connection = CommonRadioPlugin.serverApi.getConnectionOf(owner);
-            AudioChannel channel;
             if (connection == null) {
                 LocationalAudioChannel locationalChannel = CommonRadioPlugin.serverApi.createLocationalAudioChannel(this.owner,
                         CommonRadioPlugin.serverApi.fromServerLevel(location.level),
                         CommonRadioPlugin.serverApi.createPosition(location.x + 0.5, location.y + 0.5, location.z + 0.5)
                 );
-                locationalChannel.setDistance(CommonSimpleRadio.SERVER_CONFIG.radio.range);
+                locationalChannel.setDistance(SimpleRadioLibrary.SERVER_CONFIG.radio.range);
                 locationalChannel.setCategory(CommonRadioPlugin.RADIOS_CATEGORY);
 
-                channel = locationalChannel;
+                this.audioChannel = locationalChannel;
             } else {
-                channel = CommonRadioPlugin.serverApi.createEntityAudioChannel(this.owner, connection.getPlayer());
-                channel.setCategory(CommonRadioPlugin.TRANSCEIVERS_CATEGORY);
+                this.audioChannel = CommonRadioPlugin.serverApi.createEntityAudioChannel(this.owner, connection.getPlayer());
+                audioChannel.setCategory(CommonRadioPlugin.TRANSCEIVERS_CATEGORY);
             }
 
-            this.audioPlayer = CommonRadioPlugin.serverApi.createAudioPlayer(channel, CommonRadioPlugin.serverApi.createEncoder(), this);
+            this.audioPlayer = CommonRadioPlugin.serverApi.createAudioPlayer(audioChannel, CommonRadioPlugin.serverApi.createEncoder(), this);
         }
         return this.audioPlayer;
     }

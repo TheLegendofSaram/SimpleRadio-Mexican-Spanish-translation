@@ -27,7 +27,10 @@ public class SimpleRadioMenus {
     public static final CreativeModeTab RADIO_TAB = Services.REGISTRY.registerCreativeTab(RADIO_TAB_LOCATION, CreativeModeTab.builder(CreativeModeTab.Row.TOP, 7)
             .title(Component.translatable("item_group." + CommonSimpleRadio.ID))
             .icon(() -> new ItemStack(SimpleRadioItems.TRANSCEIVER))
-            .displayItems((params, output) -> SimpleRadioItems.TAB_ITEMS.get(RADIO_TAB_LOCATION).forEach(output::accept))
+            .displayItems((params, output) -> {
+                SimpleRadioItems.ITEMS.entrySet().stream().filter(entry -> entry.getValue().tab.equals(RADIO_TAB_LOCATION))
+                        .forEach(entry -> {if (entry.getValue().enabled) output.accept(entry.getValue().get());});
+            })
             .build()
     );
 

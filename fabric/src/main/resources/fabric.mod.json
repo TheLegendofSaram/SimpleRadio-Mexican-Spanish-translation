@@ -26,6 +26,9 @@
         ],
         "voicechat": [
             "com.codinglitch.simpleradio.RadioPlugin"
+        ],
+        "lexiconfig": [
+            "com.codinglitch.simpleradio.SimpleRadioLibrary"
         ]
     },
     "mixins": [

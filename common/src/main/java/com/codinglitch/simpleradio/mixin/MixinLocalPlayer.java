@@ -1,6 +1,6 @@
 package com.codinglitch.simpleradio.mixin;
 
-import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.registry.items.TransceiverItem;
 import com.codinglitch.simpleradio.core.registry.items.WalkieTalkieItem;
 import com.mojang.authlib.GameProfile;
@@ -13,10 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = LocalPlayer.class)
 public abstract class MixinLocalPlayer extends AbstractClientPlayer {
@@ -34,9 +30,9 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
         if (this.isUsingItem()) {
             ItemStack stack = this.getItemInHand(this.usingItemHand);
             if (stack.getItem().getClass() == TransceiverItem.class) {
-                return CommonSimpleRadio.SERVER_CONFIG.transceiver.transceiverSlow;
+                return SimpleRadioLibrary.SERVER_CONFIG.transceiver.transceiverSlow;
             } else if (stack.getItem().getClass() == WalkieTalkieItem.class) {
-                return CommonSimpleRadio.SERVER_CONFIG.walkie_talkie.walkieTalkieSlow;
+                return SimpleRadioLibrary.SERVER_CONFIG.walkie_talkie.walkieTalkieSlow;
             }
         }
         return this.isUsingItem();
