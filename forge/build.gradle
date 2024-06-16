@@ -96,8 +96,8 @@ dependencies {
     implementation "com.codinglitch.vibrativevoice:vibrativevoice-api:${vibrative_voice_version}"
 
     // Valkyrien Skies
-    compileOnly fg.deobf("org.valkyrienskies:valkyrienskies-${minecraft_version.replace('.','')}-forge:${valkyrien_skies_version}")
-    runtimeOnly fg.deobf("org.valkyrienskies:valkyrienskies-${minecraft_version.replace('.','')}-forge:${valkyrien_skies_version}")
+    compileOnly fg.deobf("org.valkyrienskies:valkyrienskies-1201-forge:${valkyrien_skies_version}")
+    //runtimeOnly fg.deobf("org.valkyrienskies:valkyrienskies-${minecraft_version.replace('.','')}-forge:${valkyrien_skies_version}")
     compileOnly("org.valkyrienskies.core:api:${valkyrien_skies_api_version}") // forge wont inherit the api from common for some reason
 
     // JEI / REI
