@@ -35,10 +35,9 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     @Override
     public void setRemoved() {
-        if (level != null && !level.isClientSide) {
-            Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
+        if (level != null && !level.isClientSide && this.channel != null) {
             level.playSound(
-                    null, locationVec.x, locationVec.y, locationVec.z,
+                    null, channel.location.x, channel.location.y, channel.location.z,
                     SimpleRadioSounds.RADIO_CLOSE,
                     SoundSource.PLAYERS,
                     1f, 1f
@@ -70,7 +69,6 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     public static void tick(Level level, BlockPos pos, BlockState blockState, RadioBlockEntity blockEntity) {
         if (!level.isClientSide) {
-            if (blockEntity.channel != null) { blockEntity.channel.location = Services.COMPAT.modifyPosition(pos, level); }
             if (blockEntity.frequency != null && !blockEntity.isListening) {
                 blockEntity.listen();
             }
@@ -79,11 +77,10 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
 
     public void listen() {
         channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
-        channel.location = Services.COMPAT.modifyPosition(this.worldPosition, this.level);
+        channel.location = Services.COMPAT.modifyPosition(Services.COMPAT.modifyPosition(WorldlyPosition.of(worldPosition, level, worldPosition)));
 
-        Vector3f locationVec = Services.COMPAT.modifyPosition(level, this.worldPosition);
         level.playSound(
-                null, locationVec.x, locationVec.y, locationVec.z,
+                null, channel.location.x, channel.location.y, channel.location.z,
                 SimpleRadioSounds.RADIO_OPEN,
                 SoundSource.PLAYERS,
                 1f, 1f

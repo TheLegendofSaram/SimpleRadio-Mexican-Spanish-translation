@@ -2,6 +2,7 @@ package com.codinglitch.simpleradio.mixin;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
 import com.codinglitch.simpleradio.core.central.Frequency;
+import com.codinglitch.simpleradio.radio.RadioManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
@@ -21,8 +22,6 @@ public class MixinMinecraftServer {
 
     @Inject(at = @At("TAIL"), method = "tickServer(Ljava/util/function/BooleanSupplier;)V")
     private void simpleradio$tickServer(CallbackInfo info) {
-        if (this.tickCount % 20 == 0) {
-            CommonSimpleRadio.garbageCollect();
-        }
+        RadioManager.serverTick(this.tickCount);
     }
 }

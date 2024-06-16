@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.core.central;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import com.codinglitch.simpleradio.radio.RadioListener;
 import net.minecraft.nbt.CompoundTag;
@@ -57,15 +58,15 @@ public class Frequency {
         return getOrCreateFrequency(string.substring(0, string.length() - 2), modulation);
     }
 
-    public static void onLexiconReload() {
-        FREQUENCY_DIGITS = CommonSimpleRadio.SERVER_CONFIG.frequency.wholePlaces +CommonSimpleRadio.SERVER_CONFIG.frequency.decimalPlaces;
+    public static void onLexiconRevision() {
+        FREQUENCY_DIGITS = SimpleRadioLibrary.SERVER_CONFIG.frequency.wholePlaces + SimpleRadioLibrary.SERVER_CONFIG.frequency.decimalPlaces;
         MAX_FREQUENCY = (int) java.lang.Math.pow(10, FREQUENCY_DIGITS);
-        FREQUENCY_PATTERN = "^\\d{"+CommonSimpleRadio.SERVER_CONFIG.frequency.wholePlaces+"}.\\d{"+CommonSimpleRadio.SERVER_CONFIG.frequency.decimalPlaces+"}$";
+        FREQUENCY_PATTERN = "^\\d{"+ SimpleRadioLibrary.SERVER_CONFIG.frequency.wholePlaces+"}.\\d{"+ SimpleRadioLibrary.SERVER_CONFIG.frequency.decimalPlaces+"}$";
 
-        if (CommonSimpleRadio.SERVER_CONFIG.frequency.defaultFrequency.equals("auto-generate")) {
-            DEFAULT_FREQUENCY = "0".repeat(CommonSimpleRadio.SERVER_CONFIG.frequency.wholePlaces)+"."+"0".repeat(CommonSimpleRadio.SERVER_CONFIG.frequency.decimalPlaces);
+        if (SimpleRadioLibrary.SERVER_CONFIG.frequency.defaultFrequency.equals("auto-generate")) {
+            DEFAULT_FREQUENCY = "0".repeat(SimpleRadioLibrary.SERVER_CONFIG.frequency.wholePlaces)+"."+"0".repeat(SimpleRadioLibrary.SERVER_CONFIG.frequency.decimalPlaces);
         } else {
-            DEFAULT_FREQUENCY = CommonSimpleRadio.SERVER_CONFIG.frequency.defaultFrequency;
+            DEFAULT_FREQUENCY = SimpleRadioLibrary.SERVER_CONFIG.frequency.defaultFrequency;
         }
     }
 
@@ -93,7 +94,7 @@ public class Frequency {
     public static String incrementFrequency(String frequency, int amount) {
         int rawFrequency = Integer.parseInt(frequency.replaceAll("[.]", ""));
         String str = String.format("%0"+FREQUENCY_DIGITS+"d", Math.clamp(0, MAX_FREQUENCY-1, rawFrequency + amount));
-        return new StringBuilder(str).insert(str.length() - CommonSimpleRadio.SERVER_CONFIG.frequency.decimalPlaces, ".").toString();
+        return new StringBuilder(str).insert(str.length() - SimpleRadioLibrary.SERVER_CONFIG.frequency.decimalPlaces, ".").toString();
     }
 
     public static List<Frequency> getFrequencies() {
@@ -177,6 +178,8 @@ public class Frequency {
         if (!this.validate())
             frequencies.remove(this);
     }
+
+    public void serverTick(int tickCount) {}
 
     public boolean validate() {
         if (this.receivers.isEmpty() && this.transmitters.isEmpty()) {

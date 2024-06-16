@@ -10,7 +10,5 @@ import org.joml.Vector3f;
 public interface CompatPlatform {
     void onData(RadioChannel channel, RadioSource source, short[] decoded);
 
-    WorldlyPosition modifyPosition(BlockPos originalBlockPos, Level level);
-
-    Vector3f modifyPosition(Level level, BlockPos originalBlockPos);
+    WorldlyPosition modifyPosition(WorldlyPosition position);
 }

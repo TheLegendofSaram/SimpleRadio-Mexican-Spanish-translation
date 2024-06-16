@@ -67,6 +67,10 @@ public class CommonRadioPlugin {
         return CommonSimpleRadio.ID;
     }
 
+    public void serverTick(int tickCount) {
+
+    }
+
     public void registerEvents(EventRegistration registration) {
         registration.registerEvent(VoicechatServerStartedEvent.class, this::onServerStarted);
         registration.registerEvent(MicrophonePacketEvent.class, microphonePacketEvent -> executor.submit(() -> RadioManager.getInstance().onMicPacket(microphonePacketEvent)));
