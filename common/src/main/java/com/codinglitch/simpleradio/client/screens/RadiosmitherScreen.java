@@ -78,7 +78,7 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
         if (!Frequency.check(input)) {
             if (!Frequency.check(lastValidFrequency)) lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
 
-            FREQUENCY.setValue(lastValidFrequency);
+            //FREQUENCY.setValue(lastValidFrequency);
         } else {
             this.lastValidFrequency = input;
         }
@@ -226,7 +226,7 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     public void slotChanged(AbstractContainerMenu abstractContainerMenu, int slot, ItemStack stack) {
         if (slot == 0) {
             if (!stack.isEmpty() && stack.getItem() instanceof Frequencing frequencing) {
-                String frequency = frequencing.getFrequency(stack).toString();
+                String frequency = frequencing.getFrequency(stack).frequency;
                 this.lastValidFrequency = frequency;
 
                 this.FREQUENCY.setValue(frequency);
