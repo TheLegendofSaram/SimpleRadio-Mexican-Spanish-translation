@@ -3,12 +3,15 @@ package com.codinglitch.simpleradio.core.registry.menus;
 import com.codinglitch.simpleradio.core.central.Frequencing;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioMenus;
+import com.codinglitch.simpleradio.core.registry.blocks.RadiosmitherBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.LecternMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -16,27 +19,36 @@ public class RadiosmitherMenu extends AbstractContainerMenu {
     private final Container container;
 
     public RadiosmitherMenu(int id, Inventory inventory) {
-        this(id, inventory, new SimpleContainer(2));
+        this(id, inventory, new SimpleContainer(RadiosmitherBlockEntity.CONTAINER_SIZE));
     }
 
     public RadiosmitherMenu(int id, Inventory inventory, Container container) {
         super(SimpleRadioMenus.RADIOSMITHER_MENU, id);
-        checkContainerSize(container, 2);
+        checkContainerSize(container, RadiosmitherBlockEntity.CONTAINER_SIZE);
         this.container = container;
+        this.container.startOpen(inventory.player);
 
-        container.startOpen(inventory.player);
+        this.addSlot(new Slot(this.container, 0, 71, 54) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getItem() instanceof Frequencing;
+            }
 
-        this.addSlot(new Slot(container, 0, 61, 46));
-        this.addSlot(new Slot(container, 1, 61, 24));
+            @Override
+            public void setChanged() {
+                super.setChanged();
+                RadiosmitherMenu.this.slotsChanged(this.container);
+            }
+        });
 
         int m, l;
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(inventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+                this.addSlot(new Slot(inventory, l + m * 9 + 9, 8 + l * 18, 102 + m * 18));
             }
         }
         for (m = 0; m < 9; ++m) {
-            this.addSlot(new Slot(inventory, m, 8 + m * 18, 142));
+            this.addSlot(new Slot(inventory, m, 8 + m * 18, 160));
         }
     }
 
