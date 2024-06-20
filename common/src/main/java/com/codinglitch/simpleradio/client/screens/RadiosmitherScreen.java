@@ -8,7 +8,9 @@ import com.codinglitch.simpleradio.core.networking.packets.ServerboundRadioUpdat
 import com.codinglitch.simpleradio.core.registry.menus.RadiosmitherMenu;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.platform.ClientServices;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
@@ -16,11 +18,13 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
 
 import java.awt.*;
 
-public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu> {
+public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu> implements ContainerListener {
 
     // -- Resources -- \\
     private static final ResourceLocation TEXTURE = CommonSimpleRadio.id("textures/gui/container/radiosmither.png");
@@ -31,51 +35,61 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     private static final Component FM_DESCRIPTION = Component.translatable("screen.simpleradio.radiosmither.fm_description");
 
     // -- Constants -- \\
-    private static final int INCREMENT_THRESHOLD = 10;
+    private static final int INCREMENT_THRESHOLD = 5;
 
     // -- Fields -- \\
-
     public ModulationButton FM_BUTTON;
     public ModulationButton AM_BUTTON;
 
-    public FrequencyButton INCREASE_BUTTON;
-    public FrequencyButton DECREASE_BUTTON;
+    public KnobButton KNOB;
 
     public BaseButton APPLY_BUTTON;
 
-    public String frequency = "";
+    public EditBox FREQUENCY;
+
+    protected String lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
     public Frequency.Modulation modulation;
 
     protected int holdingFor = 0;
     protected int increment = 0;
 
+    protected float time = 0;
+
     public RadiosmitherScreen(RadiosmitherMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
+        this.imageHeight = 183;
+        this.titleLabelY = 6;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
-    private void reloadFrequency() {
-        if (!frequency.isEmpty()) return;
+    private void updateFrequency(String input) {
+        if (Frequency.check(input)) {
+            this.lastValidFrequency = input;
+        }
+    }
 
-        ItemStack tinkering = menu.getTinkering();
-        if (tinkering != null && tinkering.getItem() instanceof Frequencing) {
-            CompoundTag tag = tinkering.getOrCreateTag();
-            frequency = tag.getString("frequency");
-            modulation = Frequency.modulationOf(tag.getString("modulation"));
+    private void setModulation(Frequency.Modulation modulation) {
+        this.modulation = modulation;
 
-            if (modulation != null) {
-                if (modulation == Frequency.Modulation.FREQUENCY) {
-                    FM_BUTTON.selected(true);
-                } else if (modulation == Frequency.Modulation.AMPLITUDE) {
-                    AM_BUTTON.selected(true);
-                }
+        if (modulation != null) {
+            if (modulation == Frequency.Modulation.FREQUENCY) {
+                FM_BUTTON.selected(true);
+                AM_BUTTON.selected(false);
+            } else if (modulation == Frequency.Modulation.AMPLITUDE) {
+                AM_BUTTON.selected(true);
+                FM_BUTTON.selected(false);
             }
+        } else {
+            FM_BUTTON.selected(false);
+            AM_BUTTON.selected(false);
         }
     }
 
     protected void incrementFrequency() { incrementFrequency(1); }
     protected void incrementFrequency(int increment) {
-        if (!frequency.isEmpty()) {
-            frequency = Frequency.incrementFrequency(frequency, increment);
+        String freq = this.FREQUENCY.getValue();
+        if (!freq.isEmpty()) {
+            this.FREQUENCY.setValue(Frequency.incrementFrequency(freq, increment));
         }
     }
 
@@ -83,48 +97,84 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     protected void containerTick() {
         super.containerTick();
 
-        reloadFrequency();
+        ItemStack tinkering = this.menu.getTinkering();
+        if (tinkering != null && tinkering.getItem() instanceof Frequencing) {
+            if (!FREQUENCY.isFocused() && !Frequency.check(FREQUENCY.getValue())) {
+                if (!Frequency.check(lastValidFrequency)) lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
+                FREQUENCY.setValue(lastValidFrequency);
+            }
+        } else {
+            FREQUENCY.setValue("");
+        }
 
-        if (increment != 0) holdingFor++;
 
-        if (holdingFor > INCREMENT_THRESHOLD)
-            incrementFrequency(increment * (1 + Math.round(holdingFor / 5f)));
+        if (this.minecraft != null) {
+            int y = (int)(this.minecraft.mouseHandler.ypos() * (double)this.minecraft.getWindow().getGuiScaledHeight() / (double)this.minecraft.getWindow().getScreenHeight());
+
+            // Incrementing
+            if (KNOB.selected) {
+                int centerY = KNOB.getY() + (KNOB.getHeight()/2);
+                increment = (centerY - y) / 5;
+            } else {
+                increment = 0;
+            }
+
+            if (increment != 0) {
+                holdingFor++;
+            }
+
+            if (holdingFor > INCREMENT_THRESHOLD)
+                incrementFrequency(increment * (1 + Math.round(holdingFor / 5f)));
+        }
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
-        int x = (this.width - this.imageWidth) / 2;
-        int y = (this.height - this.imageHeight) / 2;
-        graphics.blit(TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mousey) {
+        int x = (this.width - imageWidth) / 2;
+        int y = (this.height - imageHeight) / 2;
+        graphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         super.render(graphics, mouseX, mouseY, delta);
         renderTooltip(graphics, mouseX, mouseY);
+
+        if (modulation != null) {
+            this.time = (this.time + delta * 0.1f) % 5;
+
+            int x = (int) ((time/5) * 142);
+
+            switch (modulation) {
+                case AMPLITUDE -> {
+                    graphics.blit(AM_SPRITE, this.leftPos + 9, this.topPos + 46, x, 0, 142 - x, 31, 142, 31);
+                    graphics.blit(AM_SPRITE, (this.leftPos + 151) - x, this.topPos + 46, 0, 0, x, 31, 142 , 31);
+                }
+                case FREQUENCY -> {
+                    graphics.blit(FM_SPRITE, this.leftPos + 9, this.topPos + 45, x, 0, 142 - x, 34, 142, 34);
+                    graphics.blit(FM_SPRITE, (this.leftPos + 151) - x, this.topPos + 45, 0, 0, x, 34, 142, 34);
+                }
+            }
+        }
+
+        this.FREQUENCY.render(graphics, mouseX, mouseY, delta);
     }
 
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         super.renderLabels(graphics, mouseX, mouseY);
-
-        ItemStack tinkering = this.menu.getTinkering();
-        if (tinkering != null && tinkering.getItem() instanceof Frequencing) {
-            if (!frequency.isEmpty() && modulation != null) {
-                graphics.drawString(this.font,
-                        Component.literal(frequency)
-                                .append(modulation == Frequency.Modulation.FREQUENCY ? FM : AM), 94, 50, Color.DARK_GRAY.getRGB(), false
-                );
-            }
-        }
     }
 
     @Override
     public boolean mouseReleased(double $$0, double $$1, int $$2) {
-        if (INCREASE_BUTTON.isHoveredOrFocused())
-            INCREASE_BUTTON.onReleased();
-        else if (DECREASE_BUTTON.isHoveredOrFocused())
-            DECREASE_BUTTON.onReleased();
+        if (KNOB.isHoveredOrFocused()) {
+            KNOB.onReleased();
+        }
+
+        if (APPLY_BUTTON.isHoveredOrFocused()) {
+            APPLY_BUTTON.selected = false;
+            APPLY_BUTTON.setFocused(false);
+        }
 
         return super.mouseReleased($$0, $$1, $$2);
     }
@@ -133,85 +183,144 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     protected void init() {
         super.init();
 
-        this.AM_BUTTON = new ModulationButton(this.leftPos + 89, this.topPos + 23, false, () -> {
+        this.FREQUENCY = new EditBox(this.font, this.leftPos + 90, this.topPos + 28, 50, 12, Component.translatable("screen.simpleradio.radiosmither.frequency"));
+        this.FREQUENCY.setTextColor(-1);
+        this.FREQUENCY.setTextColorUneditable(-1);
+        this.FREQUENCY.setCanLoseFocus(true);
+        this.FREQUENCY.setBordered(false);
+        this.FREQUENCY.setMaxLength(Frequency.FREQUENCY_DIGITS + 1);
+        this.FREQUENCY.setResponder(this::updateFrequency);
+        this.FREQUENCY.setValue("");
+        this.FREQUENCY.setFilter(s -> s.isEmpty() || s.matches("^\\d[.\\d]*$"));
+        this.lastValidFrequency = Frequency.DEFAULT_FREQUENCY;
+        this.addWidget(FREQUENCY);
+        this.FREQUENCY.setEditable(this.menu.getSlot(0).hasItem());
+
+        this.AM_BUTTON = new ModulationButton(this.leftPos + 8, this.topPos + 23, false, () -> {
             AM_BUTTON.selected(true);
             FM_BUTTON.selected(false);
 
             modulation = Frequency.Modulation.AMPLITUDE;
         });
 
-        this.FM_BUTTON = new ModulationButton(this.leftPos + 126, this.topPos + 23, true, () -> {
+        this.FM_BUTTON = new ModulationButton(this.leftPos + 46, this.topPos + 23, true, () -> {
             FM_BUTTON.selected(true);
             AM_BUTTON.selected(false);
 
             modulation = Frequency.Modulation.FREQUENCY;
         });
 
-        this.INCREASE_BUTTON = new FrequencyButton(this.leftPos + 143, this.topPos + 45, true, this);
-        this.DECREASE_BUTTON = new FrequencyButton(this.leftPos + 143, this.topPos + 54, false, this);
+        this.KNOB = new KnobButton(this.leftPos + 154, this.topPos + 44);
 
         this.APPLY_BUTTON = new BaseButton(
                 this.leftPos + 15, this.topPos + 25,
                 34, 34,
                 88, 166,
                 TEXTURE, CommonComponents.EMPTY, () -> {
-                    if (this.frequency == null || this.modulation == null) return;
-                    ClientServices.NETWORKING.sendToServer(new ServerboundRadioUpdatePacket(this.frequency, this.modulation));
+                    APPLY_BUTTON.selected = true;
+
+                    if (this.FREQUENCY.getValue().isEmpty() || this.modulation == null) return;
+                    ClientServices.NETWORKING.sendToServer(new ServerboundRadioUpdatePacket(this.FREQUENCY.getValue(), this.modulation));
         });
+        this.APPLY_BUTTON.hoverSprite = APPLY_HIGHLIGHTED_SPRITE;
+        this.APPLY_BUTTON.selectedSprite = APPLY_SELECTED_SPRITE;
 
         this.addRenderableWidget(AM_BUTTON);
         this.addRenderableWidget(FM_BUTTON);
 
-        this.addRenderableWidget(INCREASE_BUTTON);
-        this.addRenderableWidget(DECREASE_BUTTON);
+        this.addRenderableWidget(KNOB);
 
         this.addRenderableWidget(APPLY_BUTTON);
+
+        this.menu.addSlotListener(this);
     }
 
-    public static class FrequencyButton extends BaseButton {
-        private final boolean isIncrease;
-        private final RadiosmitherScreen screen;
+    @Override
+    public void removed() {
+        super.removed();
+        this.menu.removeSlotListener(this);
+    }
 
-        public FrequencyButton(int x, int y, boolean isIncrease, RadiosmitherScreen screen) {
-            super(x, y, 18, 9, 70, isIncrease ? 166 : 175, TEXTURE);
-            this.selectedIconX = this.iconX;
-            this.selectedIconY = isIncrease ? 184 : 193;
-            this.hoverIconX = this.iconX;
-            this.hoverIconY = isIncrease ? 202 : 211;
+    @Override
+    public void slotChanged(AbstractContainerMenu abstractContainerMenu, int slot, ItemStack stack) {
+        if (slot == 0) {
+            if (!stack.isEmpty() && stack.getItem() instanceof Frequencing frequencing) {
+                Frequency frequency = frequencing.getFrequency(stack);
+                String numbers = frequency.frequency;
+                this.lastValidFrequency = numbers;
 
-            this.screen = screen;
-            this.isIncrease = isIncrease;
+                this.FREQUENCY.setValue(numbers);
+                this.FREQUENCY.setEditable(true);
+                this.setFocused(this.FREQUENCY);
+
+                setModulation(frequency.modulation);
+            } else {
+                this.FREQUENCY.setValue("");
+                this.FREQUENCY.setEditable(false);
+
+                setModulation(null);
+            }
+        }
+    }
+
+    @Override
+    public void dataChanged(AbstractContainerMenu abstractContainerMenu, int i, int i1) {
+
+    }
+
+
+    public class KnobButton extends BaseButton {
+        public KnobButton(int x, int y) {
+            super(x, y, 16, 37, KNOB_NORMAL_SPRITE);
+            this.hoverSprite = KNOB_HIGHLIGHTED_SPRITE;
+        }
+
+        @Override
+        public ResourceLocation getTexture() {
+            if (this.selected) {
+                if (increment != 0) {
+                    return holdingFor % 2 == 0 ? KNOB_NORMAL_SPRITE : KNOB_SCROLLED_SPRITE;
+                } else {
+                    return KNOB_NORMAL_SPRITE;
+                }
+            }
+
+            return super.getTexture();
         }
 
         @Override
         public void onPress() {
             this.selected = true;
 
-            screen.increment = isIncrease ? 1 : -1;
-            screen.holdingFor = 0;
-            screen.incrementFrequency(screen.increment);
+            RadiosmitherScreen.this.holdingFor = 0;
+
+            if (RadiosmitherScreen.this.minecraft != null) {
+                int y = (int)(RadiosmitherScreen.this.minecraft.mouseHandler.ypos() * (double)RadiosmitherScreen.this.minecraft.getWindow().getGuiScaledHeight() / (double)RadiosmitherScreen.this.minecraft.getWindow().getScreenHeight());
+
+                if (y < (this.getY() + this.height*0.25)) {
+                    incrementFrequency(1);
+                } else if (y > (this.getY() + this.height*0.75)) {
+                    incrementFrequency(-1);
+                }
+            }
         }
 
         public void onReleased() {
             this.selected = false;
             this.setFocused(false);
 
-            screen.increment = 0;
-            screen.holdingFor = 0;
+            RadiosmitherScreen.this.increment = 0;
+            RadiosmitherScreen.this.holdingFor = 0;
         }
     }
 
     public static class ModulationButton extends BaseButton {
-        private boolean isFM;
-
         public ModulationButton(int x, int y, boolean isFM, Runnable onPress) {
             super(x, y, 35, 18, isFM ? 0 : 35, 166, TEXTURE, CommonComponents.EMPTY, onPress);
             this.selectedIconX = this.iconX;
             this.selectedIconY = 184;
             this.hoverIconX = this.iconX;
             this.hoverIconY = 202;
-
-            this.isFM = isFM;
 
             this.setTooltip(Tooltip.create(isFM ? FM_DESCRIPTION : AM_DESCRIPTION, null));
         }
