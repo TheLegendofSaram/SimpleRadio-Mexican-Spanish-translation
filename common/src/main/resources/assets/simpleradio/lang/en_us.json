@@ -51,6 +51,8 @@
   "screen.simpleradio.radiosmither.am_description": "More range, worse sound quality",
   "screen.simpleradio.radiosmither.fm_description": "Better sound quality, less range",
 
+  "screen.simpleradio.radiosmither.frequency": "Set Frequency",
+
   "subtitles.simpleradio.radio_open": "Radio starts broadcasting",
   "subtitles.simpleradio.radio_close": "Radio stops broadcasting",
 
