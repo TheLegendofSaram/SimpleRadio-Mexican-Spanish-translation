@@ -13,7 +13,7 @@ import java.util.*;
 import static com.codinglitch.simpleradio.CommonSimpleRadio.id;
 
 public class SimpleRadioItems {
-    public static final Map<ResourceLocation, ItemHolder<Item>> ITEMS = new HashMap<>();
+    public static final Map<ResourceLocation, ItemHolder<Item>> ITEMS = new LinkedHashMap<>();
 
     public static TransceiverItem TRANSCEIVER = register(id("transceiver"), new TransceiverItem(new Item.Properties().stacksTo(1)));
     public static WalkieTalkieItem WALKIE_TALKIE = register(id("walkie_talkie"), new WalkieTalkieItem(new Item.Properties().stacksTo(1)));
@@ -45,6 +45,13 @@ public class SimpleRadioItems {
             if (configData != null) {
                 Object field = configData.getEntry("enabled");
                 holder.enabled = field == null || (boolean) field;
+
+                String path = location.getPath();
+                if (path.equals("walkie_talkie") || path.equals("spuddie_talkie")) {
+                    //TODO mak this beter
+                    Object spudder = configData.getEntry("spuddieTalkie");
+                    holder.enabled = holder.enabled && (spudder == null || (path.equals("spuddie_talkie") && (boolean) spudder));
+                }
             }
         });
     }
