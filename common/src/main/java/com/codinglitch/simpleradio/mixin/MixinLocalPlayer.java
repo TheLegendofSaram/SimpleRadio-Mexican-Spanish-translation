@@ -3,6 +3,8 @@ package com.codinglitch.simpleradio.mixin;
 import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.registry.items.TransceiverItem;
 import com.codinglitch.simpleradio.core.registry.items.WalkieTalkieItem;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = LocalPlayer.class)
 public abstract class MixinLocalPlayer extends AbstractClientPlayer {
@@ -26,18 +29,30 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
     @Shadow @Nullable private InteractionHand usingItemHand;
 
     @Unique
-    private boolean willSlow() {
+    private boolean simpleradio$willSlow(LocalPlayer player, Operation<Boolean> original) {
         if (this.isUsingItem()) {
-            ItemStack stack = this.getItemInHand(this.usingItemHand);
+            ItemStack stack = player.getItemInHand(player.getUsedItemHand());
             if (stack.getItem().getClass() == TransceiverItem.class) {
                 return SimpleRadioLibrary.SERVER_CONFIG.transceiver.transceiverSlow;
             } else if (stack.getItem().getClass() == WalkieTalkieItem.class) {
                 return SimpleRadioLibrary.SERVER_CONFIG.walkie_talkie.walkieTalkieSlow;
             }
         }
-        return this.isUsingItem();
+        return original.call(player);
     }
 
-    // temporarily removed redirects due to Iron's Spellbooks conflict
-    // TODO: find an alternative for the slowdown config
+    @WrapOperation(
+            method = "aiStep",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z")
+    )
+    private boolean simpleradio$aiStep(LocalPlayer instance, Operation<Boolean> original) {
+        return simpleradio$willSlow(instance, original);
+    }
+    @WrapOperation(
+            method = "canStartSprinting",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z")
+    )
+    private boolean simpleradio$canStartSprinting(LocalPlayer instance, Operation<Boolean> original) {
+        return simpleradio$willSlow(instance, original);
+    }
 }
