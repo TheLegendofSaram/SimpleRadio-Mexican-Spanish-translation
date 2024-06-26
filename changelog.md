@@ -1,2 +1,5 @@
 - Added Valkyrien Skies compatibility
-- 
+- Reworked Radiosmither 
+  - Allowed for typing of frequency
+- Updated lexiconfig
+- Readded functionality for transceiver slowing
