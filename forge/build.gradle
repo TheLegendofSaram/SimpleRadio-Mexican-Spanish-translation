@@ -86,6 +86,7 @@ dependencies {
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 
     implementation "com.codinglitch.lexiconfig:lexiconfig-api:${lexiconfig_version}"
+    runtimeOnly "com.codinglitch.lexiconfig:lexiconfig-forge:${lexiconfig_version}"
 
     implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
     runtimeOnly fg.deobf("maven.modrinth:simple-voice-chat:forge-${minecraft_version}-${voicechat_version}")
