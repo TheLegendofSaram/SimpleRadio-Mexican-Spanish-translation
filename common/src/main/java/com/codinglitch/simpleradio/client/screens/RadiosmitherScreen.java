@@ -145,14 +145,17 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
             int x = (int) ((time/5) * 142);
 
+            int iconX = 70;
             switch (modulation) {
                 case AMPLITUDE -> {
-                    graphics.blit(AM_SPRITE, this.leftPos + 9, this.topPos + 46, x, 0, 142 - x, 31, 142, 31);
-                    graphics.blit(AM_SPRITE, (this.leftPos + 151) - x, this.topPos + 46, 0, 0, x, 31, 142 , 31);
+                    int iconY = 218;
+                    graphics.blit(TEXTURE, this.leftPos + 9, this.topPos + 46, iconX + x, iconY, 142 - x, 31, 256, 256);
+                    graphics.blit(TEXTURE, (this.leftPos + 151) - x, this.topPos + 46, iconX, iconY, x, 31, 256, 256);
                 }
                 case FREQUENCY -> {
-                    graphics.blit(FM_SPRITE, this.leftPos + 9, this.topPos + 45, x, 0, 142 - x, 34, 142, 34);
-                    graphics.blit(FM_SPRITE, (this.leftPos + 151) - x, this.topPos + 45, 0, 0, x, 34, 142, 34);
+                    int iconY = 184;
+                    graphics.blit(TEXTURE, this.leftPos + 9, this.topPos + 45, iconX + x, iconY, 142 - x, 34, 256, 256);
+                    graphics.blit(TEXTURE, (this.leftPos + 151) - x, this.topPos + 45, iconX, iconY, x, 34, 256, 256);
                 }
             }
         }
@@ -213,17 +216,19 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
         this.KNOB = new KnobButton(this.leftPos + 154, this.topPos + 44);
 
         this.APPLY_BUTTON = new BaseButton(
-                this.leftPos + 15, this.topPos + 25,
-                34, 34,
-                88, 166,
+                this.leftPos + 153, this.topPos + 24,
+                16, 16,
+                176, 0,
                 TEXTURE, CommonComponents.EMPTY, () -> {
                     APPLY_BUTTON.selected = true;
 
                     if (this.FREQUENCY.getValue().isEmpty() || this.modulation == null) return;
                     ClientServices.NETWORKING.sendToServer(new ServerboundRadioUpdatePacket(this.FREQUENCY.getValue(), this.modulation));
         });
-        this.APPLY_BUTTON.hoverSprite = APPLY_HIGHLIGHTED_SPRITE;
-        this.APPLY_BUTTON.selectedSprite = APPLY_SELECTED_SPRITE;
+        this.APPLY_BUTTON.hoverIconX = 208;
+        this.APPLY_BUTTON.hoverIconY = 0;
+        this.APPLY_BUTTON.selectedIconX = 192;
+        this.APPLY_BUTTON.selectedIconY = 0;
 
         this.addRenderableWidget(AM_BUTTON);
         this.addRenderableWidget(FM_BUTTON);
@@ -271,21 +276,30 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
     public class KnobButton extends BaseButton {
         public KnobButton(int x, int y) {
-            super(x, y, 16, 37, KNOB_NORMAL_SPRITE);
-            this.hoverSprite = KNOB_HIGHLIGHTED_SPRITE;
+            super(x, y, 16, 37, 176, 16, TEXTURE);
+            this.hoverIconX = 208;
+            this.hoverIconY = 16;
+            this.selectedIconX = 192;
+            this.selectedIconY = 16;
         }
 
         @Override
-        public ResourceLocation getTexture() {
+        public void blit(GuiGraphics graphics, int iconX, int iconY) {
             if (this.selected) {
                 if (increment != 0) {
-                    return holdingFor % 2 == 0 ? KNOB_NORMAL_SPRITE : KNOB_SCROLLED_SPRITE;
+                    if (holdingFor % 2 == 0) {
+                        super.blit(graphics, this.iconX, this.iconY);
+                    } else {
+                        super.blit(graphics, this.selectedIconX, this.selectedIconY);
+                    }
+                    return;
                 } else {
-                    return KNOB_NORMAL_SPRITE;
+                    super.blit(graphics, this.iconX, this.iconY);
+                    return;
                 }
             }
 
-            return super.getTexture();
+            super.blit(graphics, iconX, iconY);
         }
 
         @Override
@@ -316,11 +330,11 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
     public static class ModulationButton extends BaseButton {
         public ModulationButton(int x, int y, boolean isFM, Runnable onPress) {
-            super(x, y, 35, 18, isFM ? 0 : 35, 166, TEXTURE, CommonComponents.EMPTY, onPress);
+            super(x, y, 35, 18, isFM ? 0 : 35, 184, TEXTURE, CommonComponents.EMPTY, onPress);
             this.selectedIconX = this.iconX;
-            this.selectedIconY = 184;
+            this.selectedIconY = 202;
             this.hoverIconX = this.iconX;
-            this.hoverIconY = 202;
+            this.hoverIconY = 220;
 
             this.setTooltip(Tooltip.create(isFM ? FM_DESCRIPTION : AM_DESCRIPTION, null));
         }
