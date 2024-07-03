@@ -26,6 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Version and Mod Loader:**
 - Minecraft Version: [e.g. 1.20.2]
 - Simple Radio Version: [e.g. 2.3.4]
+- Lexiconfig Version: [e.g. 1.3.11]
 - Mod Loader: [e.g. Forge]
 
 **Additional context**
