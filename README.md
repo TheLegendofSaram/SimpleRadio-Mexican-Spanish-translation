@@ -3,13 +3,13 @@
 <div align="center" style="text-align:center;">
 <a href="https://www.patreon.com/codinglitch"><img alt="Patreon Badge" src="https://img.shields.io/badge/CodinGlitch-red?style=flat-square&logo=patreon"></a>
 <a href="https://ko-fi.com/codinglitch"><img alt="Ko-fi Badge" src="https://img.shields.io/badge/CodinGlitch-white?style=flat-square&logo=kofi"></a>
-<a href="https://www.patreon.com/codinglitch"><img alt="Discord" src="https://img.shields.io/discord/1192568922185146559?style=flat-square&logo=discord&label=Discord&labelColor=222222&color=5865f2"></a>
+<a href="https://discord.gg/8zDE5ZTqCj"><img alt="Discord" src="https://img.shields.io/discord/1192568922185146559?style=flat-square&logo=discord&label=Discord&labelColor=222222&color=5865f2"></a>
 </div>
 
 <div align="center" style="text-align:center;">
 <a href="https://www.patreon.com/codinglitch"><img alt="Github Badge" src="https://img.shields.io/badge/SimpleRadio-222222?style=flat-square&logo=github"></a>
 <img alt="Modrinth Game Versions" src="https://img.shields.io/modrinth/game-versions/simple-voice-radio?style=flat-square&label=Available%20for&labelColor=222222&color=white">
-<img alt="Static Badge" src="https://img.shields.io/badge/License-GPLv3-darkred?style=flat-square&labelColor=222222">
+<a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img alt="Static Badge" src="https://img.shields.io/badge/License-GPLv3-darkred?style=flat-square&labelColor=222222"></a>
 </div>
 
 <div align="center" style="text-align:center;">
