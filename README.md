@@ -1,32 +1,20 @@
 <div style="text-align:center;"><img src="https://github.com/CodinGlitch/SimpleRadio/assets/22829873/30156ede-b1dd-4842-9b26-0f0dfadf9360"></div>
 
 <div style="text-align:center;">
-<a href="https://www.patreon.com/codinglitch">
-<img alt="Patreon Badge" src="https://img.shields.io/badge/CodinGlitch-red?style=flat-square&logo=patreon">
-</a>
-<a href="https://ko-fi.com/codinglitch">
-<img alt="Ko-fi Badge" src="https://img.shields.io/badge/CodinGlitch-white?style=flat-square&logo=kofi">
-</a>
-<a href="https://www.patreon.com/codinglitch">
-<img alt="Discord" src="https://img.shields.io/discord/1192568922185146559?style=flat-square&logo=discord&label=Discord&labelColor=222222&color=5865f2">
-</a>
+<a href="https://www.patreon.com/codinglitch"><img alt="Patreon Badge" src="https://img.shields.io/badge/CodinGlitch-red?style=flat-square&logo=patreon"></a>
+<a href="https://ko-fi.com/codinglitch"><img alt="Ko-fi Badge" src="https://img.shields.io/badge/CodinGlitch-white?style=flat-square&logo=kofi"></a>
+<a href="https://www.patreon.com/codinglitch"><img alt="Discord" src="https://img.shields.io/discord/1192568922185146559?style=flat-square&logo=discord&label=Discord&labelColor=222222&color=5865f2"></a>
 </div>
 
 <div style="text-align:center;">
-<a href="https://www.patreon.com/codinglitch">
-<img alt="Github Badge" src="https://img.shields.io/badge/SimpleRadio-222222?style=flat-square&logo=github">
-</a>
+<a href="https://www.patreon.com/codinglitch"><img alt="Github Badge" src="https://img.shields.io/badge/SimpleRadio-222222?style=flat-square&logo=github"></a>
 <img alt="Modrinth Game Versions" src="https://img.shields.io/modrinth/game-versions/simple-voice-radio?style=flat-square&label=Available%20for&labelColor=222222&color=white">
 <img alt="Static Badge" src="https://img.shields.io/badge/License-GPLv3-darkred?style=flat-square&labelColor=222222">
 </div>
 
 <div style="text-align:center;">
-<a href="https://www.patreon.com/codinglitch">
-<img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/820070?style=flat-square&logo=curseforge&label=CurseForge&labelColor=222222&color=red">
-</a>
-<a href="https://www.patreon.com/codinglitch">
-<img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/simple-voice-radio?style=flat-square&logo=modrinth&label=Modrinth&labelColor=222222&color=1bd96a">
-</a>
+<a href="https://www.patreon.com/codinglitch"><img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/820070?style=flat-square&logo=curseforge&label=CurseForge&labelColor=222222&color=red"></a>
+<a href="https://www.patreon.com/codinglitch"><img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/simple-voice-radio?style=flat-square&logo=modrinth&label=Modrinth&labelColor=222222&color=1bd96a"></a>
 </div>
 
 ---
