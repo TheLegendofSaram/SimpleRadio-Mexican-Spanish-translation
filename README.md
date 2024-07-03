@@ -1,6 +1,6 @@
-<div align="center"><img src="https://github.com/CodinGlitch/SimpleRadio/assets/22829873/30156ede-b1dd-4842-9b26-0f0dfadf9360"></div>
+<div style="text-align:center;"><img src="https://github.com/CodinGlitch/SimpleRadio/assets/22829873/30156ede-b1dd-4842-9b26-0f0dfadf9360"></div>
 
-<div align="center">
+<div style="text-align:center;">
 <a href="https://www.patreon.com/codinglitch">
     <img alt="Patreon Badge" src="https://img.shields.io/badge/CodinGlitch-red?style=flat-square&logo=patreon">
 </a>
@@ -12,7 +12,7 @@
 </a>
 </div>
 
-<div align="center">
+<div style="text-align:center;">
 <a href="https://www.patreon.com/codinglitch">
     <img alt="Github Badge" src="https://img.shields.io/badge/SimpleRadio-222222?style=flat-square&logo=github">
 </a>
@@ -20,7 +20,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/License-GPLv3-darkred?style=flat-square&labelColor=%23222222">
 </div>
 
-<div align="center">
+<div style="text-align:center;">
 <a href="https://www.patreon.com/codinglitch">
     <img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/820070?style=flat-square&logo=curseforge&label=CurseForge&labelColor=%23222222&color=red">
 </a>
