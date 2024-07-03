@@ -17,15 +17,15 @@
     <img alt="Github Badge" src="https://img.shields.io/badge/SimpleRadio-222222?style=flat-square&logo=github">
 </a>
 <img alt="Modrinth Game Versions" src="https://img.shields.io/modrinth/game-versions/simple-voice-radio?style=flat-square&label=Available%20for&labelColor=222222&color=white">
-<img alt="Static Badge" src="https://img.shields.io/badge/License-GPLv3-darkred?style=flat-square&labelColor=%23222222">
+<img alt="Static Badge" src="https://img.shields.io/badge/License-GPLv3-darkred?style=flat-square&labelColor=222222">
 </div>
 
 <div style="text-align:center;">
 <a href="https://www.patreon.com/codinglitch">
-    <img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/820070?style=flat-square&logo=curseforge&label=CurseForge&labelColor=%23222222&color=red">
+    <img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/820070?style=flat-square&logo=curseforge&label=CurseForge&labelColor=222222&color=red">
 </a>
 <a href="https://www.patreon.com/codinglitch">
-    <img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/simple-voice-radio?style=flat-square&logo=modrinth&label=Modrinth&labelColor=%23222222&color=%231bd96a">
+    <img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/simple-voice-radio?style=flat-square&logo=modrinth&label=Modrinth&labelColor=222222&color=1bd96a">
 </a>
 </div>
 
