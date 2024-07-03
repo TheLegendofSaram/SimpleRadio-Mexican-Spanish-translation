@@ -129,7 +129,7 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mousey) {
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
         int x = (this.width - imageWidth) / 2;
         int y = (this.height - imageHeight) / 2;
         graphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
@@ -137,6 +137,7 @@ public class RadiosmitherScreen extends AbstractContainerScreen<RadiosmitherMenu
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, delta);
         renderTooltip(graphics, mouseX, mouseY);
 
