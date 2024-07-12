@@ -1,15 +1,14 @@
 package com.codinglitch.simpleradio.core.registry.items;
 
 import com.codinglitch.simpleradio.CommonSimpleRadio;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.central.Receiving;
 import com.codinglitch.simpleradio.core.central.Transmitting;
 import com.codinglitch.simpleradio.core.networking.packets.ClientboundRadioPacket;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
 import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.core.central.Frequency;
-import com.codinglitch.simpleradio.radio.RadioListener;
-import com.codinglitch.simpleradio.radio.RadioManager;
-import com.codinglitch.simpleradio.radio.RadioSource;
+import com.codinglitch.simpleradio.radio.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,11 +39,20 @@ public class TransceiverItem extends Item implements Receiving, Transmitting {
     }
 
     private void startTransceiving(Level level, ItemStack stack, String frequencyName, String modulation, UUID owner) {
-        startReceiving(frequencyName, Frequency.modulationOf(modulation), owner);
+        RadioChannel channel = startReceiving(frequencyName, Frequency.modulationOf(modulation), owner);
 
         Player player = level.getPlayerByUUID(owner);
         RadioListener listener = startListening(player);
-        listener.range = 4;
+
+        if (this.getClass() == TransceiverItem.class) {
+            channel.range = SimpleRadioLibrary.SERVER_CONFIG.transceiver.speakingRange;
+            listener.range = SimpleRadioLibrary.SERVER_CONFIG.transceiver.listeningRange;
+            channel.category = CommonRadioPlugin.TRANSCEIVERS_CATEGORY;
+        } else if (this.getClass() == WalkieTalkieItem.class) {
+            channel.range = SimpleRadioLibrary.SERVER_CONFIG.walkie_talkie.speakingRange;
+            listener.range = SimpleRadioLibrary.SERVER_CONFIG.walkie_talkie.listeningRange;
+            channel.category = CommonRadioPlugin.WALKIES_CATEGORY;
+        }
 
         listener.acceptor(source -> {
             ItemStack using = player.getUseItem();

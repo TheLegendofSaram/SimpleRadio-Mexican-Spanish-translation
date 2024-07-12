@@ -1,6 +1,7 @@
 package com.codinglitch.simpleradio.core.registry.blocks;
 
 import com.codinglitch.simpleradio.CompatCore;
+import com.codinglitch.simpleradio.SimpleRadioLibrary;
 import com.codinglitch.simpleradio.core.central.Frequency;
 import com.codinglitch.simpleradio.core.central.FrequencyBlockEntity;
 import com.codinglitch.simpleradio.core.central.Receiving;
@@ -8,6 +9,7 @@ import com.codinglitch.simpleradio.core.central.WorldlyPosition;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioBlockEntities;
 import com.codinglitch.simpleradio.core.registry.SimpleRadioSounds;
 import com.codinglitch.simpleradio.platform.Services;
+import com.codinglitch.simpleradio.radio.CommonRadioPlugin;
 import com.codinglitch.simpleradio.radio.RadioChannel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -78,6 +80,8 @@ public class RadioBlockEntity extends FrequencyBlockEntity implements Receiving 
     public void listen() {
         channel = startReceiving(frequency.frequency, frequency.modulation, listenerID);
         channel.location = Services.COMPAT.modifyPosition(Services.COMPAT.modifyPosition(WorldlyPosition.of(worldPosition, level, worldPosition)));
+        channel.range = SimpleRadioLibrary.SERVER_CONFIG.radio.range;
+        channel.category = CommonRadioPlugin.RADIOS_CATEGORY;
 
         level.playSound(
                 null, channel.location.x, channel.location.y, channel.location.z,
