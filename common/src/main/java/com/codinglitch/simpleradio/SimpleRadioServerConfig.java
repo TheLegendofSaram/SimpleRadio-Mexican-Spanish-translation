@@ -48,6 +48,11 @@ public class SimpleRadioServerConfig extends LexiconData {
         @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 1700.")
         public Integer falloffAM = 1700;
 
+        @LexiconEntry(comment = "This is the range for the transceiver that it can hear from. Defaults to 4.")
+        public Integer listeningRange = 4;
+        @LexiconEntry(comment = "This is the range for the transceiver in which the audio played from it can be heard. Defaults to 4.")
+        public Integer speakingRange = 4;
+
         @LexiconEntry(comment = "This is whether or not using the transceiver slows the player. Defaults to true.")
         public Boolean transceiverSlow = true;
 
@@ -67,6 +72,11 @@ public class SimpleRadioServerConfig extends LexiconData {
 
         @LexiconEntry(comment = "This is the range after which audio begins to decay for amplitude modulation. Defaults to 800.")
         public Integer falloffAM = 800;
+
+        @LexiconEntry(comment = "This is the range for the walkie that it can hear from. Defaults to 4.")
+        public Integer listeningRange = 4;
+        @LexiconEntry(comment = "This is the range for the walkie in which the audio played from it can be heard. Defaults to 4.")
+        public Integer speakingRange = 4;
 
         @LexiconEntry(comment = "This is whether or not using the walkie talkie slows the player. Defaults to true.")
         public Boolean walkieTalkieSlow = true;
@@ -96,7 +106,7 @@ public class SimpleRadioServerConfig extends LexiconData {
     }
 
     public static class Radio extends LexiconPageData {
-        @LexiconEntry(comment = "This is the range for the radio in which the audio transmitted from it can be heard. Defaults to 24.")
+        @LexiconEntry(comment = "This is the range for the radio in which the audio played from it can be heard. Defaults to 24.")
         public Integer range = 24;
 
         @LexiconEntry(comment = "When false, removes the radio recipe. Defaults to true.")
@@ -112,6 +122,9 @@ public class SimpleRadioServerConfig extends LexiconData {
     }
 
     public static class Speaker extends LexiconPageData {
+        @LexiconEntry(comment = "This is the range for the radio in which the audio transmitted from it can be heard. Defaults to 32.")
+        public Integer range = 32;
+
         @LexiconEntry(comment = "When false, removes the speaker recipe. Defaults to true.")
         public Boolean enabled = true;
     }

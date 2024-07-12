@@ -19,14 +19,21 @@ import java.util.concurrent.Executors;
 
 public class CommonRadioPlugin {
     public static String RADIOS_CATEGORY = "radios";
+    public static String SPEAKERS_CATEGORY = "speakers";
+    public static String WALKIES_CATEGORY = "walkies";
     public static String TRANSCEIVERS_CATEGORY = "transceivers";
 
     @Nullable
-    public static VoicechatServerApi serverApi;
-    @Nullable
-    public static VolumeCategory transceivers;
+    public static VolumeCategory speakers;
     @Nullable
     public static VolumeCategory radios;
+    @Nullable
+    public static VolumeCategory walkies;
+    @Nullable
+    public static VolumeCategory transceivers;
+
+    @Nullable
+    public static VoicechatServerApi serverApi;
 
     private ExecutorService executor;
 
@@ -84,6 +91,18 @@ public class CommonRadioPlugin {
                 .setName("Radios")
                 .setDescription("The volume of radios")
                 .setIcon(getIcon("radio_icon.png"))
+                .build();
+        speakers = serverApi.volumeCategoryBuilder()
+                .setId(SPEAKERS_CATEGORY)
+                .setName("Speakers")
+                .setDescription("The volume of speakers")
+                .setIcon(getIcon("transceiver_icon.png"))
+                .build();
+        walkies = serverApi.volumeCategoryBuilder()
+                .setId(TRANSCEIVERS_CATEGORY)
+                .setName("Walkie Talkies")
+                .setDescription("The volume of walkie/spuddie talkies")
+                .setIcon(getIcon("transceiver_icon.png"))
                 .build();
         transceivers = serverApi.volumeCategoryBuilder()
                 .setId(TRANSCEIVERS_CATEGORY)

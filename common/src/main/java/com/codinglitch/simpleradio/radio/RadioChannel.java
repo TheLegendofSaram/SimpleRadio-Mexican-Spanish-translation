@@ -9,6 +9,7 @@ import com.codinglitch.simpleradio.platform.Services;
 import com.codinglitch.simpleradio.radio.effects.AudioEffect;
 import com.codinglitch.simpleradio.radio.effects.BaseAudioEffect;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
+import de.maxhenkel.voicechat.api.VolumeCategory;
 import de.maxhenkel.voicechat.api.audiochannel.AudioChannel;
 import de.maxhenkel.voicechat.api.audiochannel.AudioPlayer;
 import de.maxhenkel.voicechat.api.audiochannel.LocationalAudioChannel;
@@ -24,6 +25,10 @@ import java.util.function.Supplier;
 public class RadioChannel implements Supplier<short[]> {
     public UUID owner;
     public WorldlyPosition location;
+
+    public float range;
+    public String category;
+
     public AudioChannel audioChannel;
     public AudioPlayer audioPlayer;
     private final Map<UUID, List<short[]>> packetBuffer;
@@ -176,13 +181,13 @@ public class RadioChannel implements Supplier<short[]> {
                         CommonRadioPlugin.serverApi.fromServerLevel(location.level),
                         CommonRadioPlugin.serverApi.createPosition(location.x + 0.5, location.y + 0.5, location.z + 0.5)
                 );
-                locationalChannel.setDistance(SimpleRadioLibrary.SERVER_CONFIG.radio.range);
-                locationalChannel.setCategory(CommonRadioPlugin.RADIOS_CATEGORY);
+                locationalChannel.setDistance(this.range);
+                locationalChannel.setCategory(this.category);
 
                 this.audioChannel = locationalChannel;
             } else {
                 this.audioChannel = CommonRadioPlugin.serverApi.createEntityAudioChannel(this.owner, connection.getPlayer());
-                audioChannel.setCategory(CommonRadioPlugin.TRANSCEIVERS_CATEGORY);
+                audioChannel.setCategory(this.category);
             }
 
             this.audioPlayer = CommonRadioPlugin.serverApi.createAudioPlayer(audioChannel, CommonRadioPlugin.serverApi.createEncoder(), this);
