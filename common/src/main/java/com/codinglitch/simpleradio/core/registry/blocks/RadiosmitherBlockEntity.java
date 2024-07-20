@@ -84,12 +84,12 @@ public class RadiosmitherBlockEntity extends BaseContainerBlockEntity {
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new RadiosmitherMenu(i, inventory, this);
+        return createMenu(i, inventory);
     }
 
     @Override
     protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
-        return null;
+        return new RadiosmitherMenu(i, inventory, this);
     }
 
     public ItemStack tinkering() {
