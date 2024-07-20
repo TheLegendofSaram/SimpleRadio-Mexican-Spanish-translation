@@ -22,6 +22,9 @@ import org.joml.Vector3f;
 import java.util.*;
 import java.util.function.Supplier;
 
+/**
+ * This class currently serves as both the receiver as well as the sound-playing class.
+ */
 public class RadioChannel implements Supplier<short[]> {
     public UUID owner;
     public WorldlyPosition location;
