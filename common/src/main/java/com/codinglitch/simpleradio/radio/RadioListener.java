@@ -21,6 +21,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ * This class provides functionality for allowing sounds transmitted by players to be gathered around it.
+ */
 public class RadioListener {
     private static final List<RadioListener> listeners = new ArrayList<>();
 
